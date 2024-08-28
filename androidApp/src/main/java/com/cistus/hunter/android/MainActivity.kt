@@ -15,10 +15,6 @@ import com.cistus.hunter.android.scenes.*
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
-    companion object {
-        var mainActivity: MainActivity? = null
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidScreen.initialize(windowManager)
@@ -28,7 +24,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    mainActivity = this
                     val scenes = ArrayList<Scene>()
                     val navController = rememberNavController()
                     if (scenes.isEmpty()) {
