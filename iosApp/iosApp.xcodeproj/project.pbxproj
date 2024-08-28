@@ -10,6 +10,8 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
+		235BBA5E2C7F3109002EA66D /* SceneID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235BBA5D2C7F3109002EA66D /* SceneID.swift */; };
+		235BBA602C7F3121002EA66D /* Boot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235BBA5F2C7F3121002EA66D /* Boot.swift */; };
 		23C13C8F2C7E31D000A115A7 /* UIDraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C13C8E2C7E31D000A115A7 /* UIDraw.swift */; };
 		23C13C912C7E32A500A115A7 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C13C902C7E32A500A115A7 /* Color.swift */; };
 		23C13C932C7E332400A115A7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23C13C922C7E332400A115A7 /* Colors.xcassets */; };
@@ -33,6 +35,8 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
+		235BBA5D2C7F3109002EA66D /* SceneID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneID.swift; sourceTree = "<group>"; };
+		235BBA5F2C7F3121002EA66D /* Boot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Boot.swift; sourceTree = "<group>"; };
 		23C13C8E2C7E31D000A115A7 /* UIDraw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDraw.swift; sourceTree = "<group>"; };
 		23C13C902C7E32A500A115A7 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		23C13C922C7E332400A115A7 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -60,6 +64,15 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		235BBA5A2C7F30EC002EA66D /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				235BBA5D2C7F3109002EA66D /* SceneID.swift */,
+				235BBA5F2C7F3121002EA66D /* Boot.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
 		7555FF72242A565900829871 = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +93,7 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				235BBA5A2C7F30EC002EA66D /* Scenes */,
 				23C13C8E2C7E31D000A115A7 /* UIDraw.swift */,
 				23C13C902C7E32A500A115A7 /* Color.swift */,
 				7555FF82242A565900829871 /* ContentView.swift */,
@@ -193,9 +207,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				23C13C8F2C7E31D000A115A7 /* UIDraw.swift in Sources */,
+				235BBA5E2C7F3109002EA66D /* SceneID.swift in Sources */,
 				23C13C912C7E32A500A115A7 /* Color.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				235BBA602C7F3121002EA66D /* Boot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

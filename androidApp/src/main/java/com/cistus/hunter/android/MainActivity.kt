@@ -7,10 +7,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.cistus.hunter.AndroidScreen
+import com.cistus.hunter.android.scenes.*
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
+    companion object {
+        var mainActivity: MainActivity? = null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidScreen.initialize(windowManager)
@@ -20,7 +28,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
+                    mainActivity = this
+                    val scenes = ArrayList<Scene>()
+                    val navController = rememberNavController()
+                    if (scenes.isEmpty()) {
+                        scenes.add(Boot())
+                    }
+                    NavHost(navController = navController, startDestination = SceneID.boot) {
+                        for (scene in scenes)
+                            composable(scene.route) { scene.Draw() }
+                    }
                 }
             }
             LaunchedEffect(Unit) {

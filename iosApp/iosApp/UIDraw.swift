@@ -163,22 +163,22 @@ final class UIDraw {
             .foregroundStyle(foregroundColor)
         })
     }
-    static func hideVStack(_ hide: Bool, content: () -> some View) -> any View {
-        VStack {
+    static func hideVStack(_ hide: Bool, content: () -> some View) -> AnyView {
+        AnyView(VStack {
             content()
         }
-        .opacity(hide ? 0 : 1)
+        .opacity(hide ? 0 : 1))
     }
-    static func hideHStack(_ hide: Bool, content: () -> some View) -> any View {
-        HStack {
+    static func hideHStack(_ hide: Bool, content: () -> some View) -> AnyView {
+        AnyView(HStack {
             content()
         }
-        .opacity(hide ? 0 : 1)
+        .opacity(hide ? 0 : 1))
     }
-    static func hideZStack(_ hide: Bool, content: () -> some View) -> any View {
-        ZStack {
+    static func hideZStack(_ hide: Bool, content: () -> some View) -> AnyView {
+        AnyView(ZStack {
             content()
         }
-        .opacity(hide ? 0 : 1)
+        .opacity(hide ? 0 : 1))
     }
 }

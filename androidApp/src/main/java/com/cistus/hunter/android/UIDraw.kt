@@ -79,10 +79,18 @@ class UIDraw {
         }
 
         @Composable
-        fun CenterColumn(modifier: Modifier = Modifier, hide: Boolean = false, content: @Composable () -> Unit) {
+        fun CenterColumn(modifier: Modifier = Modifier, hide: Boolean = false, fillStyle: UByte = FILLSTYLE_MAXSIZE,
+                         content: @Composable () -> Unit) {
             val alpha = if (!hide) 1f else 0f
+            var fill: Modifier = Modifier
+            when(fillStyle) {
+                FILLSTYLE_NONE -> fill = Modifier
+                FILLSTYLE_MAXSIZE -> fill = Modifier.fillMaxSize()
+                FILLSTYLE_MAXWIDTH -> fill = Modifier.fillMaxWidth()
+                FILLSTYLE_MAXHEIGHT -> fill = Modifier.fillMaxHeight()
+            }
             Column(modifier = Modifier
-                .fillMaxSize()
+                .then(fill)
                 .then(modifier)
                 .alpha(alpha),
                 verticalArrangement = Arrangement.Center,
@@ -91,10 +99,18 @@ class UIDraw {
             }
         }
         @Composable
-        fun CenterRow(modifier: Modifier = Modifier, hide: Boolean = false, content: @Composable () -> Unit) {
+        fun CenterRow(modifier: Modifier = Modifier, hide: Boolean = false, fillStyle: UByte = FILLSTYLE_MAXSIZE,
+                      content: @Composable () -> Unit) {
             val alpha = if (!hide) 1f else 0f
+            var fill: Modifier = Modifier
+            when(fillStyle) {
+                FILLSTYLE_NONE -> fill = Modifier
+                FILLSTYLE_MAXSIZE -> fill = Modifier.fillMaxSize()
+                FILLSTYLE_MAXWIDTH -> fill = Modifier.fillMaxWidth()
+                FILLSTYLE_MAXHEIGHT -> fill = Modifier.fillMaxHeight()
+            }
             Row(modifier = Modifier
-                .fillMaxSize()
+                .then(fill)
                 .then(modifier)
                 .alpha(alpha),
                 verticalAlignment = Alignment.CenterVertically,
@@ -281,39 +297,28 @@ class UIDraw {
                 modifier = modifier.then(tap))
         }
         @Composable
-        fun DrawImage(image: Int, resources: Resources, scale: Float = 1f, bigger: Boolean? = null,
+        fun DrawImage(image: Int, mainActivity: MainActivity? = MainActivity.mainActivity,
+                      scale: Float = 1f, bigger: Boolean? = null,
                       @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
                       onTapped: (() -> Unit)? = null) {
-            val bitmap = BitmapFactory.decodeResource(resources, image)
+            if (mainActivity == null)
+                return
             val width: Float
-            val height: Float
             var tap: Modifier = Modifier
             if (bigger == null) {
-                if (bitmap.width <= bitmap.height) {
-                    width = Screen.smallerSize.toFloat() * scale
-                    height = Screen.smallerSize.toFloat() * scale * bitmap.height / bitmap.width
-                }
-                else {
-                    width = Screen.biggerSize.toFloat() * scale
-                    height = Screen.biggerSize.toFloat() * scale * bitmap.height / bitmap.width
-                }
+                width = Screen.smallerSize.toFloat() * scale
             }
             else {
-                if (!bigger) {
+                if (!bigger)
                     width = Screen.smallerSize.toFloat() * scale
-                    height = Screen.smallerSize.toFloat() * scale * bitmap.height / bitmap.width
-                }
-                else {
+                else
                     width = Screen.biggerSize.toFloat() * scale
-                    height = Screen.biggerSize.toFloat() * scale * bitmap.height / bitmap.width
-                }
             }
             if (onTapped != null)
                 tap = Modifier.clickable { onTapped() }
             Image(painterResource(image), "",
                 modifier = Modifier
                     .width(toDp(width))
-                    .height(toDp(height))
                     .then(modifier)
                     .then(tap))
         }
