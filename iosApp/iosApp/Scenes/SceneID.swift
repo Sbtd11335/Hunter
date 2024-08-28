@@ -1,0 +1,3 @@
+enum SceneID {
+    case Boot
+}
