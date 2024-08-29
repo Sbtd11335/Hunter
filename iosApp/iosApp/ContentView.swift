@@ -13,6 +13,7 @@ struct ContentView: View {
 	var body: some View {
         switch(shareData.sceneID) {
         case .Boot: Boot()
+        case .Login: Login()
         }
 	}
 }

@@ -1,8 +1,6 @@
 package com.cistus.hunter.android
 
 import android.annotation.SuppressLint
-import android.content.res.Resources
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,14 +16,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.ripple.RippleAlpha
+import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,9 +54,20 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import com.cistus.hunter.BuildConfig
 import com.cistus.hunter.Screen
 
 class UIDraw {
+
+    class NoRipple: RippleTheme {
+        @Composable
+        override fun defaultColor(): Color = Color.Transparent
+        @Composable
+        override fun rippleAlpha(): RippleAlpha = RippleAlpha(0f, 0f, 0f, 0f)
+    }
+
     companion object {
         val FILLSTYLE_NONE: UByte = 0u
         val FILLSTYLE_MAXSIZE: UByte = 1u
@@ -77,12 +92,27 @@ class UIDraw {
                 return px.toDp()
             }
         }
+        @Composable
+        fun toPx(dp: Dp): Float {
+            with(LocalDensity.current) {
+                return dp.toPx()
+            }
+        }
+        @Composable
+        fun toSp(dp: Dp): TextUnit {
+            with(LocalDensity.current) {
+                return dp.toSp()
+            }
+        }
 
         @Composable
-        fun CenterColumn(modifier: Modifier = Modifier, hide: Boolean = false, fillStyle: UByte = FILLSTYLE_MAXSIZE,
-                         content: @Composable () -> Unit) {
+        fun CenterColumn(modifier: Modifier = Modifier, hide: Boolean = false, spacing: Dp? = null,
+                         fillStyle: UByte = FILLSTYLE_MAXSIZE, onTapped: (() -> Unit)? = null, content: @Composable () -> Unit) {
             val alpha = if (!hide) 1f else 0f
             var fill: Modifier = Modifier
+            var tap: Modifier = Modifier
+            if (onTapped != null)
+                tap = Modifier.clickable { onTapped() }
             when(fillStyle) {
                 FILLSTYLE_NONE -> fill = Modifier
                 FILLSTYLE_MAXSIZE -> fill = Modifier.fillMaxSize()
@@ -92,17 +122,27 @@ class UIDraw {
             Column(modifier = Modifier
                 .then(fill)
                 .then(modifier)
+                .then(tap)
                 .alpha(alpha),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                content()
+                if (spacing == null)
+                    content()
+                else
+                    Column(verticalArrangement = Arrangement.spacedBy(spacing),
+                        horizontalAlignment = Alignment.CenterHorizontally) {
+                        content()
+                    }
             }
         }
         @Composable
-        fun CenterRow(modifier: Modifier = Modifier, hide: Boolean = false, fillStyle: UByte = FILLSTYLE_MAXSIZE,
-                      content: @Composable () -> Unit) {
+        fun CenterRow(modifier: Modifier = Modifier, hide: Boolean = false, spacing: Dp? = null,
+                      fillStyle: UByte = FILLSTYLE_MAXSIZE, onTapped: (() -> Unit)? = null, content: @Composable () -> Unit) {
             val alpha = if (!hide) 1f else 0f
             var fill: Modifier = Modifier
+            var tap: Modifier = Modifier
+            if (onTapped != null)
+                tap = Modifier.clickable { onTapped() }
             when(fillStyle) {
                 FILLSTYLE_NONE -> fill = Modifier
                 FILLSTYLE_MAXSIZE -> fill = Modifier.fillMaxSize()
@@ -112,19 +152,30 @@ class UIDraw {
             Row(modifier = Modifier
                 .then(fill)
                 .then(modifier)
+                .then(tap)
                 .alpha(alpha),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center) {
-                content()
+                if (spacing == null)
+                    content()
+                else
+                    Row(verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(spacing)) {
+                        content()
+                    }
             }
         }
         @Composable
-        fun CustomColumn(modifier: Modifier = Modifier, style: String = "Center", fillStyle: UByte = FILLSTYLE_MAXSIZE,
-                         hide: Boolean = false, content: @Composable () -> Unit) {
+        fun CustomColumn(modifier: Modifier = Modifier, style: String = "Center",
+                         hide: Boolean = false, spacing: Dp? = null, fillStyle: UByte = FILLSTYLE_MAXSIZE,
+                         onTapped: (() -> Unit)? = null,  content: @Composable () -> Unit) {
             val verticalArrangement: Arrangement.Vertical
             val horizontalAlignment: Alignment.Horizontal
             var fill: Modifier = Modifier
             val alpha = if (!hide) 1f else 0f
+            var tap: Modifier = Modifier
+            if (onTapped != null)
+                tap = Modifier.clickable { onTapped() }
             when(style) {
                 "TopStart" -> {
                     verticalArrangement = Arrangement.Top
@@ -176,19 +227,30 @@ class UIDraw {
             Column(modifier = Modifier
                 .then(fill)
                 .then(modifier)
+                .then(tap)
                 .alpha(alpha),
                 verticalArrangement = verticalArrangement,
                 horizontalAlignment = horizontalAlignment) {
-                content()
+                if (spacing == null)
+                    content()
+                else
+                    Column(verticalArrangement = Arrangement.spacedBy(spacing),
+                        horizontalAlignment = horizontalAlignment) {
+                        content()
+                    }
             }
         }
         @Composable
-        fun CustomRow(modifier: Modifier = Modifier, style: String = "Center", fillStyle: UByte = FILLSTYLE_MAXSIZE,
-                         hide: Boolean = false, content: @Composable () -> Unit) {
+        fun CustomRow(modifier: Modifier = Modifier, style: String = "Center",
+                      hide: Boolean = false, spacing: Dp? = null, fillStyle: UByte = FILLSTYLE_MAXSIZE,
+                      onTapped: (() -> Unit)? = null, content: @Composable () -> Unit) {
             val verticalAlignment: Alignment.Vertical
             val horizontalArrangement: Arrangement.Horizontal
             var fill: Modifier = Modifier
             val alpha = if (!hide) 1f else 0f
+            var tap: Modifier = Modifier
+            if (onTapped != null)
+                tap = Modifier.clickable { onTapped() }
             when(style) {
                 "TopStart" -> {
                     verticalAlignment = Alignment.Top
@@ -240,35 +302,83 @@ class UIDraw {
             Row(modifier = Modifier
                 .then(fill)
                 .then(modifier)
+                .then(tap)
                 .alpha(alpha),
                 verticalAlignment = verticalAlignment,
                 horizontalArrangement = horizontalArrangement) {
-                content()
+                if (spacing == null)
+                    content()
+                else
+                    Row(verticalAlignment = verticalAlignment,
+                        horizontalArrangement = horizontalArrangement) {
+                        content()
+                    }
             }
         }
-
         @Composable
-        fun DrawBackGround(colors: List<Color>? = null, content: @Composable (Size) -> Unit = {}) {
+        fun DrawDialog(showDialog: MutableState<Boolean>? = null, closeText: String = "",
+                       fullScreen: Boolean = false, closeTextColor: Color = Color.TextButton,
+                       content: @Composable (Float) -> Unit) {
+            val drawDialog = showDialog ?: rememberSaveable { mutableStateOf(true) }
+            var closeTexHeight by remember { mutableFloatStateOf(0f) }
+            if (drawDialog.value)
+                Dialog(onDismissRequest = { drawDialog.value = false },
+                    properties = DialogProperties(usePlatformDefaultWidth = !fullScreen)) {
+                    Surface(modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background) {
+                        content(closeTexHeight)
+                        if (closeText.isNotEmpty())
+                            CustomColumn(style = "TopStart",
+                                modifier = Modifier.padding(20.dp)) {
+                                DrawText(closeText, color = closeTextColor, modifier = Modifier.onGloballyPositioned {
+                                    closeTexHeight = it.size.height.toFloat() * 3
+                                }) {
+                                    drawDialog.value = false
+                                }
+                            }
+                    }
+                }
+        }
+        @Composable
+        fun DrawVersion() {
+            val appName = BuildConfig.APP_NAME
+            val version = BuildConfig.VERSION_NAME
+            val build = BuildConfig.VERSION_CODE.toString()
+            CustomColumn(style = "Bottom", modifier = Modifier.padding(20.dp)) {
+                DrawText("%s Version %s-%s".format(appName, version, build), color = Color.Black)
+                DrawText("Developed by Cistus", color = Color.Black, style = "Bold")
+            }
+        }
+        @Composable
+        fun DrawBackGround(colors: List<Color>? = null, onTapped: (() -> Unit)? = null,
+                           content: @Composable (Size) -> Unit = {}) {
             val drawColors = colors ?: listOf(Color.AppColor1, Color.AppColor2)
             var size by remember { mutableStateOf(Size(0f, 0f)) }
+            var tap: Modifier = Modifier
+            if (onTapped != null)
+                tap = Modifier.clickable { onTapped() }
             Box(modifier = Modifier
                 .fillMaxSize()
                 .background(
                     Brush.linearGradient(
                         colors = drawColors, start = Offset.Zero,
-                        end = Offset(Screen.width.toFloat(), Screen.height.toFloat())
+                        end = Offset(toPx(Screen.width.dp), toPx(Screen.height.dp))
                     )
                 )
+                .then(tap)
                 .onGloballyPositioned {
                     size = Size(it.size.width.toFloat(), it.size.height.toFloat())
-                }) {
+                })
+            {
                 content(size)
             }
         }
         @Composable
         fun DrawText(text: String, color: Color = Color.Primary, fontSize: Float = 17f,
-                     fontFamily: FontFamily = FontFamily.Default, style: String = "Default",
+                     fontFamily: FontFamily = FontFamily.Default, style: String = "Default", emptyDraw: Boolean = true,
                      @SuppressLint("ModifierParameter") modifier: Modifier = Modifier, onTapped: (() -> Unit)? = null) {
+            if (!emptyDraw && text.isEmpty())
+                return
             val fontWeight: FontWeight
             val fontStyle: FontStyle
             var tap: Modifier = Modifier
@@ -293,32 +403,26 @@ class UIDraw {
             if (onTapped != null)
                 tap = Modifier.clickable { onTapped() }
             Text(text, color = color, fontWeight = fontWeight, fontFamily = fontFamily,
-                fontStyle = fontStyle, fontSize = TextUnit(fontSize, TextUnitType.Sp),
+                fontStyle = fontStyle, fontSize = TextUnit(toSp(fontSize.dp).value, TextUnitType.Sp),
                 modifier = modifier.then(tap))
         }
         @Composable
-        fun DrawImage(image: Int, mainActivity: MainActivity? = MainActivity.mainActivity,
-                      scale: Float = 1f, bigger: Boolean? = null,
+        fun DrawImage(image: Int, scale: Float = 1f, bigger: Boolean? = null,
                       @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
                       onTapped: (() -> Unit)? = null) {
-            if (mainActivity == null)
-                return
-            val width: Float
             var tap: Modifier = Modifier
-            if (bigger == null) {
-                width = Screen.smallerSize.toFloat() * scale
-            }
-            else {
+            val width: Float = if (bigger == null)
+                Screen.smallerSize.toFloat() * scale
+            else
                 if (!bigger)
-                    width = Screen.smallerSize.toFloat() * scale
+                    Screen.smallerSize.toFloat() * scale
                 else
-                    width = Screen.biggerSize.toFloat() * scale
-            }
+                    Screen.biggerSize.toFloat() * scale
             if (onTapped != null)
                 tap = Modifier.clickable { onTapped() }
             Image(painterResource(image), "",
                 modifier = Modifier
-                    .width(toDp(width))
+                    .width(width.dp)
                     .then(modifier)
                     .then(tap))
         }
@@ -344,7 +448,7 @@ class UIDraw {
         @Composable
         fun DrawRCFrame(size: DpSize = DpSize(60.dp, 60.dp), color: Color = Color.Primary, radius: Dp = 15.dp,
                         @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
-                        content: @Composable () -> Unit = {}, onTapped: (() -> Unit)? = null) {
+                        onTapped: (() -> Unit)? = null, content: @Composable () -> Unit = {}) {
             var tap: Modifier = Modifier
             if (onTapped != null)
                 tap = Modifier.clickable { onTapped() }
@@ -366,7 +470,7 @@ class UIDraw {
                           @SuppressLint("ModifierParameter") modifier: Modifier = Modifier) {
             DrawRCFrame(size = size, color = backgroundColor, radius = radius, modifier = modifier, content = {
                 BasicTextField(value = text.value, onValueChange = { text.value = it },
-                    textStyle = TextStyle(foregroundColor), modifier = Modifier.padding(textPadding),
+                    textStyle = TextStyle(foregroundColor), modifier = Modifier.fillMaxSize().padding(textPadding),
                     singleLine = singleLine, decorationBox = {
                         if (text.value.isEmpty())
                             DrawText(label, color = labelColor)
@@ -384,7 +488,10 @@ class UIDraw {
                 CustomRow(style = "CenterStart") {
                     BasicTextField(value = text.value, onValueChange = { text.value = it },
                         textStyle = TextStyle(foregroundColor), singleLine = singleLine,
-                        modifier = Modifier.width(size.width - size.height).padding(textPadding),
+                        modifier = Modifier
+                            .width(size.width - size.height)
+                            .fillMaxHeight()
+                            .padding(textPadding),
                         visualTransformation = if (!hide.value) VisualTransformation.None else PasswordVisualTransformation(),
                         decorationBox = {
                             if (text.value.isEmpty())
@@ -392,7 +499,7 @@ class UIDraw {
                             it()
                         })
                     val img = if (!hide.value) R.drawable.eye_slash else R.drawable.eye
-                    Image(painterResource(img), "", modifier = Modifier.clickable {
+                    Image(painterResource(img), "", modifier = Modifier.padding(8.dp).clickable {
                         hide.value = !hide.value
                     })
                 }

@@ -23,16 +23,10 @@ struct Boot: View {
                     .animation(.interactiveSpring(response: 0.25, dampingFraction: 2),
                                value: logoAnimationStart)
                     UIDraw.hideHStack(!loadStart) {
-                        UIDraw.progress(scale: 1.5)
+                        UIDraw.progress(scale: 1.5, color: .black)
                     }
                 }
-                VStack {
-                    UIDraw.text(String(format: "%@ Version %@-%@",
-                                       appName, version, build), color: .black)
-                    UIDraw.text("Developed by Cistus", color: .black, style: "Bold")
-                }
-                .frame(maxHeight: .infinity, alignment: .bottom)
-                .padding(.bottom, 20)
+                UIDraw.Version()
             }
         }
         .onAppear {

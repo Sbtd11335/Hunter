@@ -14,3 +14,9 @@ val Color.Companion.AppColor1: Color
 val Color.Companion.AppColor2: Color
     @Composable
     get() = colorResource(id = R.color.AppColor2)
+val Color.Companion.ThemeColor: Color
+    @Composable
+    get() = colorResource(id = R.color.ThemeColor)
+val Color.Companion.TextButton: Color
+    @Composable
+    get() = colorResource(id = R.color.TextButton)
