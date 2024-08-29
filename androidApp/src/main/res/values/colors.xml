@@ -2,4 +2,6 @@
 <resources>
     <color name="AppColor1">#FF91E5</color>
     <color name="AppColor2">#FFD6AD</color>
+    <color name="ThemeColor">#FF68F9</color>
+    <color name="TextButton">#1271FF</color>
 </resources>

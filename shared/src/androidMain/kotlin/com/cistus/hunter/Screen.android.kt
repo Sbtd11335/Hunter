@@ -7,6 +7,8 @@ import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import android.view.WindowManager
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalDensity
 
 class AndroidScreen: ScreenIn {
     override val width = Companion.width
@@ -15,16 +17,21 @@ class AndroidScreen: ScreenIn {
     companion object {
         private var width = 0.0
         private var height = 0.0
-        fun initialize(windowManager: WindowManager) {
+        @Composable
+        fun Initialize(windowManager: WindowManager) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
                 val point = Point()
                 windowManager.defaultDisplay.getRealSize(point)
-                width = point.x.toDouble()
-                height = point.y.toDouble()
+                with(LocalDensity.current) {
+                    width = point.x.toDp().value.toDouble()
+                    height = point.y.toDp().value.toDouble()
+                }
             }
             else {
-                width = windowManager.currentWindowMetrics.bounds.width().toDouble()
-                height = windowManager.currentWindowMetrics.bounds.height().toDouble()
+                with(LocalDensity.current) {
+                    width = windowManager.currentWindowMetrics.bounds.width().toDp().value.toDouble()
+                    height = windowManager.currentWindowMetrics.bounds.height().toDp().value.toDouble()
+                }
             }
         }
         fun hideSystemBars(window: Window) {
