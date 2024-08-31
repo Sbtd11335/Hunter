@@ -24,6 +24,7 @@ class MainActivity : ComponentActivity() {
             Configuration.SCREENLAYOUT_SIZE_MASK < Configuration.SCREENLAYOUT_SIZE_LARGE)
             requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
+
         setContent {
             AndroidScreen.Initialize(windowManager)
             MyApplicationTheme {
