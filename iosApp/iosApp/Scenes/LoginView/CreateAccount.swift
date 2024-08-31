@@ -2,7 +2,7 @@ import SwiftUI
 import shared
 
 struct CreateAccount: View {
-    let createAccountView: Binding<Bool>
+    private let createAccountView: Binding<Bool>
     private let rcFrameSize = CGSize(width: UIConfig.Login.companion.rcFrameSize.width,
                                      height: UIConfig.Login.companion.rcFrameSize.height)
     private let checkBoxSize = CGSize(width: UIConfig.Login.companion.checkBoxSize.width,
@@ -34,14 +34,14 @@ struct CreateAccount: View {
                             UIDraw.text("利用規約", color: .textButton)
                             UIDraw.text("に同意する", color: .black)
                                 .padding(.trailing, 20)
-                            UIDraw.rcFrame(checkBoxSize, color: .white, radius: 7, content: {
+                            UIDraw.rcFrame(checkBoxSize, color: .white, radius: 7, onTapped: { isChecked.toggle() }) {
                                 isChecked ? AnyView(Image(systemName: "checkmark").foregroundStyle(.black)) :
                                             AnyView(EmptyView())
-                            }, onTapped: { isChecked.toggle() })
+                            }
                         }
-                        UIDraw.rcFrame(rcFrameSize, color: .themeColor, content: {
+                        UIDraw.rcFrame(rcFrameSize, color: .themeColor, onTapped: { request() }) {
                             UIDraw.text("リクエスト", color: .white)
-                        }, onTapped: { request() })
+                        }
                         UIDraw.text("ご不明な点がございましたら、お手数ですが、", color: .black)
                         UIDraw.text("CistusSystem@gmail.com", color: .textButton) {
                             UIPasteboard.general.string = "CistusSystem@gmail.com"

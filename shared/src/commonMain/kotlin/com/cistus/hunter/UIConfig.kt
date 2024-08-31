@@ -7,4 +7,18 @@ class UIConfig {
             val checkBoxSize = UISize(30.0, 30.0)
         }
     }
+    class Home {
+        companion object {
+            fun getAttentionFrameSize(deviceSize: UISize, isTablet: Boolean = false): UISize {
+                val m = if (!isTablet) 1 else 3
+                return UISize(deviceSize.width * 0.9 / m, deviceSize.width * 0.9 * 1.2 / m)
+            }
+            fun getLargeAttentionFrameSize(deviceSize: UISize): UISize {
+                return UISize(deviceSize.width * 0.9 / 1.5, deviceSize.height * 0.9 * 1.2 / 3)
+            }
+            fun getBottomBarFrame(frameSize: UISize): UISize {
+                return UISize(frameSize.width, frameSize.height * (410.0 / 2458.0))
+            }
+        }
+    }
 }

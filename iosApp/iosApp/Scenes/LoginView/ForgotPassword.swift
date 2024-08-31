@@ -2,7 +2,7 @@ import SwiftUI
 import shared
 
 struct ForgotPassword: View {
-    let forgotPasswordView: Binding<Bool>
+    private let forgotPasswordView: Binding<Bool>
     private let rcFrameSize = CGSize(width: UIConfig.Login.companion.rcFrameSize.width,
                                      height: UIConfig.Login.companion.rcFrameSize.height)
     @State private var emailAddress = ""
@@ -22,9 +22,9 @@ struct ForgotPassword: View {
                         UIDraw.text("パスワードを再設定", color: .black)
                         UIDraw.text(statusText, color: .red, emptyDraw: false)
                         UIDraw.textField($emailAddress, rcFrameSize, $textFieldFocus, label: "メールアドレス")
-                        UIDraw.rcFrame(rcFrameSize, color: .themeColor, content: {
+                        UIDraw.rcFrame(rcFrameSize, color: .themeColor, onTapped: { request() }) {
                             UIDraw.text("リクエスト", color: .white)
-                        }, onTapped: { request() })
+                        }
                         UIDraw.text("ご不明な点がございましたら、お手数ですが、", color: .black)
                         UIDraw.text("CistusSystem@gmail.com", color: .textButton) {
                             UIPasteboard.general.string = "CistusSystem@gmail.com"

@@ -24,9 +24,9 @@ struct Login: View {
                     UIDraw.text(statusText, color: .red, emptyDraw: false)
                     UIDraw.textField($emailAddress, rcFrameSize, $textFieldFocus, label: "メールアドレス")
                     UIDraw.secureField($password, $hidePassword, rcFrameSize, $textFieldFocus, label: "パスワード")
-                    UIDraw.rcFrame(rcFrameSize, color: .themeColor, content: {
+                    UIDraw.rcFrame(rcFrameSize, color: .themeColor, onTapped: { login() }) {
                         UIDraw.text("ログイン", color: .white)
-                    }, onTapped: { login() })
+                    }
                     UIDraw.text("パスワード忘れた場合", color: .textButton) {
                         forgotPasswordView = true
                         createAccontView = false

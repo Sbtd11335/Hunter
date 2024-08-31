@@ -2,16 +2,6 @@ import Foundation
 import SwiftUI
 import shared
 
-final class DrawSize: ObservableObject {
-    @Published var width: CGFloat
-    @Published var height: CGFloat
-    
-    init(_ width: CGFloat = 0.0, _ height: CGFloat = 0.0) {
-        self.width = width
-        self.height = height
-    }
-}
-
 final class UIDraw {
     struct Background: View {
         @ObservedObject private var drawSize = DrawSize()
@@ -149,7 +139,7 @@ final class UIDraw {
         return onTapped == nil ? ret : AnyView(ret.onTapGesture{ onTapped!() })
     }
     static func rcFrame(_ size: CGSize = CGSize(width: 60, height: 60), color: Color = .primary, radius: CGFloat = 15,
-                        content: (() -> any View)? = nil, onTapped: (() -> Void)? = nil) -> AnyView {
+                        onTapped: (() -> Void)? = nil, content: (() -> any View)? = nil) -> AnyView {
         var ret = AnyView(RoundedRectangle(cornerRadius: radius)
             .frame(width: size.width, height: size.height)
             .foregroundStyle(color))
