@@ -91,6 +91,7 @@
 		23210E8A2C80BD7F00A420A0 /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
+				23210E8B2C80BE0900A420A0 /* HomeContents.swift */,
 				23210E8D2C80BFD600A420A0 /* Home.swift */,
 				23210E912C80CCC200A420A0 /* Recommendation.swift */,
 				23210E982C82417100A420A0 /* Popularity.swift */,
@@ -104,7 +105,6 @@
 			children = (
 				235BBA5D2C7F3109002EA66D /* SceneID.swift */,
 				235BBA5F2C7F3121002EA66D /* Boot.swift */,
-				23210E8B2C80BE0900A420A0 /* HomeContents.swift */,
 				2398D9792C7F923B00C68927 /* LoginView */,
 				23210E8A2C80BD7F00A420A0 /* HomeView */,
 			);
