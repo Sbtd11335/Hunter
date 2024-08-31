@@ -10,8 +10,20 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
+		230FB4E62C7F9F33007684AB /* ForgotPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230FB4E52C7F9F33007684AB /* ForgotPassword.swift */; };
+		230FB4E82C7FA74F007684AB /* CreateAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230FB4E72C7FA74F007684AB /* CreateAccount.swift */; };
+		23210E8C2C80BE0900A420A0 /* HomeContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23210E8B2C80BE0900A420A0 /* HomeContents.swift */; };
+		23210E8E2C80BFD600A420A0 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23210E8D2C80BFD600A420A0 /* Home.swift */; };
+		23210E902C80CBD200A420A0 /* TabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23210E8F2C80CBD200A420A0 /* TabItem.swift */; };
+		23210E922C80CCC200A420A0 /* Recommendation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23210E912C80CCC200A420A0 /* Recommendation.swift */; };
+		23210E942C8162DF00A420A0 /* GiftContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23210E932C8162DF00A420A0 /* GiftContents.swift */; };
+		23210E972C8176C700A420A0 /* UISize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23210E962C8176C700A420A0 /* UISize.swift */; };
+		23210E992C82417100A420A0 /* Popularity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23210E982C82417100A420A0 /* Popularity.swift */; };
+		23210E9B2C824DDA00A420A0 /* Expensive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23210E9A2C824DDA00A420A0 /* Expensive.swift */; };
+		23210E9D2C826CB600A420A0 /* DrawSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23210E9C2C826CB600A420A0 /* DrawSize.swift */; };
 		235BBA5E2C7F3109002EA66D /* SceneID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235BBA5D2C7F3109002EA66D /* SceneID.swift */; };
 		235BBA602C7F3121002EA66D /* Boot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235BBA5F2C7F3121002EA66D /* Boot.swift */; };
+		2398D97B2C7F925B00C68927 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2398D97A2C7F925B00C68927 /* Login.swift */; };
 		23C13C8F2C7E31D000A115A7 /* UIDraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C13C8E2C7E31D000A115A7 /* UIDraw.swift */; };
 		23C13C912C7E32A500A115A7 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C13C902C7E32A500A115A7 /* Color.swift */; };
 		23C13C932C7E332400A115A7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23C13C922C7E332400A115A7 /* Colors.xcassets */; };
@@ -35,8 +47,20 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
+		230FB4E52C7F9F33007684AB /* ForgotPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassword.swift; sourceTree = "<group>"; };
+		230FB4E72C7FA74F007684AB /* CreateAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccount.swift; sourceTree = "<group>"; };
+		23210E8B2C80BE0900A420A0 /* HomeContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContents.swift; sourceTree = "<group>"; };
+		23210E8D2C80BFD600A420A0 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		23210E8F2C80CBD200A420A0 /* TabItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItem.swift; sourceTree = "<group>"; };
+		23210E912C80CCC200A420A0 /* Recommendation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recommendation.swift; sourceTree = "<group>"; };
+		23210E932C8162DF00A420A0 /* GiftContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftContents.swift; sourceTree = "<group>"; };
+		23210E962C8176C700A420A0 /* UISize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISize.swift; sourceTree = "<group>"; };
+		23210E982C82417100A420A0 /* Popularity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popularity.swift; sourceTree = "<group>"; };
+		23210E9A2C824DDA00A420A0 /* Expensive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expensive.swift; sourceTree = "<group>"; };
+		23210E9C2C826CB600A420A0 /* DrawSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawSize.swift; sourceTree = "<group>"; };
 		235BBA5D2C7F3109002EA66D /* SceneID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneID.swift; sourceTree = "<group>"; };
 		235BBA5F2C7F3121002EA66D /* Boot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Boot.swift; sourceTree = "<group>"; };
+		2398D97A2C7F925B00C68927 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		23C13C8E2C7E31D000A115A7 /* UIDraw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDraw.swift; sourceTree = "<group>"; };
 		23C13C902C7E32A500A115A7 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		23C13C922C7E332400A115A7 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -64,13 +88,37 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		23210E8A2C80BD7F00A420A0 /* HomeView */ = {
+			isa = PBXGroup;
+			children = (
+				23210E8D2C80BFD600A420A0 /* Home.swift */,
+				23210E912C80CCC200A420A0 /* Recommendation.swift */,
+				23210E982C82417100A420A0 /* Popularity.swift */,
+				23210E9A2C824DDA00A420A0 /* Expensive.swift */,
+			);
+			path = HomeView;
+			sourceTree = "<group>";
+		};
 		235BBA5A2C7F30EC002EA66D /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
 				235BBA5D2C7F3109002EA66D /* SceneID.swift */,
 				235BBA5F2C7F3121002EA66D /* Boot.swift */,
+				23210E8B2C80BE0900A420A0 /* HomeContents.swift */,
+				2398D9792C7F923B00C68927 /* LoginView */,
+				23210E8A2C80BD7F00A420A0 /* HomeView */,
 			);
 			path = Scenes;
+			sourceTree = "<group>";
+		};
+		2398D9792C7F923B00C68927 /* LoginView */ = {
+			isa = PBXGroup;
+			children = (
+				2398D97A2C7F925B00C68927 /* Login.swift */,
+				230FB4E52C7F9F33007684AB /* ForgotPassword.swift */,
+				230FB4E72C7FA74F007684AB /* CreateAccount.swift */,
+			);
+			path = LoginView;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -94,8 +142,12 @@
 			isa = PBXGroup;
 			children = (
 				235BBA5A2C7F30EC002EA66D /* Scenes */,
+				23210E932C8162DF00A420A0 /* GiftContents.swift */,
 				23C13C8E2C7E31D000A115A7 /* UIDraw.swift */,
 				23C13C902C7E32A500A115A7 /* Color.swift */,
+				23210E8F2C80CBD200A420A0 /* TabItem.swift */,
+				23210E962C8176C700A420A0 /* UISize.swift */,
+				23210E9C2C826CB600A420A0 /* DrawSize.swift */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
@@ -206,11 +258,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2398D97B2C7F925B00C68927 /* Login.swift in Sources */,
+				23210E922C80CCC200A420A0 /* Recommendation.swift in Sources */,
 				23C13C8F2C7E31D000A115A7 /* UIDraw.swift in Sources */,
+				23210E902C80CBD200A420A0 /* TabItem.swift in Sources */,
+				23210E992C82417100A420A0 /* Popularity.swift in Sources */,
+				23210E8C2C80BE0900A420A0 /* HomeContents.swift in Sources */,
+				23210E972C8176C700A420A0 /* UISize.swift in Sources */,
+				23210E8E2C80BFD600A420A0 /* Home.swift in Sources */,
 				235BBA5E2C7F3109002EA66D /* SceneID.swift in Sources */,
+				230FB4E62C7F9F33007684AB /* ForgotPassword.swift in Sources */,
 				23C13C912C7E32A500A115A7 /* Color.swift in Sources */,
+				23210E9B2C824DDA00A420A0 /* Expensive.swift in Sources */,
+				23210E9D2C826CB600A420A0 /* DrawSize.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				23210E942C8162DF00A420A0 /* GiftContents.swift in Sources */,
+				230FB4E82C7FA74F007684AB /* CreateAccount.swift in Sources */,
 				235BBA602C7F3121002EA66D /* Boot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

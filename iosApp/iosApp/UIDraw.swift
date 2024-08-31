@@ -2,32 +2,29 @@ import Foundation
 import SwiftUI
 import shared
 
-final class DrawSize: ObservableObject {
-    @Published var width: CGFloat
-    @Published var height: CGFloat
-    
-    init(_ width: CGFloat = 0.0, _ height: CGFloat = 0.0) {
-        self.width = width
-        self.height = height
-    }
-}
-
 final class UIDraw {
     struct Background: View {
         @ObservedObject private var drawSize = DrawSize()
         private let colors: [Color]
         private let content: ((DrawSize) -> any View)?
+        private let onTapped: (() -> Void)?
         private let ignoresSafeArea: Bool
         
-        init(_ colors: [Color]? = nil, ignoresSafeArea: Bool = false, content: ((DrawSize) -> any View)? = nil) {
+        init(_ colors: [Color]? = nil, ignoresSafeArea: Bool = false,
+             content: ((DrawSize) -> any View)? = nil, onTapped: (() -> Void)? = nil) {
             self.colors = colors ?? [.appColor1, .appColor2]
             self.ignoresSafeArea = ignoresSafeArea
             self.content = content
+            self.onTapped = onTapped
         }
         
         var body: some View {
+            onTapped == nil ? drawContent() : AnyView(drawContent().onTapGesture{ onTapped!() })
+        }
+        
+        private func drawContent() -> AnyView {
             if (!ignoresSafeArea) {
-                LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
+                AnyView(LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
                     .background {
                         GeometryReader { geometry in
                             Color.clear.onChange(of: geometry.size.width, initial: true) {
@@ -40,10 +37,10 @@ final class UIDraw {
                         if (content != nil) {
                             AnyView(content!(drawSize))
                         }
-                    }
+                    })
             }
             else {
-                LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
+                AnyView(LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
                     .background {
                         GeometryReader { geometry in
                             Color.clear.onChange(of: geometry.size.width, initial: true) {
@@ -57,12 +54,32 @@ final class UIDraw {
                             AnyView(content!(drawSize))
                         }
                     }
-                    .ignoresSafeArea(.container)
+                    .ignoresSafeArea(.container))
             }
         }
+        
     }
+    struct Version: View {
+        private let appName = AppInfo.companion.appName
+        private let version = AppInfo.companion.version
+        private let build = AppInfo.companion.build
+        
+        var body: some View {
+            VStack {
+                UIDraw.text(String(format: "%@ Version %@-%@",
+                                   appName, version, build), color: .black)
+                UIDraw.text("Developed by Cistus", color: .black, style: "Bold")
+            }
+            .frame(maxHeight: .infinity, alignment: .bottom)
+            .padding(.bottom, 20)
+        }
+    }
+    
     static func text(_ text: String, table: String? = nil, color: Color = .primary, font: Font? = nil,
-                     style: String = "Default", onTapped: (() -> Void)? = nil) -> AnyView {
+                     style: String = "Default", emptyDraw: Bool = true, onTapped: (() -> Void)? = nil) -> AnyView {
+        if (!emptyDraw && text.isEmpty) {
+            return AnyView(EmptyView())
+        }
         var ret = AnyView(Text(String(localized: "\(text)", table: table))
             .foregroundStyle(color)
             .font(font))
@@ -122,7 +139,7 @@ final class UIDraw {
         return onTapped == nil ? ret : AnyView(ret.onTapGesture{ onTapped!() })
     }
     static func rcFrame(_ size: CGSize = CGSize(width: 60, height: 60), color: Color = .primary, radius: CGFloat = 15,
-                        content: (() -> any View)? = nil, onTapped: (() -> Void)? = nil) -> AnyView {
+                        onTapped: (() -> Void)? = nil, content: (() -> any View)? = nil) -> AnyView {
         var ret = AnyView(RoundedRectangle(cornerRadius: radius)
             .frame(width: size.width, height: size.height)
             .foregroundStyle(color))
@@ -131,25 +148,30 @@ final class UIDraw {
         }
         return onTapped == nil ? ret : AnyView(ret.onTapGesture{ onTapped!() })
     }
-    static func textField(_ text: Binding<String>, _ size: CGSize = CGSize(width: 200, height: 40), radius: CGFloat = 15,
-                          label: String = "", backgroundColor: Color = .white, foregroundColor: Color = .black,
-                          labelColor: Color = .gray, textPadding: CGFloat = 10) -> some View {
-        rcFrame(size, color: backgroundColor, radius: radius, content: {
-            TextField(text: text, label: {
-                UIDraw.text(label, color: labelColor)
-            })
+    static func textField(_ text: Binding<String>, _ size: CGSize = CGSize(width: 200, height: 40),
+                          _ focus: FocusState<Bool>.Binding? = nil, radius: CGFloat = 15,label: String = "",
+                          backgroundColor: Color = .white, foregroundColor: Color = .black, labelColor: Color = .gray,
+                          textPadding: CGFloat = 10) -> some View {
+        var drawContent = AnyView(TextField(text: text, label: {  UIDraw.text(label, color: labelColor) })
             .foregroundStyle(foregroundColor)
-            .padding(textPadding)
-        })
+            .padding(textPadding))
+        if (focus != nil) {
+            drawContent = AnyView(drawContent.focused(focus!))
+        }
+        return rcFrame(size, color: backgroundColor, radius: radius, content: { drawContent })
     }
     static func secureField(_ text: Binding<String>, _ hide: Binding<Bool>, _ size: CGSize = CGSize(width: 200, height: 40),
-                            radius: CGFloat = 15, label: String = "", backgroundColor: Color = .white,
-                            foregroundColor: Color = .black, labelColor: Color = .gray, textPadding: CGFloat = 10) -> some View {
-        let drawContent = !hide.wrappedValue ? AnyView(TextField(text: text, label: {
+                            _ focus: FocusState<Bool>.Binding? = nil, radius: CGFloat = 15, label: String = "",
+                            backgroundColor: Color = .white, foregroundColor: Color = .black, labelColor: Color = .gray,
+                            textPadding: CGFloat = 10) -> some View {
+        var drawContent = !hide.wrappedValue ? AnyView(TextField(text: text, label: {
             UIDraw.text(label, color: labelColor)
         })) : AnyView(SecureField(text: text, label: {
             UIDraw.text(label, color: labelColor)
         }))
+        if (focus != nil) {
+            drawContent = AnyView(drawContent.focused(focus!))
+        }
         return rcFrame(size, color: backgroundColor, radius: radius, content: {
             HStack(spacing: 0) {
                 drawContent
