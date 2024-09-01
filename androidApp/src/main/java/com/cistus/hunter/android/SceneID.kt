@@ -4,5 +4,6 @@ class SceneID {
     companion object {
         val boot = "Boot"
         val login = "Login"
+        val home = "Home"
     }
 }

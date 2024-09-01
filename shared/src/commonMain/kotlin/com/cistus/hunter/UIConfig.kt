@@ -9,6 +9,7 @@ class UIConfig {
     }
     class Home {
         companion object {
+            val bottomTabHeight: Double = 83.0
             fun getAttentionFrameSize(deviceSize: UISize, isTablet: Boolean = false): UISize {
                 val m = if (!isTablet) 1 else 3
                 return UISize(deviceSize.width * 0.9 / m, deviceSize.width * 0.9 * 1.2 / m)
