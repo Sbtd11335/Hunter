@@ -9,6 +9,9 @@ struct HomeContents: View {
                 Home().tabItem {
                     Label("ホーム", systemImage: "house")
                 }
+                History().tabItem {
+                    Label("履歴", systemImage: "book")
+                }
             }
             .tint(.themeColor)
             .toolbar {

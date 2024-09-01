@@ -9,7 +9,7 @@ final class GiftContents {
         return NavigationLink(destination: {
             navigateTo()
         }, label: {
-            UIDraw.rcFrame(frameSize.toCGSize()) {
+            UIDraw.rcFrame(frameSize.toCGSize(), shadow: 3, shadowX: 3, shadowY: 3) {
                 ZStack {
                     Image(image)
                         .resizable()
@@ -22,7 +22,6 @@ final class GiftContents {
                         .blur(radius: 3.0)
                 }
             }
-            .shadow(radius: 3, x: 3, y: 3)
         })
     }
     static func largeAttention(_ width: CGFloat, _ height: CGFloat, _ image: String, _ navigateTo: () -> some View) -> some View {
@@ -32,7 +31,7 @@ final class GiftContents {
         return NavigationLink(destination: {
             navigateTo()
         }, label: {
-            UIDraw.rcFrame(frameSize.toCGSize()) {
+            UIDraw.rcFrame(frameSize.toCGSize(), shadow: 3, shadowX: 3, shadowY: 3) {
                 ZStack {
                     Image(image)
                         .resizable()
@@ -45,7 +44,36 @@ final class GiftContents {
                         .blur(radius: 3.0)
                 }
             }
-            .shadow(radius: 10)
+        })
+    }
+    static func history(_ width: CGFloat, _ height: CGFloat, _ image: String, _ navigateTo: () -> some View) -> some View {
+        let screenSize = UISize(width: width, height: height)
+        let frameSize = UIConfig.History.companion.getContentFrameSize(deviceSize: screenSize)
+        let imageSize = UIConfig.History.companion.getContentIconFrameSize(deviceSize: frameSize)
+        return NavigationLink(destination: {
+            navigateTo()
+        }, label: {
+            UIDraw.rcFrame(frameSize.toCGSize(), color: .white, shadow: 3, shadowX: 3, shadowY: 3) {
+                HStack(spacing: 5) {
+                    Image(image)
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                    VStack(alignment: .leading, spacing: 5){
+                        UIDraw.text("ダミー", color: .black, style: "Bold")
+                        UIDraw.text("ダミーテキスト", color: .black)
+                        Spacer()
+                    }
+                    
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(10)
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(lineWidth: 1.0)
+                    .foregroundStyle(.black)
+            }
         })
     }
 }

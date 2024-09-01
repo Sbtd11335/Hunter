@@ -22,4 +22,14 @@ class UIConfig {
             }
         }
     }
+    class History {
+        companion object {
+            fun getContentFrameSize(deviceSize: UISize): UISize {
+                return UISize(deviceSize.width * 0.9, deviceSize.width * 0.9 * 0.4)
+            }
+            fun getContentIconFrameSize(deviceSize: UISize): UISize {
+                return UISize(deviceSize.width * 0.9 * 0.4 - 10, deviceSize.width * 0.9 * 0.4 - 10)
+            }
+        }
+    }
 }
