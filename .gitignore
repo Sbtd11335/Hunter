@@ -12,4 +12,5 @@ xcuserdata
 *.json
 Vector
 GiftContents
+.kotlin
 

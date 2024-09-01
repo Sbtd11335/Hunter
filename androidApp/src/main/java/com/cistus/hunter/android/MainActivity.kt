@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,16 +15,24 @@ import androidx.navigation.compose.rememberNavController
 import com.cistus.hunter.AndroidScreen
 import com.cistus.hunter.android.scenes.Boot
 import com.cistus.hunter.android.scenes.Scene
+import com.cistus.hunter.android.scenes.homeview.HomeContents
 import com.cistus.hunter.android.scenes.loginview.Login
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
+    private val hideSystemBars = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val isTablet: Boolean
 
         if (resources.configuration.screenLayout and
-            Configuration.SCREENLAYOUT_SIZE_MASK < Configuration.SCREENLAYOUT_SIZE_LARGE)
+            Configuration.SCREENLAYOUT_SIZE_MASK < Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            isTablet = false
             requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
+        }
+        else
+            isTablet = true
 
         setContent {
             AndroidScreen.Initialize(windowManager)
@@ -37,14 +46,22 @@ class MainActivity : ComponentActivity() {
                     if (scenes.isEmpty()) {
                         scenes.add(Boot())
                         scenes.add(Login())
+                        scenes.add(HomeContents(isTablet))
                     }
-                    NavHost(navController = navController, startDestination = SceneID.login) {
+                    NavHost(navController = navController, startDestination = SceneID.home) {
                         for (scene in scenes)
                             composable(scene.route) { scene.Draw() }
                     }
                 }
             }
 
+            if (hideSystemBars)
+                LaunchedEffect(Unit) {
+                    while(true) {
+                        AndroidScreen.hideSystemBars(window)
+                        delay(1000)
+                    }
+                }
         }
     }
 }

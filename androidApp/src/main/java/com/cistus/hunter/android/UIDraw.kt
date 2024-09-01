@@ -455,9 +455,9 @@ class UIDraw {
             Box(modifier = Modifier
                 .width(size.width)
                 .height(size.height)
+                .then(modifier)
                 .clip(RoundedCornerShape(radius))
                 .background(color)
-                .then(modifier)
                 .then(tap)) {
                 content()
             }

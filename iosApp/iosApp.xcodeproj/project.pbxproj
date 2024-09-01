@@ -92,12 +92,20 @@
 			isa = PBXGroup;
 			children = (
 				23210E8B2C80BE0900A420A0 /* HomeContents.swift */,
+				23210E9E2C841C5D00A420A0 /* Home */,
+			);
+			path = HomeView;
+			sourceTree = "<group>";
+		};
+		23210E9E2C841C5D00A420A0 /* Home */ = {
+			isa = PBXGroup;
+			children = (
 				23210E8D2C80BFD600A420A0 /* Home.swift */,
 				23210E912C80CCC200A420A0 /* Recommendation.swift */,
 				23210E982C82417100A420A0 /* Popularity.swift */,
 				23210E9A2C824DDA00A420A0 /* Expensive.swift */,
 			);
-			path = HomeView;
+			path = Home;
 			sourceTree = "<group>";
 		};
 		235BBA5A2C7F30EC002EA66D /* Scenes */ = {
