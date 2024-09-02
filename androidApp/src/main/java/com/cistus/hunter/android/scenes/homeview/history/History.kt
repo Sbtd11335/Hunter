@@ -1,4 +1,4 @@
-package com.cistus.hunter.android.scenes.homeview.home
+package com.cistus.hunter.android.scenes.homeview.history
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -29,15 +29,14 @@ import com.cistus.hunter.android.UIDraw
 import com.cistus.hunter.toDpSize
 import kotlinx.coroutines.launch
 
-class Home(private val screenSize: MutableState<UISize>, isTablet: Boolean): TabItem {
-    override val label: String = "ホーム"
-    override val icon: Int = R.drawable.house_fill
+class History(private val screenSize: MutableState<UISize>, isTablet: Boolean): TabItem {
+    override val label: String = "履歴"
+    override val icon: Int = R.drawable.book_fill
     private val tabItems = ArrayList<TabItem>()
 
     init {
-        tabItems.add(Recommendation(screenSize, isTablet))
-        tabItems.add(Popularity(screenSize, isTablet))
-        tabItems.add(Expensive(screenSize, isTablet))
+        tabItems.add(Browsing(screenSize, isTablet))
+        tabItems.add(Application(screenSize, isTablet))
     }
 
     @OptIn(ExperimentalFoundationApi::class)
@@ -52,10 +51,10 @@ class Home(private val screenSize: MutableState<UISize>, isTablet: Boolean): Tab
                 modifier = Modifier.height(80.dp).padding(vertical = 20.dp))
             Box(modifier = Modifier.fillMaxWidth().height(60.dp)) {
                 CompositionLocalProvider(LocalRippleTheme provides UIDraw.NoRipple()) {
-                    UIDraw.CustomRow(style = "TopStart") {
+                    UIDraw.CustomRow(style = "CenterStart") {
                         for (i in tabItems.indices) {
-                            UIDraw.DrawRCFrame(tabItemSize.toDpSize(), color = Color.Transparent,
-                                onTapped = {
+                            UIDraw.DrawRCFrame(tabItemSize.toDpSize(), radius = 0.dp,
+                                color = Color.Transparent, onTapped = {
                                     coroutineScope.launch {
                                         pagerState.animateScrollToPage(i)
                                     }
@@ -73,9 +72,8 @@ class Home(private val screenSize: MutableState<UISize>, isTablet: Boolean): Tab
                     Box(modifier = Modifier.width(tabItemSize.width.dp).height(4.dp)
                         .background(color = Color.ThemeColor))
                 }
-
             }
-            HorizontalPager(state = pagerState) {
+            HorizontalPager(pagerState) {
                 tabItems[it].Draw()
             }
         }

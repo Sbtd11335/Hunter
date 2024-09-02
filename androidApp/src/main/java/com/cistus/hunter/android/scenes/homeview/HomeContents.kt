@@ -13,6 +13,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -27,6 +28,7 @@ import com.cistus.hunter.android.TabItem
 import com.cistus.hunter.android.ThemeColor
 import com.cistus.hunter.android.UIDraw
 import com.cistus.hunter.android.scenes.Scene
+import com.cistus.hunter.android.scenes.homeview.history.History
 import com.cistus.hunter.android.scenes.homeview.home.Home
 
 class HomeContents(private val isTablet: Boolean): Scene {
@@ -35,7 +37,7 @@ class HomeContents(private val isTablet: Boolean): Scene {
 
     @Composable
     override fun Draw() {
-        val selectedTabIndex = remember { mutableIntStateOf(0) }
+        val selectedTabIndex = rememberSaveable { mutableIntStateOf(0) }
         val screenSize = remember { mutableStateOf(UISize(0.0, 0.0)) }
         UIDraw.DrawBackGround {
             screenSize.value = UISize(UIDraw.toDp(it.width).value.toDouble(),
@@ -43,6 +45,7 @@ class HomeContents(private val isTablet: Boolean): Scene {
         }
         if (tabItems.isEmpty()) {
             tabItems.add(Home(screenSize, isTablet))
+            tabItems.add(History(screenSize, isTablet))
         }
 
         UIDraw.DrawBackGround()
@@ -69,13 +72,22 @@ class HomeContents(private val isTablet: Boolean): Scene {
                         Tab(selected = selectedTabIndex.intValue == i,
                             onClick = { selectedTabIndex.intValue = i },
                             modifier = Modifier.height(UIConfig.Home.bottomTabHeight.dp)) {
-                            UIDraw.CustomColumn(style = "Top",
-                                modifier = Modifier.padding(top = 7.dp)) {
+                            val drawContent = @Composable {
                                 if (tabItems[i].icon != null)
                                     Image(painterResource(tabItems[i].icon as Int), "",
                                         colorFilter = ColorFilter.tint(itemColor))
                                 UIDraw.DrawText(tabItems[i].label, color = itemColor, fontSize = 10f)
                             }
+                            if (!isTablet)
+                                UIDraw.CustomColumn(style = "Top",
+                                    modifier = Modifier.padding(top = 7.dp)) {
+                                    drawContent()
+                                }
+                            else
+                                UIDraw.CustomRow(style = "Center",
+                                    modifier = Modifier.padding(top = 7.dp)) {
+                                    drawContent()
+                                }
                         }
                     }
                 }
