@@ -1,13 +1,13 @@
 import SwiftUI
 import shared
 
-struct Home: View {
+struct History: View {
     @State private var tabScrollX: CGFloat = 0.0
     
     var body: some View {
         GeometryReader { geometry in
             let size = geometry.size.toDrawSize()
-            let tabItems: [UIDraw.TabItem] = [Recommendation(size), Popularity(size), Expensive(size)]
+            let tabItems: [UIDraw.TabItem] = [Browsing(size), Application(size)]
             let topBarSize = CGSize(width: Int(geometry.size.width) / tabItems.count, height: 60)
             
             ZStack {
@@ -65,10 +65,10 @@ struct Home: View {
             }
             .frame(width: .infinity, height: .infinity)
         }
+        
     }
-    
 }
 
 #Preview {
-    Home()
+    History()
 }

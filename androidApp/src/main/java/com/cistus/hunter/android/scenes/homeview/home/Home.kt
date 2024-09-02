@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 
 class Home(private val screenSize: MutableState<UISize>, isTablet: Boolean): TabItem {
     override val label: String = "ホーム"
-    override val icon: Int = R.drawable.house
+    override val icon: Int = R.drawable.house_fill
     private val tabItems = ArrayList<TabItem>()
 
     init {

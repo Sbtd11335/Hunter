@@ -75,6 +75,7 @@ final class UIDraw {
         }
     }
     
+    static func empty() -> some View { Text("").opacity(0) }
     static func text(_ text: String, table: String? = nil, color: Color = .primary, font: Font? = nil,
                      style: String = "Default", emptyDraw: Bool = true, onTapped: (() -> Void)? = nil) -> AnyView {
         if (!emptyDraw && text.isEmpty) {
@@ -139,10 +140,12 @@ final class UIDraw {
         return onTapped == nil ? ret : AnyView(ret.onTapGesture{ onTapped!() })
     }
     static func rcFrame(_ size: CGSize = CGSize(width: 60, height: 60), color: Color = .primary, radius: CGFloat = 15,
-                        onTapped: (() -> Void)? = nil, content: (() -> any View)? = nil) -> AnyView {
+                        shadow: CGFloat = 0, shadowX: CGFloat = 0, shadowY: CGFloat = 0, onTapped: (() -> Void)? = nil,
+                        content: (() -> any View)? = nil) -> AnyView {
         var ret = AnyView(RoundedRectangle(cornerRadius: radius)
             .frame(width: size.width, height: size.height)
-            .foregroundStyle(color))
+            .foregroundStyle(color)
+            .shadow(radius: shadow, x: shadowX, y: shadowY))
         if (content != nil) {
             ret = AnyView(ret.overlay{ AnyView(content!()) })
         }
