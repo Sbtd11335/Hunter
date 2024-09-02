@@ -13,25 +13,49 @@ final class Browsing: UIDraw.TabItem {
     
     private struct Draw: View {
         @ObservedObject private var drawSize: DrawSize
-
+        @Environment(\.verticalSizeClass) var verticalSizeClass
+        @Environment(\.horizontalSizeClass) var horizontalSizeClass
+        
         init(_ drawSize: DrawSize) {
             self.drawSize = drawSize
         }
+        
+        private func isTablet() -> Bool { verticalSizeClass == .regular && horizontalSizeClass == .regular }
         
         var body: some View {
             VStack(spacing: 10) {
                 UIDraw.text("閲覧履歴", color: .black, font: .largeTitle, style: "Bold")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading)
-                GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon") {
-                    ZStack {}
+                if (!isTablet()) {
+                    GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon", isTablet()) {
+                        ZStack {}
+                    }
+                    GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon", isTablet()) {
+                        ZStack {}
+                    }
+                    GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon", isTablet()) {
+                        ZStack {}
+                    }
                 }
-                GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon") {
-                    ZStack {}
+                else {
+                    HStack(spacing: 10) {
+                        GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon", isTablet()) {
+                            ZStack {}
+                        }
+                        GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon", isTablet()) {
+                            ZStack {}
+                        }
+                    }
+                    HStack(spacing: 10) {
+                        GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon", isTablet()) {
+                            ZStack {}
+                        }
+                        .padding(.trailing, UIConfig.History.companion.getContentFrameSize(deviceSize: drawSize.toUISize(), isTablet: true).width)
+                        UIDraw.empty()
+                    }
                 }
-                GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon") {
-                    ZStack {}
-                }
+
             }
             
         }

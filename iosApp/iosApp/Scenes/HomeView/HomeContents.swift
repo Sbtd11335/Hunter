@@ -3,6 +3,10 @@ import shared
 
 struct HomeContents: View {
     
+    init() {
+        UITabBar.appearance().unselectedItemTintColor = UIColor.gray
+    }
+    
     var body: some View {
         NavigationStack {
             TabView {

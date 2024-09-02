@@ -53,6 +53,9 @@ struct Home: View {
                             }
                             .scrollTargetBehavior(.paging)
                             .coordinateSpace(name: "TabScroll")
+                            .onChange(of: geometry.size.width) { beforeValue, _ in
+                                reader.scrollTo(tabItems[Int(tabScrollX / beforeValue)].label)
+                            }
                         }
                     }
                     .background {

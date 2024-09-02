@@ -1,4 +1,5 @@
 import SwiftUI
+import shared
 
 final class DrawSize: ObservableObject {
     @Published var width: CGFloat
@@ -11,6 +12,10 @@ final class DrawSize: ObservableObject {
     
     func toCGSize() -> CGSize {
         return CGSize(width: width, height: height)
+    }
+    
+    func toUISize() -> UISize {
+        return UISize(width: width, height: height)
     }
 }
 

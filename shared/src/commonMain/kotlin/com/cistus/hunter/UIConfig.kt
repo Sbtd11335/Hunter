@@ -24,11 +24,13 @@ class UIConfig {
     }
     class History {
         companion object {
-            fun getContentFrameSize(deviceSize: UISize): UISize {
-                return UISize(deviceSize.width * 0.9, deviceSize.width * 0.9 * 0.4)
+            fun getContentFrameSize(deviceSize: UISize, isTablet: Boolean = false): UISize {
+                val m = if (!isTablet) 1 else 2
+                return UISize(deviceSize.width * 0.9 / m, deviceSize.width * 0.9 * 0.4 / m)
             }
-            fun getContentIconFrameSize(deviceSize: UISize): UISize {
-                return UISize(deviceSize.width * 0.9 * 0.4 - 10, deviceSize.width * 0.9 * 0.4 - 10)
+            fun getContentIconFrameSize(deviceSize: UISize, isTablet: Boolean = false): UISize {
+                val m = if (!isTablet) 1 else 2
+                return UISize(deviceSize.width * 0.9 * 0.4 / m - 10, deviceSize.width * 0.9 * 0.4 / m - 10)
             }
         }
     }

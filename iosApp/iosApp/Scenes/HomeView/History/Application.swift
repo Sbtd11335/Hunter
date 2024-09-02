@@ -13,18 +13,26 @@ final class Application: UIDraw.TabItem {
     
     private struct Draw: View {
         @ObservedObject private var drawSize: DrawSize
-
+        @Environment(\.verticalSizeClass) var verticalSizeClass
+        @Environment(\.horizontalSizeClass) var horizontalSizeClass
+        
         init(_ drawSize: DrawSize) {
             self.drawSize = drawSize
         }
+        
+        private func isTablet() -> Bool { verticalSizeClass == .regular && horizontalSizeClass == .regular}
         
         var body: some View {
             VStack(spacing: 10) {
                 UIDraw.text("応募履歴", font: .largeTitle, style: "Bold")
                     .padding(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon") {
-                    ZStack {}
+                HStack(spacing: 10) {
+                    GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon", isTablet()) {
+                        ZStack {}
+                    }
+                    .padding(.trailing, UIConfig.History.companion.getContentFrameSize(deviceSize: drawSize.toUISize(), isTablet: true).width)
+                    UIDraw.empty()
                 }
             }
             

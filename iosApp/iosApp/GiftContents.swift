@@ -46,10 +46,10 @@ final class GiftContents {
             }
         })
     }
-    static func history(_ width: CGFloat, _ height: CGFloat, _ image: String, _ navigateTo: () -> some View) -> some View {
+    static func history(_ width: CGFloat, _ height: CGFloat, _ image: String, _ isTablet: Bool = false, _ navigateTo: () -> some View) -> some View {
         let screenSize = UISize(width: width, height: height)
-        let frameSize = UIConfig.History.companion.getContentFrameSize(deviceSize: screenSize)
-        let imageSize = UIConfig.History.companion.getContentIconFrameSize(deviceSize: frameSize)
+        let frameSize = UIConfig.History.companion.getContentFrameSize(deviceSize: screenSize, isTablet: isTablet)
+        let imageSize = UIConfig.History.companion.getContentIconFrameSize(deviceSize: frameSize, isTablet: isTablet)
         return NavigationLink(destination: {
             navigateTo()
         }, label: {
