@@ -59,7 +59,7 @@ final class GiftContents {
                         .resizable()
                         .scaledToFit()
                         .clipShape(RoundedRectangle(cornerRadius: 15))
-                    VStack(alignment: .leading, spacing: 5){
+                    VStack(alignment: .leading, spacing: 5) {
                         UIDraw.text("ダミー", color: .black, style: "Bold")
                         UIDraw.text("ダミーテキスト", color: .black)
                         Spacer()

@@ -12,20 +12,38 @@ final class Expensive: UIDraw.TabItem {
     }
     
     private struct Draw: View {
-        @ObservedObject var drawSize: DrawSize
-        
+        @ObservedObject private var drawSize: DrawSize
+        @Environment(\.verticalSizeClass) private var verticalSizeClass
+        @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
         init(_ drawSize: DrawSize) {
             self.drawSize = drawSize
         }
+        
+        private func isTablet() -> Bool { verticalSizeClass == .regular && horizontalSizeClass == .regular }
         
         var body: some View {
             VStack(spacing: 10) {
                 UIDraw.text("高額", color: .black, font: .largeTitle , style: "Bold")
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading)
-                GiftContents.attention(drawSize.width, drawSize.height, "dummygift_attention") {
-                    ZStack {}
+                if (!isTablet()) {
+                    GiftContents.attention(drawSize.width, drawSize.height, "dummygift_attention", isTablet()) {
+                        ZStack {}
+                    }
                 }
+                else {
+                    HStack(spacing: 10) {
+                        GiftContents.attention(drawSize.width, drawSize.height, "dummygift_attention", isTablet()) {
+                            ZStack {}
+                        }
+                        UIDraw.empty()
+                            .padding(.leading, UIConfig.Home.companion.getAttentionFrameSize(deviceSize: drawSize.toUISize(), isTablet: isTablet()).width)
+                        UIDraw.empty()
+                            .padding(.leading, UIConfig.Home.companion.getAttentionFrameSize(deviceSize: drawSize.toUISize(), isTablet: isTablet()).width)
+                    }
+                }
+
             }
         }
     }

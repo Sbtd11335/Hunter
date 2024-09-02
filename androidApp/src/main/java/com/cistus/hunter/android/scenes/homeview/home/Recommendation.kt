@@ -25,14 +25,29 @@ class Recommendation(private val screenSize: MutableState<UISize>, private val i
                 modifier = Modifier.padding(start = 16.dp)) {
                 UIDraw.DrawText("新着", fontSize = 32f, color = Color.Black, style = "Bold")
             }
-            GiftContents.DrawAttention(width = screenSize.value.width, height = screenSize.value.width,
-                image = R.drawable.dummygift_attention, isTablet) {
+            if (!isTablet) {
+                GiftContents.DrawAttention(width = screenSize.value.width, height = screenSize.value.width,
+                    image = R.drawable.dummygift_attention, isTablet) {
+                }
+                GiftContents.DrawAttention(width = screenSize.value.width, height = screenSize.value.width,
+                    image = R.drawable.dummygift_attention, isTablet) {
+                }
+                GiftContents.DrawAttention(width = screenSize.value.width, height = screenSize.value.width,
+                    image = R.drawable.dummygift_attention, isTablet) {
+                }
             }
-            GiftContents.DrawAttention(width = screenSize.value.width, height = screenSize.value.width,
-                image = R.drawable.dummygift_attention, isTablet) {
-            }
-            GiftContents.DrawAttention(width = screenSize.value.width, height = screenSize.value.width,
-                image = R.drawable.dummygift_attention, isTablet) {
+            else {
+                UIDraw.CenterRow(spacing = 10.dp, fillStyle = UIDraw.FILLSTYLE_MAXWIDTH) {
+                    GiftContents.DrawAttention(width = screenSize.value.width, height = screenSize.value.width,
+                        image = R.drawable.dummygift_attention, isTablet) {
+                    }
+                    GiftContents.DrawAttention(width = screenSize.value.width, height = screenSize.value.width,
+                        image = R.drawable.dummygift_attention, isTablet) {
+                    }
+                    GiftContents.DrawAttention(width = screenSize.value.width, height = screenSize.value.width,
+                        image = R.drawable.dummygift_attention, isTablet) {
+                    }
+                }
             }
         }
     }

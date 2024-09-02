@@ -51,8 +51,8 @@ final class Browsing: UIDraw.TabItem {
                         GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon", isTablet()) {
                             ZStack {}
                         }
-                        .padding(.trailing, UIConfig.History.companion.getContentFrameSize(deviceSize: drawSize.toUISize(), isTablet: true).width)
                         UIDraw.empty()
+                            .padding(.leading, UIConfig.History.companion.getContentFrameSize(deviceSize: drawSize.toUISize(), isTablet: true).width)
                     }
                 }
 
