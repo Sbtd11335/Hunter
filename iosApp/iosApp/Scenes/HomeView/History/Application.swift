@@ -27,12 +27,19 @@ final class Application: UIDraw.TabItem {
                 UIDraw.text("応募履歴", font: .largeTitle, style: "Bold")
                     .padding(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                HStack(spacing: 10) {
-                    GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon", isTablet()) {
+                if (!isTablet()) {
+                    GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon") {
                         ZStack {}
                     }
-                    .padding(.trailing, UIConfig.History.companion.getContentFrameSize(deviceSize: drawSize.toUISize(), isTablet: true).width)
-                    UIDraw.empty()
+                }
+                else {
+                    HStack(spacing: 10) {
+                        GiftContents.history(drawSize.width, drawSize.height, "dummygift_icon", isTablet()) {
+                            ZStack {}
+                        }
+                        .padding(.trailing, UIConfig.History.companion.getContentFrameSize(deviceSize: drawSize.toUISize(), isTablet: true).width)
+                        UIDraw.empty()
+                    }
                 }
             }
             
