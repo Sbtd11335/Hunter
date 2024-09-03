@@ -75,7 +75,10 @@ final class UIDraw {
         }
     }
     
-    static func empty() -> some View { Text("").opacity(0) }
+    static func empty() -> some View { Text("").frame(width: 1, height: 1).opacity(0) }
+    static func withId(_ id: String? = nil, content: () -> some View) -> AnyView {
+        return id == nil ? AnyView(content()) : AnyView(content().id(id!))
+    }
     static func text(_ text: String, table: String? = nil, color: Color = .primary, font: Font? = nil,
                      style: String = "Default", emptyDraw: Bool = true, onTapped: (() -> Void)? = nil) -> AnyView {
         if (!emptyDraw && text.isEmpty) {
@@ -152,10 +155,14 @@ final class UIDraw {
         return onTapped == nil ? ret : AnyView(ret.onTapGesture{ onTapped!() })
     }
     static func textField(_ text: Binding<String>, _ size: CGSize = CGSize(width: 200, height: 40),
-                          _ focus: FocusState<Bool>.Binding? = nil, radius: CGFloat = 15,label: String = "",
+                          _ focus: FocusState<Bool>.Binding? = nil, radius: CGFloat = 15, label: String = "",
                           backgroundColor: Color = .white, foregroundColor: Color = .black, labelColor: Color = .gray,
-                          textPadding: CGFloat = 10) -> some View {
-        var drawContent = AnyView(TextField(text: text, label: {  UIDraw.text(label, color: labelColor) })
+                          textPadding: CGFloat = 10, axis: Axis? = nil) -> some View {
+        let textField = axis == nil ?
+        TextField(text: text, label: {  UIDraw.text(label, color: labelColor) }) :
+        TextField(text: text, axis: axis!, label: {  UIDraw.text(label, color: labelColor) })
+        
+        var drawContent = AnyView(textField
             .foregroundStyle(foregroundColor)
             .padding(textPadding))
         if (focus != nil) {
