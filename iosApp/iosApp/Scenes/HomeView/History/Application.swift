@@ -24,7 +24,7 @@ final class Application: UIDraw.TabItem {
         
         var body: some View {
             VStack(spacing: 10) {
-                UIDraw.text("応募履歴", font: .largeTitle, style: "Bold")
+                UIDraw.text("応募履歴", color: .black, font: .largeTitle, style: "Bold")
                     .padding(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 if (!isTablet()) {

@@ -16,6 +16,9 @@ struct HomeContents: View {
                 History().tabItem {
                     Label("履歴", systemImage: "book")
                 }
+                Message().tabItem {
+                    Label("チャット", systemImage: "message")
+                }
             }
             .tint(.themeColor)
             .toolbar {
