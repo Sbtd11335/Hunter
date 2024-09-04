@@ -11,13 +11,13 @@ struct HomeContents: View {
         NavigationStack {
             TabView {
                 Home().tabItem {
-                    Label("ホーム", systemImage: "house")
+                    Label("ホーム", systemImage: "house.fill")
                 }
                 History().tabItem {
-                    Label("履歴", systemImage: "book")
+                    Label("履歴", systemImage: "book.fill")
                 }
                 Message().tabItem {
-                    Label("チャット", systemImage: "message")
+                    Label("チャット", systemImage: "message.fill")
                 }
             }
             .tint(.themeColor)

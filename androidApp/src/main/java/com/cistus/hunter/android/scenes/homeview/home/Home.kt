@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.cistus.hunter.UIConfig
 import com.cistus.hunter.UISize
 import com.cistus.hunter.android.R
 import com.cistus.hunter.android.TabItem
@@ -49,7 +50,8 @@ class Home(private val screenSize: MutableState<UISize>, isTablet: Boolean): Tab
 
         UIDraw.CustomColumn(style = "Top") {
             Image(painterResource(R.drawable.textlogo), "",
-                modifier = Modifier.height(80.dp).padding(vertical = 20.dp))
+                modifier = Modifier.height((UIConfig.textlogoHeight + UIConfig.textlogoPadding).dp)
+                    .padding(vertical = UIConfig.textlogoPadding.dp))
             Box(modifier = Modifier.fillMaxWidth().height(60.dp)) {
                 CompositionLocalProvider(LocalRippleTheme provides UIDraw.NoRipple()) {
                     UIDraw.CustomRow(style = "TopStart") {

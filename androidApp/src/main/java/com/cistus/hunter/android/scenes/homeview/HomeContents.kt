@@ -46,6 +46,7 @@ class HomeContents(private val isTablet: Boolean): Scene {
         if (tabItems.isEmpty()) {
             tabItems.add(Home(screenSize, isTablet))
             tabItems.add(History(screenSize, isTablet))
+            tabItems.add(Message(screenSize))
         }
 
         UIDraw.DrawBackGround()

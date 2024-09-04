@@ -45,13 +45,13 @@ struct Message: View {
         }
     }
     
-    private func drawMessage(_ text: String, _ messageFrameMaxWidth: CGFloat,
+    private func drawMessage(_ message: String, _ messageFrameMaxWidth: CGFloat,
                              _ fromUser: Bool = false) -> some View {
         let backColor = !fromUser ? Color.white : .themeColor
         let foreColor = !fromUser ? Color.black : .white
         let alignment = !fromUser ? Alignment.leading : .trailing
         let edge = !fromUser ? Edge.Set.leading : .trailing
-        return UIDraw.text(text, color: foreColor)
+        return UIDraw.text(message, color: foreColor)
             .padding(10)
             .background {
                 RoundedRectangle(cornerRadius: 15)
