@@ -1,6 +1,10 @@
 package com.cistus.hunter
 
 class UIConfig {
+    companion object {
+        val textlogoHeight: Double = 60.0
+        val textlogoPadding: Double = 20.0
+    }
     class Login {
         companion object {
             val rcFrameSize = UISize(Screen.smallerSize * 0.9, 40.0)
