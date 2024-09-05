@@ -3,6 +3,23 @@ import SwiftUI
 import shared
 
 final class UIDraw {
+    struct ListItem {
+        let text: String
+        let textColor: Color
+        let content: String?
+        let navigateTo: (() -> AnyView)?
+        let onTapped: (() -> Void)?
+        
+        init(_ text: String, textColor: Color? = nil, content: String? = nil, 
+             onTapped: (() -> Void)? = nil, navigateTo: (() -> any View)? = nil) {
+            self.text = text
+            self.textColor = textColor ?? .black
+            self.content = content
+            self.navigateTo = navigateTo == nil ? nil : { AnyView(navigateTo!()) }
+            self.onTapped = onTapped
+        }
+    }
+
     struct Background: View {
         @ObservedObject private var drawSize = DrawSize()
         private let colors: [Color]
@@ -72,6 +89,82 @@ final class UIDraw {
             }
             .frame(maxHeight: .infinity, alignment: .bottom)
             .padding(.bottom, 20)
+        }
+    }
+    struct DrawList: View {
+        @State private var size = CGSizeZero
+        private let listItems: [ListItem]
+        private let header: String?
+        
+        init(_ listItems: [ListItem], header: String? = nil) {
+            self.listItems = listItems
+            self.header = header
+        }
+        
+        var body: some View {
+            VStack(spacing: 3) {
+                if (header != nil) {
+                    Text(header!)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, size.width * 0.1)
+                        .font(.system(size: 12))
+                        .foregroundStyle(.black)
+                        .multilineTextAlignment(.leading)
+                }
+                VStack(spacing: 0) {
+                    ForEach(0..<listItems.count, id: \.self) { i in
+                        VStack(spacing: 0) {
+                            let drawContent = HStack {
+                                UIDraw.text(listItems[i].text, color: listItems[i].textColor)
+                                if (listItems[i].content != nil || listItems[i].navigateTo != nil) {
+                                    Spacer()
+                                }
+                                if let content = listItems[i].content {
+                                    UIDraw.text(content, color: .gray)
+                                        .multilineTextAlignment(.leading)
+                                }
+                                if (listItems[i].navigateTo != nil) {
+                                    Image(systemName: "chevron.right")
+                                        .foregroundStyle(.gray)
+                                }
+                            }
+                                .frame(width: size.width * 0.8)
+                                .padding(10)
+                            if let navigateTo = listItems[i].navigateTo {
+                                NavigationLink(destination: { navigateTo() }) {
+                                    drawContent
+                                }
+                            }
+                            else {
+                                drawContent
+                            }
+                            if (i != listItems.count - 1) {
+                                Divider()
+                                    .frame(width: size.width * 0.8)
+                            }
+                        }
+                        .background {
+                            if let onTapped = listItems[i].onTapped {
+                                Color.transparent.onTapGesture {
+                                    onTapped()
+                                }
+                            }
+                        }
+                    }
+                }
+                .background {
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundStyle(.white)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background {
+                GeometryReader { geometry in
+                    Color.clear.onChange(of: geometry.size, initial: true) {
+                        size = geometry.size
+                    }
+                }
+            }
         }
     }
     
