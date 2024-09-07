@@ -14,11 +14,6 @@ struct Login: View {
     @State private var createAccontView = false
     @State private var statusText = ""
     @FocusState private var textFieldFocus: Bool
-    @ObservedObject private var shareDatas: ShareDatas
-    
-    init(_ shareDatas: ShareDatas) {
-        self.shareDatas = shareDatas
-    }
 
     var body: some View {
         UIDraw.Background(ignoresSafeArea: true, content: { size in
@@ -27,7 +22,6 @@ struct Login: View {
                     UIDraw.image("textlogo", scale: 0.5, bigger: false)
                     UIDraw.text("アカウントにログイン", color: .black)
                     UIDraw.text(statusText, color: .red, emptyDraw: false)
-                        .multilineTextAlignment(.center)
                     UIDraw.textField($emailAddress, rcFrameSize, $textFieldFocus, label: "メールアドレス")
                     UIDraw.secureField($password, $hidePassword, rcFrameSize, $textFieldFocus, label: "パスワード")
                     UIDraw.rcFrame(rcFrameSize, color: .themeColor, onTapped: { login() }) {
@@ -42,7 +36,6 @@ struct Login: View {
                         createAccontView = true
                     }
                 }
-                .frame(maxWidth: rcFrameSize.width)
                 UIDraw.Version()
             }
             .fullScreenCover(isPresented: $forgotPasswordView,
@@ -54,18 +47,9 @@ struct Login: View {
     
     private func login() {
         textFieldFocus = false
-        statusText = "情報を確認しています..."
-        FirebaseAuth.signIn(emailAddress, password) { result in
-            if let result = result {
-                statusText = result
-                return
-            }
-            shareDatas.sceneID = .Home
-        }
-        
     }
 }
 
 #Preview {
-    Login(ShareDatas())
+    Login()
 }
