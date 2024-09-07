@@ -73,8 +73,8 @@ struct CreateAccount: View {
     }
     
     private func request() {
-        textFieldFocus = false
         let auth = FirebaseAuth()
+        textFieldFocus = false
         statusText = "情報を確認しています..."
         guard !emailAddress.isEmpty else {
             statusText = "メールアドレスを入力してください。"
