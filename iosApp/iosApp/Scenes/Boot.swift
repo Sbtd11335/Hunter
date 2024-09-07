@@ -8,6 +8,11 @@ struct Boot: View {
     private let textlogoMax = Screen.companion.smallerSize * 0.5
     @State var logoAnimationStart = false
     @State var loadStart = false
+    @ObservedObject private var shareDatas: ShareDatas
+    
+    init(_ shareDatas: ShareDatas) {
+        self.shareDatas = shareDatas
+    }
     
     var body: some View {
         UIDraw.Background(ignoresSafeArea: true) { size in
@@ -35,12 +40,28 @@ struct Boot: View {
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                 loadStart = true
+                login()
             }
         }
+    }
+    
+    private func login() {
+        let auth = FirebaseAuth()
+        if let isEmailVerified = auth.isEmailVerified() {
+            if (!isEmailVerified) {
+                shareDatas.sceneID = .Login
+                return
+            }
+            else {
+                shareDatas.sceneID = .Home
+                return
+            }
+        }
+        shareDatas.sceneID = .Login
     }
     
 }
 
 #Preview {
-    Boot()
+    Boot(ShareDatas())
 }

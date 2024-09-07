@@ -1,0 +1,11 @@
+"NetworkError" = "ネットワークエラーが発生しました。";
+"InvalidAPIKey" = "無効なAPIキーです。";
+"InvalidEmail" = "不正なメールアドレスです。";
+"UserDisabled" = "入力されたアカウントは無効になっています。";
+"WrongPassword" = "パスワードが違います。";
+"InvalidCredential" = "メールアドレスまたはパスワードが違うか、このメールアドレスは存在しません。";
+"UserNotFound" = "ユーザーが見つかりませんでした。";
+// Create
+"EmailAlreadyInUse" = "このアカウントは既に使用されています。";
+"WeakPassword" = "パスワードが弱すぎます。";
+"Etc" = "内部エラーが発生しました。\n時間をおいて再度お試しください。";

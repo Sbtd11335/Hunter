@@ -2,16 +2,16 @@ import SwiftUI
 import shared
 
 final class ShareDatas: ObservableObject {
-    @Published var sceneID: SceneID = .Home
+    @Published var sceneID: SceneID = .Boot
 }
 
 struct ContentView: View {
-    @ObservedObject private var shareData = ShareDatas()
+    @ObservedObject private var shareDatas = ShareDatas()
     
 	var body: some View {
-        switch(shareData.sceneID) {
-        case .Boot: Boot()
-        case .Login: Login()
+        switch(shareDatas.sceneID) {
+        case .Boot: Boot(shareDatas)
+        case .Login: Login(shareDatas)
         case .Home: HomeContents()
         }
 	}

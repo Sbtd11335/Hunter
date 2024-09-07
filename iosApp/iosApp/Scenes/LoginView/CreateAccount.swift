@@ -27,6 +27,8 @@ struct CreateAccount: View {
                         UIDraw.image("textlogo", scale: 0.5, bigger: false)
                         UIDraw.text("アカウントを新規作成", color: .black)
                         UIDraw.text(statusText, color: .red, emptyDraw: false)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: rcFrameSize.width)
                         UIDraw.textField($emailAddress, rcFrameSize, $textFieldFocus, label: "メールアドレス")
                         UIDraw.secureField($password1, $hidePassword, rcFrameSize, $textFieldFocus, label: "パスワード")
                         UIDraw.secureField($password2, $hidePassword, rcFrameSize, $textFieldFocus, label: "パスワード(確認用)")
@@ -72,6 +74,47 @@ struct CreateAccount: View {
     
     private func request() {
         textFieldFocus = false
+        let auth = FirebaseAuth()
+        statusText = "情報を確認しています..."
+        guard !emailAddress.isEmpty else {
+            statusText = "メールアドレスを入力してください。"
+            return
+        }
+        guard password1 == password2 else {
+            statusText = "確認パスワードが一致しません。"
+            return
+        }
+        guard isChecked else {
+            statusText = "利用規約に同意してください。"
+            return
+        }
+        auth.createAccount(emailAddress, password1) { result in
+            if let error = result {
+                switch(error) {
+                case .networkError: statusText = String(localized: "NetworkError", table: "AuthErrorCodes")
+                case .invalidAPIKey: statusText = String(localized: "InvalidAPIKey", table: "AuthErrorCodes")
+                case .invalidEmail: statusText = String(localized: "InvalidEmail", table: "AuthErrorCodes")
+                case .emailAlreadyInUse: statusText = String(localized: "EmailAlreadyInUse", table: "AuthErrorCodes")
+                case .weakPassword: statusText = String(localized: "WeakPassword", table: "AuthErrorCodes")
+                default: statusText = String(localized: "Etc", table: "AuthErrorCodes")
+                }
+            }
+            else {
+                auth.sendEmailVerification { result in
+                    if let error = result {
+                        switch(error) {
+                        case .networkError: statusText = String(localized: "NetworkError", table: "AuthErrorCodes")
+                        case .invalidAPIKey: statusText = String(localized: "InvalidAPIKey", table: "AuthErrorCodes")
+                        case .userNotFound: statusText = String(localized: "UserNotFound", table: "AuthErrorCodes")
+                        default: statusText = String(localized: "Etc", table: "AuthErrorCodes")
+                        }
+                    }
+                    else {
+                        statusText = "入力されたメールアドレス宛に確認用メールを送信しました。"
+                    }
+                }
+            }
+        }
     }
     
 }
