@@ -21,7 +21,6 @@ struct ForgotPassword: View {
                         UIDraw.image("textlogo", scale: 0.5, bigger: false)
                         UIDraw.text("パスワードを再設定", color: .black)
                         UIDraw.text(statusText, color: .red, emptyDraw: false)
-                            .multilineTextAlignment(.center)
                         UIDraw.textField($emailAddress, rcFrameSize, $textFieldFocus, label: "メールアドレス")
                         UIDraw.rcFrame(rcFrameSize, color: .themeColor, onTapped: { request() }) {
                             UIDraw.text("リクエスト", color: .white)
@@ -33,7 +32,6 @@ struct ForgotPassword: View {
                         }
                         UIDraw.text("までご連絡ください。", color: .black)
                     }
-                    .frame(maxWidth: rcFrameSize.width)
                     UIDraw.Version()
                 }
                 .toolbar {
@@ -50,19 +48,6 @@ struct ForgotPassword: View {
     
     private func request() {
         textFieldFocus = false
-        statusText = "情報を確認しています..."
-        let emailAddressCheck = EmailAddress(emailAddress: emailAddress)
-        if (!emailAddressCheck.isValid()) {
-            statusText = "不正なメールアドレスです。"
-            return
-        }
-        FirebaseAuth.sendPasswordReset(emailAddress) { result in
-            if let result = result {
-                statusText = result
-                return
-            }
-            statusText = "入力したメールアドレス宛に再設定用メールを送信しました。"
-        }
     }
     
 }

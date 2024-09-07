@@ -2,11 +2,9 @@ import SwiftUI
 import shared
 
 struct HomeContents: View {
-    @ObservedObject private var shareDatas: ShareDatas
     
-    init(_ shareDatas: ShareDatas) {
+    init() {
         UITabBar.appearance().unselectedItemTintColor = UIColor.gray
-        self.shareDatas = shareDatas
     }
     
     var body: some View {
@@ -20,9 +18,6 @@ struct HomeContents: View {
                 }
                 Message().tabItem {
                     Label("チャット", systemImage: "message.fill")
-                }
-                Setting(shareDatas).tabItem {
-                    Label("設定", systemImage: "gearshape.fill")
                 }
             }
             .tint(.themeColor)
@@ -38,5 +33,5 @@ struct HomeContents: View {
 }
 
 #Preview {
-    HomeContents(ShareDatas())
+    HomeContents()
 }
