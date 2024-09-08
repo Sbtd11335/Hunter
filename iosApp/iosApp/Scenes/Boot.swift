@@ -47,17 +47,28 @@ struct Boot: View {
     
     private func login() {
         let auth = FirebaseAuth()
-        if let isEmailVerified = auth.isEmailVerified() {
-            if (!isEmailVerified) {
+        guard let currentUser = auth.currentUser() else {
+            shareDatas.sceneID = .Login
+            return
+        }
+        auth.reload { result in
+            if (result != nil) {
                 shareDatas.sceneID = .Login
-                return
             }
             else {
-                shareDatas.sceneID = .Home
-                return
+                if let isEmailVerified = auth.isEmailVerified() {
+                    if (!isEmailVerified) {
+                        shareDatas.sceneID = .Login
+                        return
+                    }
+                    else {
+                        shareDatas.sceneID = .Home
+                        return
+                    }
+                }
+                shareDatas.sceneID = .Login
             }
         }
-        shareDatas.sceneID = .Login
     }
     
 }

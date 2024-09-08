@@ -73,13 +73,21 @@ class Boot(private val navController: NavController): Scene {
 
     private fun login() {
         val auth = FirebaseAuth()
-        auth.isEmailVerified()?.also { isEmailVerified ->
-            if (!isEmailVerified)
-                navController.navigate(SceneID.login)
-            else
-                navController.navigate(SceneID.home)
-        } ?: run {
+        if (auth.currentUser() == null)
             navController.navigate(SceneID.login)
+        auth.reload { result ->
+            if (result != null)
+                navController.navigate(SceneID.login)
+            else {
+                auth.isEmailVerified()?.also { isEmailVerified ->
+                    if (!isEmailVerified)
+                        navController.navigate(SceneID.login)
+                    else
+                        navController.navigate(SceneID.home)
+                } ?: run {
+                    navController.navigate(SceneID.login)
+                }
+            }
         }
     }
 
