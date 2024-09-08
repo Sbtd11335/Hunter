@@ -44,11 +44,11 @@ class MainActivity : ComponentActivity() {
                     val scenes = ArrayList<Scene>()
                     val navController = rememberNavController()
                     if (scenes.isEmpty()) {
-                        scenes.add(Boot())
-                        scenes.add(Login())
+                        scenes.add(Boot(navController))
+                        scenes.add(Login(navController))
                         scenes.add(HomeContents(isTablet))
                     }
-                    NavHost(navController = navController, startDestination = SceneID.home) {
+                    NavHost(navController = navController, startDestination = SceneID.boot) {
                         for (scene in scenes)
                             composable(scene.route) { scene.Draw() }
                     }

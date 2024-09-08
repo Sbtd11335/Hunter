@@ -81,7 +81,7 @@ struct CreateAccount: View {
             return
         }
         guard password1 == password2 else {
-            statusText = "確認パスワードが一致しません。"
+            statusText = "確認用パスワードが一致しません。"
             return
         }
         guard isChecked else {

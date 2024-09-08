@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="AuthErrorCodes_NetworkError">ネットワークエラーが発生しました。</string>
+    <string name="AuthErrorCodes_InvalidAPIKey">無効なAPIキーです。</string>
+    <string name="AuthErrorCodes_InvalidEmail">不正なメールアドレスです。</string>
+    <string name="AuthErrorCodes_UserDisabled">入力されたアカウントは無効になっています。</string>
+    <string name="AuthErrorCodes_WrongPassword">パスワードが違います。</string>
+    <string name="AuthErrorCodes_InvalidCredential">メールアドレスまたはパスワードが違うか、このメールアドレスは存在しません。</string>
+    <string name="AuthErrorCodes_UserNotFound">ユーザーが見つかりませんでした。</string>
+    <!-- Create !-->
+    <string name="AuthErrorCodes_EmailAlreadyInUse">このアカウントは既に使用されています。</string>
+    <string name="AuthErrorCodes_WeakPassword">パスワードが弱すぎます。</string>
+    <string name="AuthErrorCodes_Etc">内部エラーが発生しました。\n時間をおいて再度お試しください。</string>
+
+</resources>
