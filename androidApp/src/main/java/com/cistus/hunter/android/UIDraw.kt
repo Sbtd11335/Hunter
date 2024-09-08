@@ -49,6 +49,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.TextUnit
@@ -374,7 +375,7 @@ class UIDraw {
             }
         }
         @Composable
-        fun DrawText(text: String, color: Color = Color.Primary, fontSize: Float = 17f,
+        fun DrawText(text: String, color: Color = Color.Primary, fontSize: Float = 17f, textAlign: TextAlign? = null,
                      fontFamily: FontFamily = FontFamily.Default, style: String = "Default", emptyDraw: Boolean = true,
                      @SuppressLint("ModifierParameter") modifier: Modifier = Modifier, onTapped: (() -> Unit)? = null) {
             if (!emptyDraw && text.isEmpty())
@@ -402,7 +403,7 @@ class UIDraw {
             }
             if (onTapped != null)
                 tap = Modifier.clickable { onTapped() }
-            Text(text, color = color, fontWeight = fontWeight, fontFamily = fontFamily,
+            Text(text, color = color, fontWeight = fontWeight, fontFamily = fontFamily, textAlign = textAlign,
                 fontStyle = fontStyle, fontSize = TextUnit(toSp(fontSize.dp).value, TextUnitType.Sp),
                 modifier = modifier.then(tap))
         }

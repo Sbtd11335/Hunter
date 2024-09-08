@@ -1,5 +1,6 @@
 [versions]
 agp = "8.5.1"
+firebaseBom = "33.2.0"
 kotlin = "2.0.0"
 compose = "1.5.4"
 compose-material3 = "1.1.2"
@@ -10,6 +11,9 @@ uiUnitAndroid = "1.6.8"
 runtimeAndroid = "1.6.8"
 
 [libraries]
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 kotlin-compose-compiler-plugin = { module = "org.jetbrains.kotlin:kotlin-compose-compiler-plugin", version.ref = "kotlin" }
 kotlin-compose-compiler-plugin-embeddable = { module = "org.jetbrains.kotlin:kotlin-compose-compiler-plugin-embeddable", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }

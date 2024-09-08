@@ -15,15 +15,17 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.navigation.NavController
 import com.cistus.hunter.DeviceTime
 import com.cistus.hunter.Screen
 import com.cistus.hunter.android.R
 import com.cistus.hunter.android.SceneID
 import com.cistus.hunter.android.UIDraw
+import com.cistus.hunter.android.firebase.FirebaseAuth
 import kotlinx.coroutines.delay
 import kotlin.math.pow
 
-class Boot: Scene {
+class Boot(private val navController: NavController): Scene {
     override val route = SceneID.boot
 
     private class TextLogoShape(private val dx: Float): Shape {
@@ -60,11 +62,25 @@ class Boot: Scene {
         LaunchedEffect(Unit) {
             delay(400)
             val start = DeviceTime.nanoTime()
-            while(textlogoDx.floatValue < 1f) {
+            while(DeviceTime.nanoTime() - start < 1.0) {
                 textlogoDx.floatValue = 1f - (1f - (DeviceTime.nanoTime() - start)).pow(4).toFloat()
-                delay(10)
+                delay(1)
             }
             textlogoDx.floatValue = 1f
+            login()
         }
     }
+
+    private fun login() {
+        val auth = FirebaseAuth()
+        auth.isEmailVerified()?.also { isEmailVerified ->
+            if (!isEmailVerified)
+                navController.navigate(SceneID.login)
+            else
+                navController.navigate(SceneID.home)
+        } ?: run {
+            navController.navigate(SceneID.login)
+        }
+    }
+
 }
