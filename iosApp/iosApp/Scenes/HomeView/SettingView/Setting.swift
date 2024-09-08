@@ -42,15 +42,17 @@ struct Setting: View {
             }))
         }
         .confirmationDialog("サインアウトしますか?", isPresented: $showSignOutConfirm, titleVisibility: .visible,
-                            actions: {
-            Button("サインアウト", role: .destructive) {
-                auth.signOut()
-                shareDatas.sceneID = .Boot
-            }
+                            actions: { Button("サインアウト", role: .destructive) { signOut() }
         }, message: {
             Text("一部のデータが失われる可能性があります。")
         })
     }
+    
+    private func signOut() {
+        auth.signOut()
+        shareDatas.sceneID = .Boot
+    }
+    
 }
 
 #Preview {

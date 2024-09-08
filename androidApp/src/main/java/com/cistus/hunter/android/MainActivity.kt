@@ -1,5 +1,6 @@
 package com.cistus.hunter.android
 
+import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
         if (resources.configuration.screenLayout and
             Configuration.SCREENLAYOUT_SIZE_MASK < Configuration.SCREENLAYOUT_SIZE_LARGE) {
             isTablet = false
-            requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
         else
             isTablet = true
@@ -46,7 +47,7 @@ class MainActivity : ComponentActivity() {
                     if (scenes.isEmpty()) {
                         scenes.add(Boot(navController))
                         scenes.add(Login(navController))
-                        scenes.add(HomeContents(isTablet))
+                        scenes.add(HomeContents(navController, isTablet))
                     }
                     NavHost(navController = navController, startDestination = SceneID.boot) {
                         for (scene in scenes)
