@@ -14,16 +14,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -40,6 +45,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -59,6 +65,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.cistus.hunter.BuildConfig
 import com.cistus.hunter.Screen
+import com.cistus.hunter.UISize
 
 class UIDraw {
 
@@ -67,6 +74,82 @@ class UIDraw {
         override fun defaultColor(): Color = Color.Transparent
         @Composable
         override fun rippleAlpha(): RippleAlpha = RippleAlpha(0f, 0f, 0f, 0f)
+    }
+    data class ListItem(val text: String, val content: String? = null, val textColor: Color = Color.Black,
+                        val navigateTo: @Composable ((Float) -> Unit)? = null, val onTapped: (() -> Unit)? = null)
+
+    class DrawList(private val screenSize: MutableState<UISize>, private val listItems: List<ListItem>,
+                   private val header: String? = null) {
+        @Composable
+        fun Draw() {
+            CenterColumn(fillStyle = FILLSTYLE_MAXWIDTH) {
+                header?.let { header ->
+                    CustomColumn(style = "CenterStart", fillStyle = FILLSTYLE_NONE,
+                        modifier = Modifier.width((screenSize.value.width * 0.85).dp)) {
+                        DrawText(header, color = Color.Black, fontSize = 12f)
+                    }
+                }
+                CompositionLocalProvider(LocalRippleTheme provides NoRipple()) {
+                    CenterColumn(fillStyle = FILLSTYLE_NONE,
+                        modifier = Modifier.width((screenSize.value.width * 0.9).dp)
+                        .background(color = Color.White, shape = RoundedCornerShape(15.dp))) {
+                        for (i in listItems.indices) {
+                            val style = if (listItems[i].content == null && listItems[i].navigateTo == null)
+                                "Center"
+                            else
+                                "CenterStart"
+                            var contentWidth by remember { mutableStateOf(0.dp) }
+                            val localDensity = LocalDensity.current
+                            val minusWidth = if (listItems[i].navigateTo == null) 0.dp else 20.dp
+                            val showDialog = rememberSaveable { mutableStateOf(false) }
+                            var tap: Modifier = Modifier
+                            listItems[i].navigateTo?.let {
+                                tap = tap.clickable { showDialog.value = true }
+                            }
+                            listItems[i].onTapped?.let {
+                                tap = tap.clickable { it() }
+                            }
+                            Box(modifier = Modifier.then(tap).padding(10.dp)) {
+                                CustomRow(style = style, modifier = Modifier.align(Alignment.Center)) {
+                                    DrawText(listItems[i].text, color = listItems[i].textColor,
+                                        modifier = Modifier.onGloballyPositioned {
+                                            with(localDensity) {
+                                                contentWidth = (screenSize.value.width * 0.85).dp - it.size.width.toDp() - 20.dp
+                                            }
+                                        })
+                                }
+                                CustomRow(style = "CenterEnd", modifier = Modifier.align(Alignment.Center)) {
+                                    Box(modifier = Modifier.widthIn(max = contentWidth)) {
+                                        CustomRow(style = "CenterEnd", spacing = 10.dp) {
+                                            listItems[i].content?.let { content ->
+                                                DrawText(content, color = Color.Gray,
+                                                    modifier = Modifier.widthIn(max = contentWidth - minusWidth))
+                                            }
+                                            if (listItems[i].navigateTo != null) {
+                                                Image(painterResource(R.drawable.chevron_right), "",
+                                                    modifier = Modifier.width(10.dp), colorFilter = ColorFilter.tint(Color.Gray))
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            CenterColumn(fillStyle = FILLSTYLE_MAXWIDTH) {
+                                if (i != listItems.size - 1)
+                                    Divider(modifier = Modifier.width((screenSize.value.width * 0.85).dp),
+                                        color = Color.Gray)
+                            }
+                            if (showDialog.value) {
+                                listItems[i].navigateTo?.let {
+                                    DrawDialog(showDialog, closeText = "Back", fullScreen = true) { size ->
+                                        it(size)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     companion object {
@@ -311,7 +394,7 @@ class UIDraw {
                     content()
                 else
                     Row(verticalAlignment = verticalAlignment,
-                        horizontalArrangement = horizontalArrangement) {
+                        horizontalArrangement = Arrangement.spacedBy(spacing)) {
                         content()
                     }
             }
@@ -338,6 +421,36 @@ class UIDraw {
                                 }
                             }
                     }
+                }
+        }
+        @Composable
+        fun DrawAlertDialog(showDialog: MutableState<Boolean>?, title: String, message: String? = null, confirmText: String,
+                            dismissText: String? = null, confirmTextColor: Color = Color.Black,
+                            dismissTextColor: Color = Color.Black, confirm: () -> Unit, dismiss: (() -> Unit)? = null) {
+            val drawDialog = showDialog ?: rememberSaveable { mutableStateOf(true) }
+            if (drawDialog.value)
+                dismissText?.also {
+                    AlertDialog(onDismissRequest = { drawDialog.value = false }, containerColor = Color.White,
+                        title = { DrawText(title, style = "Bold", color = Color.Black) },
+                        text = { message?.let { DrawText(it, color = Color.Black) } },
+                        confirmButton = { DrawText(confirmText, color = confirmTextColor) {
+                            confirm()
+                            drawDialog.value = false
+                        }},
+                        dismissButton = { DrawText(dismissText, color = dismissTextColor) {
+                            dismiss?.let {
+                            it()
+                        }
+                            drawDialog.value = false
+                        }})
+                } ?: run {
+                    AlertDialog(onDismissRequest = { drawDialog.value = false }, containerColor = Color.White,
+                        title = { DrawText(title, style = "Bold", color = Color.Black) },
+                        text = { message?.let { DrawText(it, color = Color.Black) } },
+                        confirmButton = { DrawText(confirmText, color = confirmTextColor) {
+                            confirm()
+                            drawDialog.value = false
+                        }})
                 }
         }
         @Composable

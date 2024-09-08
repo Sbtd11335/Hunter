@@ -19,8 +19,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.cistus.hunter.UIConfig
 import com.cistus.hunter.UISize
 import com.cistus.hunter.android.SceneID
@@ -30,8 +30,10 @@ import com.cistus.hunter.android.UIDraw
 import com.cistus.hunter.android.scenes.Scene
 import com.cistus.hunter.android.scenes.homeview.history.History
 import com.cistus.hunter.android.scenes.homeview.home.Home
+import com.cistus.hunter.android.scenes.homeview.setting.Setting
 
-class HomeContents(private val isTablet: Boolean): Scene {
+class HomeContents(private val navController: NavController,
+                   private val isTablet: Boolean): Scene {
     override val route = SceneID.home
     private val tabItems = ArrayList<TabItem>()
 
@@ -47,6 +49,7 @@ class HomeContents(private val isTablet: Boolean): Scene {
             tabItems.add(Home(screenSize, isTablet))
             tabItems.add(History(screenSize, isTablet))
             tabItems.add(Message(screenSize))
+            tabItems.add(Setting(navController, screenSize))
         }
 
         UIDraw.DrawBackGround()
@@ -95,10 +98,4 @@ class HomeContents(private val isTablet: Boolean): Scene {
             }
         }
     }
-}
-
-@Composable
-@Preview(device = "id:pixel_8", showSystemUi = true, showBackground = true)
-fun Draw() {
-    HomeContents(false).Draw()
 }
