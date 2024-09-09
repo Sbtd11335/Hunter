@@ -11,8 +11,8 @@ struct Setting: View {
         self.shareDatas = shareDatas
         accountList.append(UIDraw.ListItem("ユーザーID", content: auth.currentUser()?.uid ?? "Unknown"))
         accountList.append(UIDraw.ListItem("メールアドレス", content: auth.currentUser()?.email ?? "Unknown",
-                                           navigateTo: { ZStack{} }))
-        accountList.append(UIDraw.ListItem("パスワード", navigateTo: { ZStack{} }))
+                                           navigateTo: { UpdateEmailAddress() }))
+        accountList.append(UIDraw.ListItem("パスワード", navigateTo: { UpdatePassword() }))
     }
     
     var body: some View {

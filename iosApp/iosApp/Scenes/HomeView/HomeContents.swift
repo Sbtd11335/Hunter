@@ -5,7 +5,12 @@ struct HomeContents: View {
     @ObservedObject private var shareDatas: ShareDatas
     
     init(_ shareDatas: ShareDatas) {
-        UITabBar.appearance().unselectedItemTintColor = UIColor.gray
+        let tabBar = UITabBarAppearance()
+        tabBar.stackedLayoutAppearance.selected.iconColor = UIColor(Color.themeColor)
+        tabBar.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(Color.themeColor)]
+        tabBar.stackedLayoutAppearance.normal.iconColor = UIColor.gray
+        tabBar.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
+        UITabBar.appearance().standardAppearance = tabBar
         self.shareDatas = shareDatas
     }
     
@@ -25,7 +30,6 @@ struct HomeContents: View {
                     Label("設定", systemImage: "gearshape.fill")
                 }
             }
-            .tint(.themeColor)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Image("textlogo")

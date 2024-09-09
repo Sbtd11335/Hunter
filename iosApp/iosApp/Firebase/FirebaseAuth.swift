@@ -14,6 +14,18 @@ final class FirebaseAuth {
             }
         }
     }
+    func reauthenticate(_ authCredential: AuthCredential, callback: @escaping (AuthErrorCode?) -> Void) {
+        currentUser()?.reauthenticate(with: authCredential) { result, error in
+            if let error = error as? NSError {
+                callback(AuthErrorCode(rawValue: error.code))
+            }
+            else {
+                self.reload { reloadResult in
+                    callback(reloadResult)
+                }
+            }
+        }
+    }
     func isEmailVerified() -> Bool? { currentUser()?.isEmailVerified }
     func createAccount(_ emailAddress: String, _ password: String, callback: @escaping (AuthErrorCode?) -> Void) {
         FirebaseAuth.auth.createUser(withEmail: emailAddress, password: password) { result, error in
