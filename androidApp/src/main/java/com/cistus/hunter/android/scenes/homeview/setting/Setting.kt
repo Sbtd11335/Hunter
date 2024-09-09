@@ -21,6 +21,8 @@ import com.cistus.hunter.android.SceneID
 import com.cistus.hunter.android.TabItem
 import com.cistus.hunter.android.UIDraw
 import com.cistus.hunter.android.firebase.FirebaseAuth
+import com.cistus.hunter.android.scenes.homeview.setting.account.UpdateEmailAddress
+import com.cistus.hunter.android.scenes.homeview.setting.account.UpdatePassword
 
 class Setting(private val navController: NavController,
               private val screenSize: MutableState<UISize>): TabItem {
@@ -38,8 +40,8 @@ class Setting(private val navController: NavController,
             // Account
             accountList.add(UIDraw.ListItem("ユーザーID", content = auth.currentUser()?.uid ?: "Unknown"))
             accountList.add(UIDraw.ListItem("メールアドレス", content = auth.currentUser()?.email ?: "Unknown",
-                navigateTo = {  }))
-            accountList.add(UIDraw.ListItem("パスワード", navigateTo = {  }))
+                navigateTo = { UpdateEmailAddress(it).Draw() }))
+            accountList.add(UIDraw.ListItem("パスワード", navigateTo = { UpdatePassword(it).Draw() }))
             // Etc
             etcList.add(UIDraw.ListItem("サインアウト", textColor = Color.Red,
                 onTapped = { showSignOutDialog.value = true }))
