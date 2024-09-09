@@ -60,16 +60,12 @@ class Message(private val screenSize: MutableState<UISize>): TabItem {
         CompositionLocalProvider(LocalRippleTheme provides UIDraw.NoRipple()) {
             UIDraw.DrawBackGround(listOf(Color.Transparent, Color.Transparent), onTapped = { textFieldFocus.clearFocus() }) {
                 UIDraw.CustomColumn(style = "Top", fillStyle = UIDraw.FILLSTYLE_MAXWIDTH) {
-                    Image(
-                        painterResource(R.drawable.textlogo), "",
+                    Image(painterResource(R.drawable.textlogo), "",
                         modifier = Modifier.height((UIConfig.textlogoHeight + UIConfig.textlogoPadding).dp)
-                            .padding(vertical = UIConfig.textlogoPadding.dp)
-                    )
+                            .padding(vertical = UIConfig.textlogoPadding.dp))
                     Box(modifier = Modifier.padding(bottom = UIDraw.toDp(currentMessageBoxSize.height) + 10.dp)) {
-                        UIDraw.CustomColumn(
-                            style = "Top", spacing = 10.dp, fillStyle = UIDraw.FILLSTYLE_NONE,
-                            modifier = Modifier.verticalScroll(scrollState)
-                        ) {
+                        UIDraw.CustomColumn(style = "Top", spacing = 10.dp, fillStyle = UIDraw.FILLSTYLE_NONE,
+                            modifier = Modifier.verticalScroll(scrollState)) {
                             for (i in 0..<100) {
                                 DrawMessage("Message", messageFrameMaxWidth)
                             }
