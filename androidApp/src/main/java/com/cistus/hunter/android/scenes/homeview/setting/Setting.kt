@@ -37,7 +37,7 @@ class Setting(private val navController: NavController,
         if (accountList.isEmpty()) {
             // Account
             accountList.add(UIDraw.ListItem("ユーザーID", content = auth.currentUser()?.uid ?: "Unknown"))
-            accountList.add(UIDraw.ListItem("アカウント", content = auth.currentUser()?.email ?: "Unknown",
+            accountList.add(UIDraw.ListItem("メールアドレス", content = auth.currentUser()?.email ?: "Unknown",
                 navigateTo = {  }))
             accountList.add(UIDraw.ListItem("パスワード", navigateTo = {  }))
             // Etc
@@ -60,8 +60,8 @@ class Setting(private val navController: NavController,
                 }
             }
         }
-        UIDraw.DrawAlertDialog(showDialog = showSignOutDialog, title = "ログアウトしますか?",
-            message = "一部のデータが失われる可能性があります。", confirmText = "ログアウト",
+        UIDraw.DrawAlertDialog(showDialog = showSignOutDialog, title = "サインアウトしますか?",
+            message = "一部のデータが失われる可能性があります。", confirmText = "サインアウト",
             confirmTextColor = Color.Red, confirm = { signOut() },
             dismissText = "キャンセル")
     }
