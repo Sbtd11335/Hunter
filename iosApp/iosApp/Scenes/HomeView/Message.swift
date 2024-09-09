@@ -36,6 +36,13 @@ struct Message: View {
                 drawMessageBox(messageBoxSize, "ここにメッセージを入力", 64) { currentMessageBoxSize in
                     self.currentMessageBoxSize = currentMessageBoxSize
                 }
+                .toolbar {
+                    ToolbarItem(placement: .keyboard) {
+                        Button("完了") {
+                            textFieldFocus = false
+                        }
+                    }
+                }
             }
             .background {
                 GeometryReader { geometry in

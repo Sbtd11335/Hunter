@@ -33,6 +33,8 @@
 		235BBA5E2C7F3109002EA66D /* SceneID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235BBA5D2C7F3109002EA66D /* SceneID.swift */; };
 		235BBA602C7F3121002EA66D /* Boot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235BBA5F2C7F3121002EA66D /* Boot.swift */; };
 		2398D97B2C7F925B00C68927 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2398D97A2C7F925B00C68927 /* Login.swift */; };
+		23A0BBC02C8EEF6400267902 /* UpdateEmailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A0BBBF2C8EEF6400267902 /* UpdateEmailAddress.swift */; };
+		23A0BBC22C8EF7D700267902 /* UpdatePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A0BBC12C8EF7D700267902 /* UpdatePassword.swift */; };
 		23C13C8F2C7E31D000A115A7 /* UIDraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C13C8E2C7E31D000A115A7 /* UIDraw.swift */; };
 		23C13C912C7E32A500A115A7 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C13C902C7E32A500A115A7 /* Color.swift */; };
 		23C13C932C7E332400A115A7 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23C13C922C7E332400A115A7 /* Colors.xcassets */; };
@@ -78,6 +80,8 @@
 		235BBA5D2C7F3109002EA66D /* SceneID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneID.swift; sourceTree = "<group>"; };
 		235BBA5F2C7F3121002EA66D /* Boot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Boot.swift; sourceTree = "<group>"; };
 		2398D97A2C7F925B00C68927 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		23A0BBBF2C8EEF6400267902 /* UpdateEmailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailAddress.swift; sourceTree = "<group>"; };
+		23A0BBC12C8EF7D700267902 /* UpdatePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePassword.swift; sourceTree = "<group>"; };
 		23C13C8E2C7E31D000A115A7 /* UIDraw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDraw.swift; sourceTree = "<group>"; };
 		23C13C902C7E32A500A115A7 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		23C13C922C7E332400A115A7 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -152,6 +156,7 @@
 		2323D1F62C8D74A000B8AD4B /* SettingView */ = {
 			isa = PBXGroup;
 			children = (
+				23A0BBBE2C8EEE8B00267902 /* Account */,
 				2323D1F72C8D755500B8AD4B /* Setting.swift */,
 			);
 			path = SettingView;
@@ -176,6 +181,15 @@
 				230FB4E72C7FA74F007684AB /* CreateAccount.swift */,
 			);
 			path = LoginView;
+			sourceTree = "<group>";
+		};
+		23A0BBBE2C8EEE8B00267902 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				23A0BBBF2C8EEF6400267902 /* UpdateEmailAddress.swift */,
+				23A0BBC12C8EF7D700267902 /* UpdatePassword.swift */,
+			);
+			path = Account;
 			sourceTree = "<group>";
 		};
 		23CC1B802C8C93F600C71E6D /* Strings */ = {
@@ -206,7 +220,6 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
-				23CC1B802C8C93F600C71E6D /* Strings */,
 				23141A032C8BFF1100AC9AFA /* Firebase */,
 				235BBA5A2C7F30EC002EA66D /* Scenes */,
 				23210E932C8162DF00A420A0 /* GiftContents.swift */,
@@ -217,6 +230,7 @@
 				23210E9C2C826CB600A420A0 /* DrawSize.swift */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
+				23CC1B802C8C93F600C71E6D /* Strings */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				23C13C922C7E332400A115A7 /* Colors.xcassets */,
 				7555FF8C242A565B00829871 /* Info.plist */,
@@ -356,8 +370,10 @@
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				23210EAC2C85CC1B00A420A0 /* Message.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				23A0BBC22C8EF7D700267902 /* UpdatePassword.swift in Sources */,
 				23210E942C8162DF00A420A0 /* GiftContents.swift in Sources */,
 				230FB4E82C7FA74F007684AB /* CreateAccount.swift in Sources */,
+				23A0BBC02C8EEF6400267902 /* UpdateEmailAddress.swift in Sources */,
 				235BBA602C7F3121002EA66D /* Boot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
