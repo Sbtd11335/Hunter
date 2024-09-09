@@ -56,23 +56,26 @@ class Message(private val screenSize: MutableState<UISize>): TabItem {
         var currentMessageBoxSize by remember { mutableStateOf(IntSize(0, 0)) }
         val scrollState = rememberScrollState()
         val localDensity = LocalDensity.current
-        UIDraw.CustomColumn(style = "Top", fillStyle = UIDraw.FILLSTYLE_MAXWIDTH) {
-            Image(painterResource(R.drawable.textlogo), "",
-                modifier = Modifier.height((UIConfig.textlogoHeight + UIConfig.textlogoPadding).dp)
-                    .padding(vertical = UIConfig.textlogoPadding.dp))
-            Box (modifier = Modifier.padding(bottom = UIDraw.toDp(currentMessageBoxSize.height) + 10.dp)){
-                UIDraw.CustomColumn(style = "Top", spacing = 10.dp, fillStyle = UIDraw.FILLSTYLE_NONE,
-                    modifier = Modifier.verticalScroll(scrollState)) {
-                    for (i in 0..<100) {
-                        DrawMessage("Message", messageFrameMaxWidth)
+        val textFieldFocus = LocalFocusManager.current
+        CompositionLocalProvider(LocalRippleTheme provides UIDraw.NoRipple()) {
+            UIDraw.DrawBackGround(listOf(Color.Transparent, Color.Transparent), onTapped = { textFieldFocus.clearFocus() }) {
+                UIDraw.CustomColumn(style = "Top", fillStyle = UIDraw.FILLSTYLE_MAXWIDTH) {
+                    Image(painterResource(R.drawable.textlogo), "",
+                        modifier = Modifier.height((UIConfig.textlogoHeight + UIConfig.textlogoPadding).dp)
+                            .padding(vertical = UIConfig.textlogoPadding.dp))
+                    Box(modifier = Modifier.padding(bottom = UIDraw.toDp(currentMessageBoxSize.height) + 10.dp)) {
+                        UIDraw.CustomColumn(style = "Top", spacing = 10.dp, fillStyle = UIDraw.FILLSTYLE_NONE,
+                            modifier = Modifier.verticalScroll(scrollState)) {
+                            for (i in 0..<100) {
+                                DrawMessage("Message", messageFrameMaxWidth)
+                            }
+                        }
                     }
                 }
-            }
-        }
-        UIDraw.CustomColumn(style = "Bottom") {
-            CompositionLocalProvider(LocalRippleTheme provides UIDraw.NoRipple()) {
-                DrawMessageBox(messageBoxSize, "ここにメッセージを入力", 64) {
-                    currentMessageBoxSize = it
+                UIDraw.CustomColumn(style = "Bottom") {
+                    DrawMessageBox(messageBoxSize, "ここにメッセージを入力", 64) {
+                        currentMessageBoxSize = it
+                    }
                 }
             }
         }

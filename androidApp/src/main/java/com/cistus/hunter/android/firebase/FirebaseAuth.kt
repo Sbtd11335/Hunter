@@ -1,5 +1,6 @@
 package com.cistus.hunter.android.firebase
 
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -21,6 +22,18 @@ class FirebaseAuth {
                 else
                     callback(it.localizedMessage)
             }
+    }
+    fun reAuthenticate(authCredential: AuthCredential, callback: (String?) -> Unit) {
+        currentUser()?.let { currentUser ->
+            currentUser.reauthenticate(authCredential)
+                .addOnSuccessListener { callback(null) }
+                .addOnFailureListener {
+                    if (it is FirebaseAuthException)
+                        callback(it.errorCode)
+                    else
+                        callback(it.localizedMessage)
+                }
+        }
     }
     fun isEmailVerified(): Boolean? = currentUser()?.isEmailVerified
     fun createAccount(emailAddress: String, password: String, callback: (String?) -> Unit) {

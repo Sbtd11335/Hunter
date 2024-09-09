@@ -127,7 +127,7 @@
 				23210E9E2C841C5D00A420A0 /* Home */,
 				23210EA12C84D88700A420A0 /* History */,
 				23210EAB2C85CC1B00A420A0 /* Message.swift */,
-				2323D1F62C8D74A000B8AD4B /* SettingView */,
+				2323D1F62C8D74A000B8AD4B /* Setting */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -153,13 +153,13 @@
 			path = History;
 			sourceTree = "<group>";
 		};
-		2323D1F62C8D74A000B8AD4B /* SettingView */ = {
+		2323D1F62C8D74A000B8AD4B /* Setting */ = {
 			isa = PBXGroup;
 			children = (
 				23A0BBBE2C8EEE8B00267902 /* Account */,
 				2323D1F72C8D755500B8AD4B /* Setting.swift */,
 			);
-			path = SettingView;
+			path = Setting;
 			sourceTree = "<group>";
 		};
 		235BBA5A2C7F30EC002EA66D /* Scenes */ = {
