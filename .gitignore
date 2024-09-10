@@ -13,4 +13,11 @@ xcuserdata
 Vector
 GiftContents
 .kotlin
-
+Key
+Database
+DatabaseConfig.kt
+DatabaseConfig.ios.kt
+DatabaseConfig.android.kt
+StorageConfig.kt   
+StorageConfig.ios.kt
+StorageConfig.android.kt
