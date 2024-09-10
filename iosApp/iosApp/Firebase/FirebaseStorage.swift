@@ -7,7 +7,7 @@ class FirebaseStorage {
     
     func getData(_ child: String, _ maxSize: Int64 = 1024 * 1024, callback: @escaping (Data?) -> Void) {
         FirebaseStorage.reference.child(child).getData(maxSize: maxSize) { result, error in
-            if let error = error {
+            if error != nil {
                 callback(nil)
             }
             else {

@@ -14,7 +14,9 @@ Vector
 GiftContents
 .kotlin
 Key
-Database
+Data1
+Data2
+Data3
 DatabaseConfig.kt
 DatabaseConfig.ios.kt
 DatabaseConfig.android.kt

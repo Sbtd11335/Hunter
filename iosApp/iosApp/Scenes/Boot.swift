@@ -41,7 +41,7 @@ struct Boot: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                 loadStart = true
                 login()
-                // loadEtc()
+                loadEtc()
             }
         }
     }
@@ -72,15 +72,14 @@ struct Boot: View {
         }
     }
     private func loadEtc() {
-        let database = FirebaseDatabase()
-        let storage = FirebaseStorage()
-        let data1 = FirebaseDatabase.Data1(database)
-        let data1S = FirebaseStorage.Data1(storage)
-        data1.updateData1 { result in
-            data1S.getData1(update: result) { data in
+        let data1Database = FirebaseDatabase.Data1()
+        let data1Storage = FirebaseStorage.Data1()
+        data1Database.getData1 { result in
+            data1Storage.getData1(update: result) { data in
                 print(data)
             }
         }
+        
     }
 }
 

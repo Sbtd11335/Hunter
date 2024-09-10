@@ -6,7 +6,7 @@ final class FirebaseDatabase {
     
     func getData(_ child: String, callback: @escaping (Any?) -> Void) {
         FirebaseDatabase.reference.child(child).getData { error, result in
-            if let error = error {
+            if error != nil {
                 callback(nil)
             }
             else {
