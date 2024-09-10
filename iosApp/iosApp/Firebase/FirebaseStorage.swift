@@ -9,16 +9,13 @@ class FirebaseStorage {
         FirebaseStorage.reference.child(child).getData(maxSize: maxSize) { result, error in
             if let error = error {
                 callback(nil)
-                print(error)
             }
             else {
                 if let result = result {
                     callback(result)
-                    print(result)
                 }
                 else {
                     callback(nil)
-                    print("NotFound")
                 }
             }
         }

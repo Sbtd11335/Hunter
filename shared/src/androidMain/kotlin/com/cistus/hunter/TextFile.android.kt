@@ -15,7 +15,7 @@ actual class TextFile(private val path: String) {
         try {
             val fileReader = FileReader(file)
             val bufferedReader = BufferedReader(fileReader)
-            return if (!isExists()) null else bufferedReader.readLine()
+            return bufferedReader.readLine()
         }
         catch (e: Exception) {
             return null
