@@ -41,13 +41,14 @@ struct Boot: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                 loadStart = true
                 login()
+                // loadEtc()
             }
         }
     }
     
     private func login() {
         let auth = FirebaseAuth()
-        guard let currentUser = auth.currentUser() else {
+        guard auth.currentUser() != nil else {
             shareDatas.sceneID = .Login
             return
         }
@@ -70,7 +71,16 @@ struct Boot: View {
             }
         }
     }
-    
+    private func loadEtc() {
+        let data1Database = FirebaseDatabase.Data1()
+        let data1Storage = FirebaseStorage.Data1()
+        data1Database.getData1 { result in
+            data1Storage.getData1(update: result) { data in
+                print(data)
+            }
+        }
+        
+    }
 }
 
 #Preview {
