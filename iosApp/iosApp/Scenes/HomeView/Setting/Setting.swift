@@ -32,7 +32,7 @@ struct Setting: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading)
                         UIDraw.DrawList(accountList, header: "アカウント")
-                        UIDraw.DrawList(appInfoList, header: "アプリ")
+                        UIDraw.DrawList(appInfoList, header: "アプリ情報")
                         UIDraw.DrawList(etcList, header: "その他")
                     }
                 }

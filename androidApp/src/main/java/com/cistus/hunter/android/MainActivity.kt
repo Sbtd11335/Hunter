@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
         }
         else
             isTablet = true
-
+        
         setContent {
             AndroidScreen.Initialize(windowManager)
             MyApplicationTheme {
