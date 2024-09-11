@@ -72,13 +72,7 @@ struct Boot: View {
         }
     }
     private func loadEtc() {
-        let data1Database = FirebaseDatabase.Data1()
-        let data1Storage = FirebaseStorage.Data1()
-        data1Database.getData1 { result in
-            shareDatas.tosUpdate = result
-            data1Storage.getData1(update: result)
-        }
-        
+
     }
 }
 

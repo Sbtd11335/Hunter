@@ -48,7 +48,7 @@ struct Login: View {
             .fullScreenCover(isPresented: $forgotPasswordView,
                              content: { ForgotPassword($forgotPasswordView) })
             .fullScreenCover(isPresented: $createAccontView,
-                             content: { CreateAccount($createAccontView, shareDatas) })
+                             content: { CreateAccount($createAccontView) })
         }, onTapped: { textFieldFocus = false })
     }
     
