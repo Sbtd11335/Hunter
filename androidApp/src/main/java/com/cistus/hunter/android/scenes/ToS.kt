@@ -53,8 +53,7 @@ class ToS(context: Context) {
                     val first = lines.indexOfFirst { it == '*' } + 1
                     val last = lines.indexOfLast { it == '*' }
                     val display = lines.substring(first..<last)
-                    UIDraw.DrawText(display, color = Color.Primary2, fontSize = 24f,
-                        style = "Bold")
+                    UIDraw.DrawText(display, color = Color.Primary2, fontSize = 24f, style = "Bold")
                 }
                 else if (lines.indexOfFirst { it == '|' } >= 0) {
                     val first = lines.indexOfFirst { it == '|' } + 1
@@ -64,8 +63,7 @@ class ToS(context: Context) {
                     if (item.isEmpty())
                         UIDraw.DrawText("　・${content}", color = Color.Primary2)
                     else
-                        UIDraw.DrawText("　${item}. $content", color = Color.Primary2,
-                            style = "Bold")
+                        UIDraw.DrawText("　${item}. $content", color = Color.Primary2, style = "Bold")
                 }
                 else
                     UIDraw.DrawText(lines, color = Color.Primary2)
