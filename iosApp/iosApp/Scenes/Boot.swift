@@ -75,9 +75,8 @@ struct Boot: View {
         let data1Database = FirebaseDatabase.Data1()
         let data1Storage = FirebaseStorage.Data1()
         data1Database.getData1 { result in
-            data1Storage.getData1(update: result) { data in
-                print(data)
-            }
+            shareDatas.tosUpdate = result
+            data1Storage.getData1(update: result)
         }
         
     }

@@ -3,6 +3,7 @@ import shared
 
 struct HomeContents: View {
     @ObservedObject private var shareDatas: ShareDatas
+    @State private var tosUpdate: Bool
     
     init(_ shareDatas: ShareDatas) {
         let tabBar = UITabBarAppearance()
@@ -12,6 +13,7 @@ struct HomeContents: View {
         tabBar.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
         UITabBar.appearance().standardAppearance = tabBar
         self.shareDatas = shareDatas
+        tosUpdate = shareDatas.tosUpdate
     }
     
     var body: some View {
@@ -37,6 +39,12 @@ struct HomeContents: View {
                         .scaledToFit()
                 }
             }
+        }
+        .fullScreenCover(isPresented: $tosUpdate, content: {
+            ToS(shareDatas, isFullScreen: true)
+        })
+        .onChange(of: shareDatas.tosUpdate, initial: true) {
+            tosUpdate = shareDatas.tosUpdate
         }
     }
 }

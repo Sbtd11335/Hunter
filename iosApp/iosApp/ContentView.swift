@@ -3,6 +3,7 @@ import shared
 
 final class ShareDatas: ObservableObject {
     @Published var sceneID: SceneID = .Boot
+    @Published var tosUpdate: Bool = false
 }
 
 struct ContentView: View {

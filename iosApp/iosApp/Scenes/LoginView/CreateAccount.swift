@@ -14,9 +14,11 @@ struct CreateAccount: View {
     @State private var statusText = ""
     @State private var isChecked = false
     @FocusState private var textFieldFocus: Bool
+    @ObservedObject private var shareDatas: ShareDatas
     
-    init (_ createAccountView: Binding<Bool>) {
+    init (_ createAccountView: Binding<Bool>, _ shareDatas: ShareDatas) {
         self.createAccountView = createAccountView
+        self.shareDatas = shareDatas
     }
     
     var body: some View {
@@ -33,7 +35,9 @@ struct CreateAccount: View {
                         UIDraw.secureField($password1, $hidePassword, rcFrameSize, $textFieldFocus, label: "パスワード")
                         UIDraw.secureField($password2, $hidePassword, rcFrameSize, $textFieldFocus, label: "パスワード(確認用)")
                         HStack(spacing: 0) {
-                            UIDraw.text("利用規約", color: .textButton)
+                            NavigationLink(destination: {
+                                ToS(shareDatas)
+                            }, label: { UIDraw.text("利用規約", color: .textButton) })
                             UIDraw.text("に同意する", color: .black)
                                 .padding(.trailing, 20)
                             UIDraw.rcFrame(checkBoxSize, color: .white, radius: 7, onTapped: { isChecked.toggle() }) {
@@ -120,5 +124,5 @@ struct CreateAccount: View {
 }
 
 #Preview {
-    CreateAccount(.constant(true))
+    CreateAccount(.constant(true), ShareDatas())
 }
