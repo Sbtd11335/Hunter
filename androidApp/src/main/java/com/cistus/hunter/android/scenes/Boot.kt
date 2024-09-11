@@ -1,5 +1,7 @@
 package com.cistus.hunter.android.scenes
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavController
@@ -22,6 +25,8 @@ import com.cistus.hunter.android.R
 import com.cistus.hunter.android.SceneID
 import com.cistus.hunter.android.UIDraw
 import com.cistus.hunter.android.firebase.FirebaseAuth
+import com.cistus.hunter.android.firebase.data1.Data1Database
+import com.cistus.hunter.android.firebase.data1.Data1Storage
 import kotlinx.coroutines.delay
 import kotlin.math.pow
 
@@ -41,6 +46,7 @@ class Boot(private val navController: NavController): Scene {
     override fun Draw() {
         val textlogoMax = Screen.smallerSize / 2
         val textlogoDx = rememberSaveable { mutableFloatStateOf(0f) }
+        val context = LocalContext.current
 
         UIDraw.DrawBackGround {
             UIDraw.CenterColumn {
@@ -68,9 +74,9 @@ class Boot(private val navController: NavController): Scene {
             }
             textlogoDx.floatValue = 1f
             login()
+            loadEtc(context)
         }
     }
-
     private fun login() {
         val auth = FirebaseAuth()
         if (auth.currentUser() == null)
@@ -90,5 +96,11 @@ class Boot(private val navController: NavController): Scene {
             }
         }
     }
-
+    private fun loadEtc(context: Context) {
+        Data1Database(context).getData1 { result ->
+            Data1Storage(context).getData1(result) { data ->
+                Log.d("AppDebug", data.toString())
+            }
+        }
+    }
 }
