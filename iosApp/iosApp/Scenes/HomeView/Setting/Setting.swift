@@ -19,7 +19,7 @@ struct Setting: View {
         //AppInfo
         appInfoList.append(UIDraw.ListItem("バージョン", content: AppInfo.companion.version))
         appInfoList.append(UIDraw.ListItem("ビルド", content: AppInfo.companion.build))
-        appInfoList.append(UIDraw.ListItem("利用規約", navigateTo: { ToS(shareDatas) }))
+        appInfoList.append(UIDraw.ListItem("利用規約", navigateTo: { ToS() }))
     }
     
     var body: some View {

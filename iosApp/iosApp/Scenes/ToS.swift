@@ -2,33 +2,31 @@ import SwiftUI
 import shared
 
 struct ToS: View {
-    private let tosData: TextFile
-    private let isFullScreen: Bool
-    @ObservedObject private var shareDatas: ShareDatas
+    private let close: Binding<Bool>?
     
-    init(_ shareDatas: ShareDatas, isFullScreen: Bool = false) {
-        let tosDataFile = StorageConfig.Data1.companion.data1FilePath
-        tosData = TextFile(path: tosDataFile)
-        self.shareDatas = shareDatas
-        self.isFullScreen = isFullScreen
+    init(_ close: Binding<Bool>? = nil) {
+        self.close = close
+        let tos = LocalDataConfig.ToS()
+        let tosDirectoryPath = tos.directoryPath
+        let tosDirectory = Directory(path: tosDirectoryPath)
+        let tosDateFilePath = tos.dateFilePath
+        let tosDateFile = TextFile(path: tosDateFilePath)
+        if (!tosDirectory.isExists()) {
+            tosDirectory.create()
+        }
+        tosDateFile.write(contents: String(localized: "Date", table: "ToS"))
     }
     
     var body: some View {
         NavigationStack {
             ScrollView {
-                if let contents = tosData.read() {
-                    progressLines(contents: contents)
-                }
-                else {
-                    Text("利用規約を読み込めませんでした。")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
+                progressLines(contents: String(localized: "ToS", table: "ToS"))
             }
             .toolbar {
-                if (isFullScreen) {
+                if let close = close {
                     ToolbarItem(placement: .topBarLeading) {
                         Button("閉じる") {
-                            shareDatas.tosUpdate = false
+                            close.wrappedValue = false
                         }
                     }
                 }
@@ -55,7 +53,7 @@ struct ToS: View {
                         UIDraw.text("　・\(content)")
                     }
                     else {
-                        UIDraw.text("　\(item).\(content)")
+                        UIDraw.text("　\(item). \(content)", style: "Bold")
                     }
                 }
                 else {
@@ -66,8 +64,22 @@ struct ToS: View {
         }
     }
     
+    static func checkUpdate() -> Bool {
+        let tos = LocalDataConfig.ToS()
+        let tosDateFilePath = tos.dateFilePath
+        let tosDateFile = TextFile(path: tosDateFilePath)
+        if let date = tosDateFile.read() {
+            if (date != String(localized: "Date", table: "ToS")) {
+                return true
+            }
+        }
+        else {
+            return true
+        }
+        return false
+    }
 }
 
 #Preview {
-    ToS(ShareDatas())
+    ToS()
 }

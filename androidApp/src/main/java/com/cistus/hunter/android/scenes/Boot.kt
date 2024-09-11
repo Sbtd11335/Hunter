@@ -1,7 +1,6 @@
 package com.cistus.hunter.android.scenes
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,8 +24,6 @@ import com.cistus.hunter.android.R
 import com.cistus.hunter.android.SceneID
 import com.cistus.hunter.android.UIDraw
 import com.cistus.hunter.android.firebase.FirebaseAuth
-import com.cistus.hunter.android.firebase.data1.Data1Database
-import com.cistus.hunter.android.firebase.data1.Data1Storage
 import kotlinx.coroutines.delay
 import kotlin.math.pow
 
@@ -97,10 +94,6 @@ class Boot(private val navController: NavController): Scene {
         }
     }
     private fun loadEtc(context: Context) {
-        Data1Database(context).getData1 { result ->
-            Data1Storage(context).getData1(result) { data ->
-                Log.d("AppDebug", data.toString())
-            }
-        }
+
     }
 }

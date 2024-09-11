@@ -13,7 +13,7 @@ struct HomeContents: View {
         tabBar.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
         UITabBar.appearance().standardAppearance = tabBar
         self.shareDatas = shareDatas
-        tosUpdate = shareDatas.tosUpdate
+        tosUpdate = ToS.checkUpdate()
     }
     
     var body: some View {
@@ -40,11 +40,8 @@ struct HomeContents: View {
                 }
             }
         }
-        .fullScreenCover(isPresented: $tosUpdate, content: {
-            ToS(shareDatas, isFullScreen: true)
-        })
-        .onChange(of: shareDatas.tosUpdate, initial: true) {
-            tosUpdate = shareDatas.tosUpdate
+        .fullScreenCover(isPresented: $tosUpdate) {
+            ToS($tosUpdate)
         }
     }
 }
