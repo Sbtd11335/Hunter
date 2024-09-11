@@ -11,9 +11,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.cistus.hunter.AppInfo
 import com.cistus.hunter.UIConfig
 import com.cistus.hunter.UISize
 import com.cistus.hunter.android.R
@@ -21,6 +23,7 @@ import com.cistus.hunter.android.SceneID
 import com.cistus.hunter.android.TabItem
 import com.cistus.hunter.android.UIDraw
 import com.cistus.hunter.android.firebase.FirebaseAuth
+import com.cistus.hunter.android.scenes.ToS
 import com.cistus.hunter.android.scenes.homeview.setting.account.UpdateEmailAddress
 import com.cistus.hunter.android.scenes.homeview.setting.account.UpdatePassword
 
@@ -33,6 +36,7 @@ class Setting(private val navController: NavController,
     @Composable
     override fun Draw() {
         val accountList = ArrayList<UIDraw.ListItem>()
+        val appInfoList = ArrayList<UIDraw.ListItem>()
         val etcList = ArrayList<UIDraw.ListItem>()
         val showSignOutDialog = rememberSaveable { mutableStateOf(false) }
 
@@ -42,6 +46,10 @@ class Setting(private val navController: NavController,
             accountList.add(UIDraw.ListItem("メールアドレス", content = auth.currentUser()?.email ?: "Unknown",
                 navigateTo = { UpdateEmailAddress(it).Draw() }))
             accountList.add(UIDraw.ListItem("パスワード", navigateTo = { UpdatePassword(it).Draw() }))
+            // AppInfo
+            appInfoList.add(UIDraw.ListItem("バージョン", content = AppInfo.version))
+            appInfoList.add(UIDraw.ListItem("ビルド", content = AppInfo.build))
+            appInfoList.add(UIDraw.ListItem("利用規約", navigateTo = { ToS(LocalContext.current).Draw(it) }))
             // Etc
             etcList.add(UIDraw.ListItem("サインアウト", textColor = Color.Red,
                 onTapped = { showSignOutDialog.value = true }))
@@ -58,6 +66,7 @@ class Setting(private val navController: NavController,
                         UIDraw.DrawText(label, fontSize = 32f, color = Color.Black, style = "Bold")
                     }
                     UIDraw.DrawList(screenSize, accountList.toList(), header = "アカウント").Draw()
+                    UIDraw.DrawList(screenSize, appInfoList.toList(), header = "アプリ情報").Draw()
                     UIDraw.DrawList(screenSize, etcList.toList(), header = "その他").Draw()
                 }
             }

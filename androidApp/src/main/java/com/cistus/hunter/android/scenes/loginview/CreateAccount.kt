@@ -24,6 +24,7 @@ import com.cistus.hunter.android.TextButton
 import com.cistus.hunter.android.ThemeColor
 import com.cistus.hunter.android.UIDraw
 import com.cistus.hunter.android.firebase.FirebaseAuth
+import com.cistus.hunter.android.scenes.ToS
 import com.cistus.hunter.toDpSize
 
 class CreateAccount {
@@ -35,6 +36,7 @@ class CreateAccount {
         val statusText = rememberSaveable { mutableStateOf("") }
         val hidePassword = rememberSaveable { mutableStateOf(true) }
         val isChecked = rememberSaveable { mutableStateOf(false) }
+        val showToS = rememberSaveable { mutableStateOf(false) }
         val textFieldFocus = LocalFocusManager.current
         val clipBoard = LocalClipboardManager.current
         val localContext = LocalContext.current
@@ -53,7 +55,9 @@ class CreateAccount {
                     label = "パスワード(確認用)", singleLine = true)
                 UIDraw.CenterRow(spacing = 20.dp, fillStyle = UIDraw.FILLSTYLE_MAXWIDTH) {
                     Row {
-                        UIDraw.DrawText("利用規約", color = Color.TextButton)
+                        UIDraw.DrawText("利用規約", color = Color.TextButton) {
+                            showToS.value = true
+                        }
                         UIDraw.DrawText("に同意する", color = Color.Black)
                     }
                     UIDraw.DrawRCFrame(UIConfig.Login.checkBoxSize.toDpSize(), color = Color.White,
@@ -81,6 +85,9 @@ class CreateAccount {
                 UIDraw.DrawText("までご連絡ください。", color = Color.Black)
             }
             UIDraw.DrawVersion()
+        }
+        UIDraw.DrawDialog(showDialog = showToS, closeText = "Back", fullScreen = true) {
+            ToS(LocalContext.current).Draw(it)
         }
     }
 

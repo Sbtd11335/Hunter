@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -28,6 +29,7 @@ import com.cistus.hunter.android.TabItem
 import com.cistus.hunter.android.ThemeColor
 import com.cistus.hunter.android.UIDraw
 import com.cistus.hunter.android.scenes.Scene
+import com.cistus.hunter.android.scenes.ToS
 import com.cistus.hunter.android.scenes.homeview.history.History
 import com.cistus.hunter.android.scenes.homeview.home.Home
 import com.cistus.hunter.android.scenes.homeview.setting.Setting
@@ -41,6 +43,9 @@ class HomeContents(private val navController: NavController,
     override fun Draw() {
         val selectedTabIndex = rememberSaveable { mutableIntStateOf(0) }
         val screenSize = remember { mutableStateOf(UISize(0.0, 0.0)) }
+        val isToSUpdate = ToS.checkUpdate()
+        val showToS = rememberSaveable { mutableStateOf(isToSUpdate) }
+
         UIDraw.DrawBackGround {
             screenSize.value = UISize(UIDraw.toDp(it.width).value.toDouble(),
             UIDraw.toDp(it.height).value.toDouble())
@@ -51,7 +56,6 @@ class HomeContents(private val navController: NavController,
             tabItems.add(Message(screenSize))
             tabItems.add(Setting(navController, screenSize))
         }
-
         UIDraw.DrawBackGround()
         Box(modifier = Modifier
             .fillMaxSize()
@@ -96,6 +100,9 @@ class HomeContents(private val navController: NavController,
                     }
                 }
             }
+        }
+        UIDraw.DrawDialog(showToS, fullScreen = true, closeText = "Back") {
+             ToS(LocalContext.current).Draw(it)
         }
     }
 }

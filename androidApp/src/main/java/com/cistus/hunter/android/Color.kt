@@ -1,5 +1,6 @@
 package com.cistus.hunter.android
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -8,6 +9,15 @@ import androidx.compose.ui.res.colorResource
 val Color.Companion.Primary: Color
     @Composable
     get() = MaterialTheme.colorScheme.primary
+val Color.Companion.InversePrimary: Color
+    @Composable
+    get() = MaterialTheme.colorScheme.inversePrimary
+val Color.Companion.Primary2: Color
+    @Composable
+    get() = if (!isSystemInDarkTheme()) Black else White
+val Color.Companion.InversePrimary2: Color
+    @Composable
+    get() = if (!isSystemInDarkTheme()) White else Black
 val Color.Companion.AppColor1: Color
     @Composable
     get() = colorResource(id = R.color.AppColor1)

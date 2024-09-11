@@ -6,8 +6,8 @@ struct Boot: View {
     private let version = AppInfo.companion.version
     private let build = AppInfo.companion.build
     private let textlogoMax = Screen.companion.smallerSize * 0.5
-    @State var logoAnimationStart = false
-    @State var loadStart = false
+    @State private var logoAnimationStart = false
+    @State private var loadStart = false
     @ObservedObject private var shareDatas: ShareDatas
     
     init(_ shareDatas: ShareDatas) {
