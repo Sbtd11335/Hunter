@@ -18,10 +18,6 @@ struct NotificationView: View {
                     UIDraw.DrawNotificationBoard(shareDatas.notifications)
                 }
                 .scrollContentBackground(.hidden)
-                .refreshable {
-                    let data1 = FirebaseDatabase.Data1()
-                    data1.getData1(shareDatas)
-                }
             }
             .background(UIDraw.Background(ignoresSafeArea: true))
             .navigationTitle("お知らせ")

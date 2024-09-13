@@ -13,7 +13,6 @@ final class FirebaseDatabase {
         }
     }
     
-    
     func getData(_ child: String, callback: @escaping (Any?) -> Void) {
         FirebaseDatabase.reference.child(child).getData { error, result in
             if error != nil {
@@ -25,6 +24,16 @@ final class FirebaseDatabase {
                     return
                 }
                 callback(result.valueInExportFormat())
+            }
+        }
+    }
+    func getDataRealtime(_ child: String, callback: @escaping (Any?) -> Void) {
+        FirebaseDatabase.reference.child(child).observe(.value) { result in
+            if (result.exists()) {
+                callback(result.valueInExportFormat())
+            }
+            else {
+                callback(nil)
             }
         }
     }

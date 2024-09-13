@@ -72,9 +72,7 @@ struct Boot: View {
         }
     }
     private func loadEtc() {
-        let auth = FirebaseAuth()
-        let data1 = FirebaseDatabase.Data1()
-        data1.getData1(shareDatas)
+
     }
 }
 

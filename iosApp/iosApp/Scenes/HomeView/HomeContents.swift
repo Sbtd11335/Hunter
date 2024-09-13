@@ -77,6 +77,10 @@ struct HomeContents: View {
                 }
                 
             }
+            .onAppear {
+                let data1 = FirebaseDatabase.Data1()
+                data1.getData1Realtime(shareDatas)
+            }
             
         }
         .fullScreenCover(isPresented: $tosUpdate) {
