@@ -82,7 +82,7 @@ struct UpdateEmailAddress: View {
                         }
                     }
                     else {
-                        statusText = "入力されたメールアドレス宛に認証用メールを送信しました。"
+                        statusText = "入力されたメールアドレス宛に認証用メールを送信しました。認証が完了したら自動でサインアウトされるため、再起動してください。"
                     }
                 }
             }

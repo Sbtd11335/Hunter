@@ -44,11 +44,6 @@ struct Message: View {
                     }
                 }
             }
-            .background {
-                GeometryReader { geometry in
-                    UIDraw.Background(ignoresSafeArea: true)
-                }
-            }
         }
     }
     

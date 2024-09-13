@@ -104,7 +104,7 @@ class UpdateEmailAddress(private val height: Float) {
                                 else -> statusText.value = updateEmailResult
                             }
                         } ?: run {
-                            statusText.value = "入力されたメールアドレス宛に認証用メールを送信しました。"
+                            statusText.value = "入力されたメールアドレス宛に認証用メールを送信しました。認証が完了したら自動でサインアウトされるため、再起動してください。"
                         }
                     }
                 }

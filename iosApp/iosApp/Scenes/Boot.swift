@@ -41,7 +41,7 @@ struct Boot: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                 loadStart = true
                 login()
-                // loadEtc()
+                loadEtc()
             }
         }
     }

@@ -58,9 +58,7 @@ struct History: View {
                             }
                         }
                     }
-                    .background {
-                        UIDraw.Background(ignoresSafeArea: true)
-                    }
+
                 }
             }
             .frame(width: .infinity, height: .infinity)

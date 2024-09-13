@@ -2,7 +2,7 @@ import SwiftUI
 import shared
 
 struct Setting: View {
-    private var auth = FirebaseAuth()
+    private let auth = FirebaseAuth()
     private var accountList = [UIDraw.ListItem]()
     private var appInfoList = [UIDraw.ListItem]()
     @State private var etcList = [UIDraw.ListItem]()
@@ -38,9 +38,6 @@ struct Setting: View {
                 }
                 .clipped()
                 .scrollContentBackground(.hidden)
-            }
-            .background {
-                UIDraw.Background(ignoresSafeArea: true)
             }
         }
         .onAppear {
