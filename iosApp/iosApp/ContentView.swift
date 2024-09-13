@@ -3,6 +3,8 @@ import shared
 
 final class ShareDatas: ObservableObject {
     @Published var sceneID: SceneID = .Boot
+    @Published var notifications = [UIDraw.ListItem]()
+    @Published var unreadNotifications = false
 }
 
 struct ContentView: View {

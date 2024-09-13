@@ -41,7 +41,7 @@ struct Boot: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                 loadStart = true
                 login()
-                // loadEtc()
+                loadEtc()
             }
         }
     }
@@ -72,7 +72,9 @@ struct Boot: View {
         }
     }
     private func loadEtc() {
-
+        let auth = FirebaseAuth()
+        let data1 = FirebaseDatabase.Data1()
+        data1.getData1(shareDatas)
     }
 }
 

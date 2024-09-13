@@ -3,6 +3,16 @@ import FirebaseDatabase
 final class FirebaseDatabase {
     private static let database = Database.database()
     private static let reference = database.reference()
+    private static var initialized = false
+    
+    init() {
+        if (!FirebaseDatabase.initialized) {
+            FirebaseDatabase.database.isPersistenceEnabled = true
+            FirebaseDatabase.reference.keepSynced(true)
+            FirebaseDatabase.initialized = true
+        }
+    }
+    
     
     func getData(_ child: String, callback: @escaping (Any?) -> Void) {
         FirebaseDatabase.reference.child(child).getData { error, result in
