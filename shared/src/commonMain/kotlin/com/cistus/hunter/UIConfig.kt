@@ -2,7 +2,7 @@ package com.cistus.hunter
 
 class UIConfig {
     companion object {
-        val textlogoHeight: Double = 60.0
+        val textlogoHeight: Double = 50.0
         val textlogoPadding: Double = 20.0
     }
     class Login {

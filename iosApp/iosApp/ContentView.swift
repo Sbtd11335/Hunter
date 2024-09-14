@@ -1,20 +1,20 @@
 import SwiftUI
 import shared
 
-final class ShareDatas: ObservableObject {
+final class ShareData: ObservableObject {
     @Published var sceneID: SceneID = .Boot
     @Published var notifications = [UIDraw.ListItem]()
     @Published var unreadNotifications = false
 }
 
 struct ContentView: View {
-    @ObservedObject private var shareDatas = ShareDatas()
+    @ObservedObject private var shareData = ShareData()
     
 	var body: some View {
-        switch(shareDatas.sceneID) {
-        case .Boot: Boot(shareDatas)
-        case .Login: Login(shareDatas)
-        case .Home: HomeContents(shareDatas)
+        switch(shareData.sceneID) {
+        case .Boot: Boot(shareData)
+        case .Login: Login(shareData)
+        case .Home: HomeContents(shareData)
         }
 	}
 }

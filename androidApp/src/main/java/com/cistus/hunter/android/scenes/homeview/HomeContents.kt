@@ -10,6 +10,8 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,10 +26,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.cistus.hunter.UIConfig
 import com.cistus.hunter.UISize
+import com.cistus.hunter.android.MainActivity
 import com.cistus.hunter.android.SceneID
 import com.cistus.hunter.android.TabItem
 import com.cistus.hunter.android.ThemeColor
 import com.cistus.hunter.android.UIDraw
+import com.cistus.hunter.android.firebase.data1.FirebaseDatabaseData1
 import com.cistus.hunter.android.scenes.Scene
 import com.cistus.hunter.android.scenes.ToS
 import com.cistus.hunter.android.scenes.homeview.history.History
@@ -35,6 +39,7 @@ import com.cistus.hunter.android.scenes.homeview.home.Home
 import com.cistus.hunter.android.scenes.homeview.setting.Setting
 
 class HomeContents(private val navController: NavController,
+                   private val shareData: MutableState<MainActivity.ShareData>,
                    private val isTablet: Boolean): Scene {
     override val route = SceneID.home
     private val tabItems = ArrayList<TabItem>()
@@ -45,21 +50,21 @@ class HomeContents(private val navController: NavController,
         val screenSize = remember { mutableStateOf(UISize(0.0, 0.0)) }
         val isToSUpdate = ToS.checkUpdate()
         val showToS = rememberSaveable { mutableStateOf(isToSUpdate) }
+        val context = LocalContext.current
+        val showNotification = rememberSaveable { mutableStateOf(false) }
 
         UIDraw.DrawBackGround {
             screenSize.value = UISize(UIDraw.toDp(it.width).value.toDouble(),
             UIDraw.toDp(it.height).value.toDouble())
         }
         if (tabItems.isEmpty()) {
-            tabItems.add(Home(screenSize, isTablet))
-            tabItems.add(History(screenSize, isTablet))
-            tabItems.add(Message(screenSize))
-            tabItems.add(Setting(navController, screenSize))
+            tabItems.add(Home(shareData, screenSize, showNotification, isTablet))
+            tabItems.add(History(shareData, screenSize, showNotification, isTablet))
+            tabItems.add(Message(shareData, screenSize, showNotification))
+            tabItems.add(Setting(shareData, navController, showNotification, screenSize))
         }
         UIDraw.DrawBackGround()
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = UIConfig.Home.bottomTabHeight.dp)) {
+        Box(modifier = Modifier.fillMaxSize().padding(bottom = UIConfig.Home.bottomTabHeight.dp)) {
             for (i in tabItems.indices) {
                 if (selectedTabIndex.intValue == i)
                     tabItems[i].Draw()
@@ -103,6 +108,21 @@ class HomeContents(private val navController: NavController,
         }
         UIDraw.DrawDialog(showToS, fullScreen = true, closeText = "Back") {
              ToS(LocalContext.current).Draw(it)
+        }
+        UIDraw.DrawDialog(showNotification, closeText = "Back", fullScreen = true) { padding ->
+            UIDraw.DrawBackGround {
+                UIDraw.CustomColumn(style = "Top") {
+                    UIDraw.CenterRow(fillStyle = UIDraw.FILLSTYLE_MAXWIDTH,
+                        modifier = Modifier.height(UIDraw.toDp(padding))) {
+                        UIDraw.DrawText("お知らせ", color = Color.Black, style = "Bold")
+                    }
+                    NotificationView(context, shareData, screenSize).Draw()
+                }
+            }
+        }
+        LaunchedEffect(Unit) {
+            val data1 = FirebaseDatabaseData1(context)
+            data1.getData1(shareData)
         }
     }
 }

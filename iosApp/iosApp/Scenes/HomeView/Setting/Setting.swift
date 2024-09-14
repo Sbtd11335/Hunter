@@ -7,10 +7,10 @@ struct Setting: View {
     private var appInfoList = [UIDraw.ListItem]()
     @State private var etcList = [UIDraw.ListItem]()
     @State private var showSignOutConfirm = false
-    @ObservedObject private var shareDatas: ShareDatas
+    @ObservedObject private var shareData: ShareData
     
-    init(_ shareDatas: ShareDatas) {
-        self.shareDatas = shareDatas
+    init(_ shareData: ShareData) {
+        self.shareData = shareData
         // Account
         accountList.append(UIDraw.ListItem("ユーザーID", content: auth.currentUser()?.uid ?? "Unknown"))
         accountList.append(UIDraw.ListItem("メールアドレス", content: auth.currentUser()?.email ?? "Unknown",
@@ -56,11 +56,11 @@ struct Setting: View {
     
     private func signOut() {
         auth.signOut()
-        shareDatas.sceneID = .Boot
+        shareData.sceneID = .Boot
     }
     
 }
 
 #Preview {
-    Setting(ShareDatas())
+    Setting(ShareData())
 }

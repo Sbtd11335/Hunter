@@ -8,10 +8,10 @@ struct Boot: View {
     private let textlogoMax = Screen.companion.smallerSize * 0.5
     @State private var logoAnimationStart = false
     @State private var loadStart = false
-    @ObservedObject private var shareDatas: ShareDatas
+    @ObservedObject private var shareData: ShareData
     
-    init(_ shareDatas: ShareDatas) {
-        self.shareDatas = shareDatas
+    init(_ shareData: ShareData) {
+        self.shareData = shareData
     }
     
     var body: some View {
@@ -49,25 +49,25 @@ struct Boot: View {
     private func login() {
         let auth = FirebaseAuth()
         guard auth.currentUser() != nil else {
-            shareDatas.sceneID = .Login
+            shareData.sceneID = .Login
             return
         }
         auth.reload { result in
             if (result != nil) {
-                shareDatas.sceneID = .Login
+                shareData.sceneID = .Login
             }
             else {
                 if let isEmailVerified = auth.isEmailVerified() {
                     if (!isEmailVerified) {
-                        shareDatas.sceneID = .Login
+                        shareData.sceneID = .Login
                         return
                     }
                     else {
-                        shareDatas.sceneID = .Home
+                        shareData.sceneID = .Home
                         return
                     }
                 }
-                shareDatas.sceneID = .Login
+                shareData.sceneID = .Login
             }
         }
     }
@@ -77,5 +77,5 @@ struct Boot: View {
 }
 
 #Preview {
-    Boot(ShareDatas())
+    Boot(ShareData())
 }

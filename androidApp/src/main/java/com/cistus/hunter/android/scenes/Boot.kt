@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavController
 import com.cistus.hunter.DeviceTime
 import com.cistus.hunter.Screen
+import com.cistus.hunter.android.MainActivity
 import com.cistus.hunter.android.R
 import com.cistus.hunter.android.SceneID
 import com.cistus.hunter.android.UIDraw
@@ -27,7 +29,8 @@ import com.cistus.hunter.android.firebase.FirebaseAuth
 import kotlinx.coroutines.delay
 import kotlin.math.pow
 
-class Boot(private val navController: NavController): Scene {
+class Boot(private val navController: NavController,
+           private val shareData: MutableState<MainActivity.ShareData>): Scene {
     override val route = SceneID.boot
 
     private class TextLogoShape(private val dx: Float): Shape {

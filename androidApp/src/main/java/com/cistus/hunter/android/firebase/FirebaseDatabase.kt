@@ -1,5 +1,8 @@
 package com.cistus.hunter.android.firebase
 
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -18,6 +21,19 @@ open class FirebaseDatabase {
                     callback(null)
             }
             .addOnFailureListener { callback(null) }
+    }
+    fun getDataRealtime(child: String, callback: (Any?) -> Unit) {
+        reference.child(child).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists())
+                    callback(snapshot.getValue(true))
+                else
+                    callback(null)
+            }
+            override fun onCancelled(error: DatabaseError) {
+                callback(null)
+            }
+        })
     }
     fun setData(child: String, data: Map<String, Any>, callback: (String?) -> Unit) {
         reference.child(child).updateChildren(data)
