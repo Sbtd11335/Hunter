@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.cistus.hunter.UIConfig
 import com.cistus.hunter.UISize
 import com.cistus.hunter.android.MainActivity
@@ -38,7 +38,7 @@ import com.cistus.hunter.android.scenes.homeview.history.History
 import com.cistus.hunter.android.scenes.homeview.home.Home
 import com.cistus.hunter.android.scenes.homeview.setting.Setting
 
-class HomeContents(private val navController: NavHostController,
+class HomeContents(private val navController: NavController,
                    private val shareData: MutableState<MainActivity.ShareData>,
                    private val isTablet: Boolean): Scene {
     override val route = SceneID.home

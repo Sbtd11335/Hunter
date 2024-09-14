@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.cistus.hunter.DeviceTime
 import com.cistus.hunter.Screen
 import com.cistus.hunter.android.MainActivity
@@ -29,7 +29,7 @@ import com.cistus.hunter.android.firebase.FirebaseAuth
 import kotlinx.coroutines.delay
 import kotlin.math.pow
 
-class Boot(private val navController: NavHostController,
+class Boot(private val navController: NavController,
            private val shareData: MutableState<MainActivity.ShareData>): Scene {
     override val route = SceneID.boot
 

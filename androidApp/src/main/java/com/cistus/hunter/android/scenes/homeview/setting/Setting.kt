@@ -22,7 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.cistus.hunter.AppInfo
 import com.cistus.hunter.UIConfig
 import com.cistus.hunter.UISize
@@ -37,7 +37,7 @@ import com.cistus.hunter.android.scenes.homeview.setting.account.UpdateEmailAddr
 import com.cistus.hunter.android.scenes.homeview.setting.account.UpdatePassword
 
 class Setting(private val shareData: MutableState<MainActivity.ShareData>,
-              private val navController: NavHostController,
+              private val navController: NavController,
               private val showNotification: MutableState<Boolean>,
               private val screenSize: MutableState<UISize>): TabItem {
     override val label: String = "設定"
