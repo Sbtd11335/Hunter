@@ -1,23 +1,32 @@
 package com.cistus.hunter.android.scenes.homeview.setting
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.cistus.hunter.AppInfo
 import com.cistus.hunter.UIConfig
 import com.cistus.hunter.UISize
+import com.cistus.hunter.android.MainActivity
 import com.cistus.hunter.android.R
 import com.cistus.hunter.android.SceneID
 import com.cistus.hunter.android.TabItem
@@ -27,7 +36,9 @@ import com.cistus.hunter.android.scenes.ToS
 import com.cistus.hunter.android.scenes.homeview.setting.account.UpdateEmailAddress
 import com.cistus.hunter.android.scenes.homeview.setting.account.UpdatePassword
 
-class Setting(private val navController: NavController,
+class Setting(private val shareData: MutableState<MainActivity.ShareData>,
+              private val navController: NavHostController,
+              private val showNotification: MutableState<Boolean>,
               private val screenSize: MutableState<UISize>): TabItem {
     override val label: String = "設定"
     override val icon: Int = R.drawable.gearshape_fill
@@ -39,6 +50,7 @@ class Setting(private val navController: NavController,
         val appInfoList = ArrayList<UIDraw.ListItem>()
         val etcList = ArrayList<UIDraw.ListItem>()
         val showSignOutDialog = rememberSaveable { mutableStateOf(false) }
+        val context = LocalContext.current
 
         if (accountList.isEmpty()) {
             // Account
@@ -56,9 +68,22 @@ class Setting(private val navController: NavController,
         }
         UIDraw.DrawBackGround {
             UIDraw.CustomColumn(style = "Top") {
-                Image(painterResource(R.drawable.textlogo), "",
-                    modifier = Modifier.height((UIConfig.textlogoHeight + UIConfig.textlogoPadding).dp)
-                        .padding(vertical = UIConfig.textlogoPadding.dp))
+                Box(modifier = Modifier.height((UIConfig.textlogoHeight + UIConfig.textlogoPadding).dp)) {
+                    UIDraw.CustomRow(style = "CenterStart", modifier = Modifier.padding(start = 10.dp)) {
+                        Image(painterResource(R.drawable.textlogo), "",
+                            modifier = Modifier.height((UIConfig.textlogoHeight + UIConfig.textlogoPadding).dp)
+                                .padding(vertical = UIConfig.textlogoPadding.dp))
+                    }
+                    UIDraw.CustomRow(style = "CenterEnd", modifier = Modifier.padding(end = 10.dp)) {
+                        Box {
+                            Image(painterResource(R.drawable.bell), "",
+                                modifier = Modifier.clickable { showNotification.value = true })
+                            Box(modifier = Modifier.alpha(if (shareData.value.unreadNotifications) 1f else 0f)
+                                .width(10.dp).height(10.dp).clip(CircleShape).background(color = Color.Red)
+                                .align(Alignment.TopEnd))
+                        }
+                    }
+                }
                 UIDraw.CustomColumn(style = "Top", spacing = 10.dp,
                     modifier = Modifier.verticalScroll(rememberScrollState())) {
                     UIDraw.CustomColumn(style = "TopStart", fillStyle = UIDraw.FILLSTYLE_MAXWIDTH,

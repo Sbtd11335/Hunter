@@ -14,8 +14,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.cistus.hunter.UIConfig
+import com.cistus.hunter.android.MainActivity
 import com.cistus.hunter.android.R
 import com.cistus.hunter.android.SceneID
 import com.cistus.hunter.android.TextButton
@@ -25,7 +26,8 @@ import com.cistus.hunter.android.firebase.FirebaseAuth
 import com.cistus.hunter.android.scenes.Scene
 import com.cistus.hunter.toDpSize
 
-class Login(private val navController: NavController): Scene {
+class Login(private val navController: NavHostController,
+            private val shareData: MutableState<MainActivity.ShareData>): Scene {
     override val route = SceneID.login
     @Composable
     override fun Draw() {

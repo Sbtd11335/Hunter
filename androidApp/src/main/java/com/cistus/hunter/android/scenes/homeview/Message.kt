@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
@@ -27,9 +28,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -40,12 +44,15 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.cistus.hunter.UIConfig
 import com.cistus.hunter.UISize
+import com.cistus.hunter.android.MainActivity
 import com.cistus.hunter.android.R
 import com.cistus.hunter.android.TabItem
 import com.cistus.hunter.android.ThemeColor
 import com.cistus.hunter.android.UIDraw
 
-class Message(private val screenSize: MutableState<UISize>): TabItem {
+class Message(private val shareData: MutableState<MainActivity.ShareData>,
+              private val screenSize: MutableState<UISize>,
+              private val showNotification: MutableState<Boolean>): TabItem {
     override val label: String = "メッセージ"
     override val icon: Int = R.drawable.message_fill
 
@@ -57,12 +64,27 @@ class Message(private val screenSize: MutableState<UISize>): TabItem {
         val scrollState = rememberScrollState()
         val localDensity = LocalDensity.current
         val textFieldFocus = LocalFocusManager.current
+        val context = LocalContext.current
+
         CompositionLocalProvider(LocalRippleTheme provides UIDraw.NoRipple()) {
             UIDraw.DrawBackGround(listOf(Color.Transparent, Color.Transparent), onTapped = { textFieldFocus.clearFocus() }) {
                 UIDraw.CustomColumn(style = "Top", fillStyle = UIDraw.FILLSTYLE_MAXWIDTH) {
-                    Image(painterResource(R.drawable.textlogo), "",
-                        modifier = Modifier.height((UIConfig.textlogoHeight + UIConfig.textlogoPadding).dp)
-                            .padding(vertical = UIConfig.textlogoPadding.dp))
+                    Box(modifier = Modifier.height((UIConfig.textlogoHeight + UIConfig.textlogoPadding).dp)) {
+                        UIDraw.CustomRow(style = "CenterStart", modifier = Modifier.padding(start = 10.dp)) {
+                            Image(painterResource(R.drawable.textlogo), "",
+                                modifier = Modifier.height((UIConfig.textlogoHeight + UIConfig.textlogoPadding).dp)
+                                    .padding(vertical = UIConfig.textlogoPadding.dp))
+                        }
+                        UIDraw.CustomRow(style = "CenterEnd", modifier = Modifier.padding(end = 10.dp)) {
+                            Box {
+                                Image(painterResource(R.drawable.bell), "",
+                                    modifier = Modifier.clickable { showNotification.value = true })
+                                Box(modifier = Modifier.alpha(if (shareData.value.unreadNotifications) 1f else 0f)
+                                    .width(10.dp).height(10.dp).clip(CircleShape).background(color = Color.Red)
+                                    .align(Alignment.TopEnd))
+                            }
+                        }
+                    }
                     Box(modifier = Modifier.padding(bottom = UIDraw.toDp(currentMessageBoxSize.height) + 10.dp)) {
                         UIDraw.CustomColumn(style = "Top", spacing = 10.dp, fillStyle = UIDraw.FILLSTYLE_NONE,
                             modifier = Modifier.verticalScroll(scrollState)) {

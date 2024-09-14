@@ -66,6 +66,10 @@ import androidx.compose.ui.window.DialogProperties
 import com.cistus.hunter.BuildConfig
 import com.cistus.hunter.Screen
 import com.cistus.hunter.UISize
+import java.io.Serializable
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 class UIDraw {
 
@@ -75,8 +79,8 @@ class UIDraw {
         @Composable
         override fun rippleAlpha(): RippleAlpha = RippleAlpha(0f, 0f, 0f, 0f)
     }
-    data class ListItem(val text: String, val content: String? = null, val textColor: Color = Color.Black,
-                        val navigateTo: @Composable ((Float) -> Unit)? = null, val onTapped: (() -> Unit)? = null)
+    data class ListItem(val text: String, val content: String? = null, val textColor: Color = Color.Black, val etc: Any? = null,
+                        val navigateTo: @Composable ((Float) -> Unit)? = null, val onTapped: (() -> Unit)? = null) : Serializable
 
     class DrawList(private val screenSize: MutableState<UISize>, private val listItems: List<ListItem>,
                    private val header: String? = null) {
@@ -146,6 +150,39 @@ class UIDraw {
                                 }
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+    class DrawNotificationBoard(private val screenSize: MutableState<UISize>, private val listItems: List<ListItem>) {
+        private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("YYYY/MM/dd HH:mm").withZone(ZoneId.systemDefault())
+
+        @Composable
+        fun Draw() {
+            CenterColumn(fillStyle = FILLSTYLE_MAXWIDTH) {
+                CenterColumn(fillStyle = FILLSTYLE_NONE,
+                    modifier = Modifier.width((screenSize.value.width * 0.9).dp)
+                        .background(color = Color.White, shape = RoundedCornerShape(15.dp))) {
+                    for (i in listItems.indices) {
+                        Box(modifier = Modifier.fillMaxWidth()
+                            .padding(10.dp).height(Screen.smallerSize.dp / 3)) {
+                            CustomColumn(style = "TopStart", spacing = 10.dp) {
+                                DrawText(listItems[i].text, color = Color.Black, style = "Bold", maxLines = 1)
+                                listItems[i].content?.let { content ->
+                                    DrawText(content, color = Color.Black, maxLines = 3)
+                                }
+                            }
+                            CustomColumn(style = "BottomStart") {
+                                (listItems[i].etc as Map<String, Double>)["date"]?.let { date ->
+                                    val dateTime = Instant.ofEpochSecond(date.toLong())
+                                    DrawText(dateFormatter.format(dateTime), color = Color.Gray, fontSize = 12f)
+                                }
+                            }
+                        }
+                        if (i != listItems.size - 1)
+                            Divider(modifier = Modifier.width((screenSize.value.width * 0.85).dp),
+                                color = Color.Gray)
                     }
                 }
             }
@@ -490,7 +527,8 @@ class UIDraw {
         @Composable
         fun DrawText(text: String, color: Color = Color.Primary, fontSize: Float = 17f, textAlign: TextAlign? = null,
                      fontFamily: FontFamily = FontFamily.Default, style: String = "Default", emptyDraw: Boolean = true,
-                     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier, onTapped: (() -> Unit)? = null) {
+                     maxLines: Int = Int.MAX_VALUE, @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
+                     onTapped: (() -> Unit)? = null) {
             if (!emptyDraw && text.isEmpty())
                 return
             val fontWeight: FontWeight
@@ -518,7 +556,7 @@ class UIDraw {
                 tap = Modifier.clickable { onTapped() }
             Text(text, color = color, fontWeight = fontWeight, fontFamily = fontFamily, textAlign = textAlign,
                 fontStyle = fontStyle, fontSize = TextUnit(toSp(fontSize.dp).value, TextUnitType.Sp),
-                modifier = modifier.then(tap))
+                modifier = modifier.then(tap), maxLines = maxLines)
         }
         @Composable
         fun DrawImage(image: Int, scale: Float = 1f, bigger: Boolean? = null,

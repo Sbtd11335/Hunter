@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.mapSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,6 +25,20 @@ import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     private val hideSystemBars = true
+
+    data class ShareData(
+        var notifications: ArrayList<UIDraw.ListItem> = ArrayList(),
+        var unreadNotifications: Boolean = false)
+
+    companion object {
+        val shareDataSaver = mapSaver(save = {
+            mapOf("notifications" to it.notifications,
+                "unreadNotifications" to it.unreadNotifications)
+        }, restore = {
+            ShareData(it["notifications"] as ArrayList<UIDraw.ListItem>,
+                it["unreadNotifications"] as Boolean)
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +61,14 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val scenes = ArrayList<Scene>()
                     val navController = rememberNavController()
+                    val shareData = rememberSaveable(stateSaver = shareDataSaver) {
+                        mutableStateOf(ShareData())
+                    }
+
                     if (scenes.isEmpty()) {
-                        scenes.add(Boot(navController))
-                        scenes.add(Login(navController))
-                        scenes.add(HomeContents(navController, isTablet))
+                        scenes.add(Boot(navController, shareData))
+                        scenes.add(Login(navController, shareData))
+                        scenes.add(HomeContents(navController, shareData, isTablet))
                     }
                     NavHost(navController = navController, startDestination = SceneID.boot) {
                         for (scene in scenes)

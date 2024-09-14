@@ -2,11 +2,11 @@ import SwiftUI
 import shared
 
 struct HomeContents: View {
-    @ObservedObject private var shareDatas: ShareDatas
+    @ObservedObject private var shareData: ShareData
     @State private var tosUpdate: Bool
     @State private var showNotificationView = false
     
-    init(_ shareDatas: ShareDatas) {
+    init(_ shareData: ShareData) {
         let tabBar = UITabBarAppearance()
         tabBar.stackedLayoutAppearance.selected.iconColor = UIColor(Color.themeColor)
         tabBar.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(Color.themeColor)]
@@ -21,7 +21,7 @@ struct HomeContents: View {
         tabBar.compactInlineLayoutAppearance.normal.iconColor = UIColor.gray
         tabBar.compactInlineLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
         UITabBar.appearance().standardAppearance = tabBar
-        self.shareDatas = shareDatas
+        self.shareData = shareData
         tosUpdate = ToS.checkUpdate()
     }
     
@@ -46,7 +46,7 @@ struct HomeContents: View {
                     }
                     .padding(.top, 10)
                     .background(UIDraw.Background(ignoresSafeArea: true))
-                Setting(shareDatas)
+                Setting(shareData)
                     .tabItem {
                         Label("設定", systemImage: "gearshape.fill")
                     }
@@ -71,7 +71,7 @@ struct HomeContents: View {
                                     .frame(width: 10)
                                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                                     .foregroundStyle(.red)
-                                    .opacity(shareDatas.unreadNotifications ? 1 : 0)
+                                    .opacity(shareData.unreadNotifications ? 1 : 0)
                             }
                     }
                 }
@@ -79,7 +79,7 @@ struct HomeContents: View {
             }
             .onAppear {
                 let data1 = FirebaseDatabase.Data1()
-                data1.getData1Realtime(shareDatas)
+                data1.getData1(shareData)
             }
             
         }
@@ -87,13 +87,11 @@ struct HomeContents: View {
             ToS($tosUpdate)
         }
         .fullScreenCover(isPresented: $showNotificationView) {
-            NotificationView($showNotificationView, shareDatas)
+            NotificationView($showNotificationView, shareData)
         }
-        
-        
     }
 }
 
 #Preview {
-    HomeContents(ShareDatas())
+    HomeContents(ShareData())
 }

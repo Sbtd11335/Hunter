@@ -14,10 +14,10 @@ struct Login: View {
     @State private var createAccontView = false
     @State private var statusText = ""
     @FocusState private var textFieldFocus: Bool
-    @ObservedObject private var shareDatas: ShareDatas
+    @ObservedObject private var shareData: ShareData
     
-    init(_ shareDatas: ShareDatas) {
-        self.shareDatas = shareDatas
+    init(_ shareData: ShareData) {
+        self.shareData = shareData
     }
 
     var body: some View {
@@ -94,7 +94,7 @@ struct Login: View {
                         }
                     }
                     else {
-                        shareDatas.sceneID = .Home
+                        shareData.sceneID = .Home
                     }
                 }
                 else {
@@ -106,5 +106,5 @@ struct Login: View {
 }
 
 #Preview {
-    Login(ShareDatas())
+    Login(ShareData())
 }
