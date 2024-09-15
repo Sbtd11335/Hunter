@@ -44,7 +44,7 @@ class Login(private val navController: NavController,
             UIDraw.DrawBackGround (onTapped = { textFieldFocus.clearFocus() }){
                 UIDraw.CenterColumn(spacing = 10.dp) {
                     UIDraw.DrawImage(R.drawable.textlogo, .5f)
-                    UIDraw.DrawText("アカウントにログイン", color = Color.Black)
+                    UIDraw.DrawText("アカウントにサインイン", color = Color.Black)
                     UIDraw.DrawText(statusText.value, color = Color.Red, emptyDraw = false,
                         textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = UIConfig.Login.rcFrameSize.width.dp))
                     UIDraw.DrawTextField(emailAddress, UIConfig.Login.rcFrameSize.toDpSize(),
@@ -57,7 +57,7 @@ class Login(private val navController: NavController,
                             login(localContext, emailAddress, password, statusText)
                         }) {
                         UIDraw.CenterColumn {
-                            UIDraw.DrawText("ログイン", color = Color.White)
+                            UIDraw.DrawText("サインイン", color = Color.White)
                         }
                     }
                     UIDraw.DrawText("パスワードを忘れた場合", color = Color.TextButton) {
