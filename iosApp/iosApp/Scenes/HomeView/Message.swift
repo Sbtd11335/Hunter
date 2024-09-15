@@ -1,5 +1,6 @@
 import SwiftUI
 import shared
+import Combine
 
 struct Message: View {
     @State private var message = ""
@@ -69,11 +70,12 @@ struct Message: View {
             TextField(text: $message, axis: .vertical) {
                 UIDraw.text(label, color: .gray)
             }
-            .onChange(of: message, initial: true) {
-                if (maxChars != nil && message.count > maxChars!) {
-                    message = String(message[message.startIndex..<message.index(message.startIndex, offsetBy: maxChars!)])
+            .onReceive(Just(message), perform: { _ in
+                if (message.count >= maxChars ?? Int.max) {
+                    message = String(message.prefix(maxChars ?? Int.max))
                 }
-            }
+            })
+            
             .focused($textFieldFocus)
             .foregroundStyle(.black)
             .padding(10)
