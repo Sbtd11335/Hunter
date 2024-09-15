@@ -40,26 +40,26 @@ struct Boot: View {
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
                 loadStart = true
-                login()
+                signIn()
                 loadEtc()
             }
         }
     }
     
-    private func login() {
+    private func signIn() {
         let auth = FirebaseAuth()
         guard auth.currentUser() != nil else {
-            shareData.sceneID = .Login
+            shareData.sceneID = .SignIn
             return
         }
         auth.reload { result in
             if (result != nil) {
-                shareData.sceneID = .Login
+                shareData.sceneID = .SignIn
             }
             else {
                 if let isEmailVerified = auth.isEmailVerified() {
                     if (!isEmailVerified) {
-                        shareData.sceneID = .Login
+                        shareData.sceneID = .SignIn
                         return
                     }
                     else {
@@ -67,7 +67,7 @@ struct Boot: View {
                         return
                     }
                 }
-                shareData.sceneID = .Login
+                shareData.sceneID = .SignIn
             }
         }
     }

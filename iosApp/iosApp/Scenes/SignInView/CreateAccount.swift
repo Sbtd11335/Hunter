@@ -3,10 +3,10 @@ import shared
 
 struct CreateAccount: View {
     private let createAccountView: Binding<Bool>
-    private let rcFrameSize = CGSize(width: UIConfig.Login.companion.rcFrameSize.width,
-                                     height: UIConfig.Login.companion.rcFrameSize.height)
-    private let checkBoxSize = CGSize(width: UIConfig.Login.companion.checkBoxSize.width,
-                                      height: UIConfig.Login.companion.checkBoxSize.height)
+    private let rcFrameSize = CGSize(width: UIConfig.SignIn.companion.rcFrameSize.width,
+                                     height: UIConfig.SignIn.companion.rcFrameSize.height)
+    private let checkBoxSize = CGSize(width: UIConfig.SignIn.companion.checkBoxSize.width,
+                                      height: UIConfig.SignIn.companion.checkBoxSize.height)
     @State private var emailAddress = ""
     @State private var password1 = ""
     @State private var password2 = ""

@@ -27,7 +27,7 @@ import com.cistus.hunter.toDpSize
 import com.google.firebase.auth.EmailAuthProvider
 
 class UpdateEmailAddress(private val height: Float) {
-    private val rcFrameSize = UIConfig.Login.rcFrameSize
+    private val rcFrameSize = UIConfig.SignIn.rcFrameSize
 
     @Composable
     fun Draw() {
@@ -46,7 +46,7 @@ class UpdateEmailAddress(private val height: Float) {
                     UIDraw.DrawImage(R.drawable.textlogo, scale = .5f, bigger = false)
                     UIDraw.DrawText("メールアドレスの変更", color = Color.Black)
                     UIDraw.DrawText(statusText.value, color = Color.Red, emptyDraw = false,
-                        textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = UIConfig.Login.rcFrameSize.width.dp))
+                        textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = rcFrameSize.width.dp))
                     UIDraw.DrawTextField(emailAddress, rcFrameSize.toDpSize(), label = "新しいメールアドレス", singleLine = true)
                     UIDraw.DrawSecureField(password, hidePassword, rcFrameSize.toDpSize(), label = "現在のパスワード", singleLine = true)
                     UIDraw.DrawRCFrame(rcFrameSize.toDpSize(), color = Color.ThemeColor, onTapped = {

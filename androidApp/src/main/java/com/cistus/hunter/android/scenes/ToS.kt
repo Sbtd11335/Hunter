@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -48,12 +49,15 @@ class ToS(context: Context) {
     @Composable
     private fun ProgressLines(contents: String) {
         UIDraw.CustomColumn(style = "TopStart", spacing = 3.dp) {
+            UIDraw.DrawText("利用規約", fontSize = 32f, color = Color.Primary2, style = "Bold",
+                modifier = Modifier.padding(start = 16.dp))
             for (lines in contents.lines()) {
                 if (lines.indexOfFirst { it == '*' } >= 0) {
                     val first = lines.indexOfFirst { it == '*' } + 1
                     val last = lines.indexOfLast { it == '*' }
                     val display = lines.substring(first..<last)
-                    UIDraw.DrawText(display, color = Color.Primary2, fontSize = 24f, style = "Bold")
+                    UIDraw.DrawText(display, color = Color.Primary2, fontSize = 24f, style = "Bold",
+                        modifier = Modifier.padding(start = 10.dp, top = 10.dp))
                 }
                 else if (lines.indexOfFirst { it == '|' } >= 0) {
                     val first = lines.indexOfFirst { it == '|' } + 1

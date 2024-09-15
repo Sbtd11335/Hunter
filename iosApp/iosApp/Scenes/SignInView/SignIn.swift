@@ -1,12 +1,12 @@
 import SwiftUI
 import shared
 
-struct Login: View {
+struct SignIn: View {
     private let appName = AppInfo.companion.appName
     private let version = AppInfo.companion.version
     private let build = AppInfo.companion.build
-    private let rcFrameSize = CGSize(width: UIConfig.Login.companion.rcFrameSize.width,
-                                     height: UIConfig.Login.companion.rcFrameSize.height)
+    private let rcFrameSize = CGSize(width: UIConfig.SignIn.companion.rcFrameSize.width,
+                                     height: UIConfig.SignIn.companion.rcFrameSize.height)
     @State private var emailAddress = ""
     @State private var password = ""
     @State private var hidePassword = true
@@ -106,5 +106,5 @@ struct Login: View {
 }
 
 #Preview {
-    Login(ShareData())
+    SignIn(ShareData())
 }

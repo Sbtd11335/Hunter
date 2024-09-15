@@ -2,7 +2,7 @@ import SwiftUI
 import shared
 
 struct UpdatePassword: View {
-    private let rcFrameSize = UIConfig.Login.companion.rcFrameSize
+    private let rcFrameSize = UIConfig.SignIn.companion.rcFrameSize
     @State private var statusText = ""
 
     var body: some View {

@@ -3,7 +3,7 @@ import shared
 import FirebaseAuth
 
 struct UpdateEmailAddress: View {
-    private let rcFrameSize = UIConfig.Login.companion.rcFrameSize
+    private let rcFrameSize = UIConfig.SignIn.companion.rcFrameSize
     @State private var emailAddress: String = ""
     @State private var password: String = ""
     @State private var statusText: String = ""

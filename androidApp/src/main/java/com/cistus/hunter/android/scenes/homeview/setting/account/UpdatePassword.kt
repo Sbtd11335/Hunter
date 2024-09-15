@@ -25,7 +25,7 @@ import com.cistus.hunter.android.firebase.FirebaseAuth
 import com.cistus.hunter.toDpSize
 
 class UpdatePassword(private val height: Float) {
-    private val rcFrameSize = UIConfig.Login.rcFrameSize
+    private val rcFrameSize = UIConfig.SignIn.rcFrameSize
 
     @Composable
     fun Draw() {
@@ -39,7 +39,7 @@ class UpdatePassword(private val height: Float) {
                     UIDraw.DrawImage(R.drawable.textlogo, scale = .5f, bigger = false)
                     UIDraw.DrawText("パスワードの変更", color = Color.Black)
                     UIDraw.DrawText(statusText.value, color = Color.Red, emptyDraw = false,
-                        textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = UIConfig.Login.rcFrameSize.width.dp))
+                        textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = rcFrameSize.width.dp))
                     UIDraw.DrawRCFrame(rcFrameSize.toDpSize(), color = Color.ThemeColor, onTapped = {
                         request(context, statusText)
                     }) {

@@ -1,6 +1,6 @@
 enum SceneID {
     case Boot
-    case Login
+    case SignIn
     case Home
 
 }

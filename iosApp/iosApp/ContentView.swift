@@ -13,7 +13,7 @@ struct ContentView: View {
 	var body: some View {
         switch(shareData.sceneID) {
         case .Boot: Boot(shareData)
-        case .Login: Login(shareData)
+        case .SignIn: SignIn(shareData)
         case .Home: HomeContents(shareData)
         }
 	}
