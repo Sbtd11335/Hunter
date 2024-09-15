@@ -32,6 +32,7 @@ struct ToS: View {
                 }
             }
             .navigationTitle("利用規約")
+            .navigationBarTitleDisplayMode(.large)
         }
     }
     

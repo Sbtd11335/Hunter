@@ -20,7 +20,7 @@ import com.cistus.hunter.AndroidScreen
 import com.cistus.hunter.android.scenes.Boot
 import com.cistus.hunter.android.scenes.Scene
 import com.cistus.hunter.android.scenes.homeview.HomeContents
-import com.cistus.hunter.android.scenes.loginview.Login
+import com.cistus.hunter.android.scenes.signinview.SignIn
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
 
                     if (scenes.isEmpty()) {
                         scenes.add(Boot(navController, shareData))
-                        scenes.add(Login(navController, shareData))
+                        scenes.add(SignIn(navController, shareData))
                         scenes.add(HomeContents(navController, shareData, isTablet))
                     }
                     NavHost(navController = navController, startDestination = SceneID.boot) {

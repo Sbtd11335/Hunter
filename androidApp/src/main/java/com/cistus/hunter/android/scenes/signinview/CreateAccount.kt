@@ -1,4 +1,4 @@
-package com.cistus.hunter.android.scenes.loginview
+package com.cistus.hunter.android.scenes.signinview
 
 import android.content.Context
 import androidx.compose.foundation.Image
@@ -28,6 +28,8 @@ import com.cistus.hunter.android.scenes.ToS
 import com.cistus.hunter.toDpSize
 
 class CreateAccount {
+    private val rcFrameSize = UIConfig.SignIn.rcFrameSize
+    
     @Composable
     fun Draw() {
         val emailAddress = rememberSaveable { mutableStateOf("") }
@@ -46,12 +48,12 @@ class CreateAccount {
                 UIDraw.DrawImage(R.drawable.textlogo, .5f, bigger = false)
                 UIDraw.DrawText("アカウントを新規作成", color = Color.Black)
                 UIDraw.DrawText(statusText.value, color = Color.Red, emptyDraw = false,
-                    textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = UIConfig.Login.rcFrameSize.width.dp))
-                UIDraw.DrawTextField(emailAddress, UIConfig.Login.rcFrameSize.toDpSize(),
+                    textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = rcFrameSize.width.dp))
+                UIDraw.DrawTextField(emailAddress, rcFrameSize.toDpSize(),
                     label = "メールアドレス", singleLine = true)
-                UIDraw.DrawSecureField(password1, hidePassword, UIConfig.Login.rcFrameSize.toDpSize(),
+                UIDraw.DrawSecureField(password1, hidePassword, rcFrameSize.toDpSize(),
                     label = "パスワード", singleLine = true)
-                UIDraw.DrawSecureField(password2, hidePassword, UIConfig.Login.rcFrameSize.toDpSize(),
+                UIDraw.DrawSecureField(password2, hidePassword, rcFrameSize.toDpSize(),
                     label = "パスワード(確認用)", singleLine = true)
                 UIDraw.CenterRow(spacing = 20.dp, fillStyle = UIDraw.FILLSTYLE_MAXWIDTH) {
                     Row {
@@ -60,7 +62,7 @@ class CreateAccount {
                         }
                         UIDraw.DrawText("に同意する", color = Color.Black)
                     }
-                    UIDraw.DrawRCFrame(UIConfig.Login.checkBoxSize.toDpSize(), color = Color.White,
+                    UIDraw.DrawRCFrame(UIConfig.SignIn.checkBoxSize.toDpSize(), color = Color.White,
                         radius = 7.dp, onTapped = { isChecked.value = !isChecked.value }) {
                         UIDraw.CenterColumn(hide = !isChecked.value) {
                             Image(painterResource(R.drawable.checkmark), "",
@@ -68,7 +70,7 @@ class CreateAccount {
                         }
                     }
                 }
-                UIDraw.DrawRCFrame(UIConfig.Login.rcFrameSize.toDpSize(), color = Color.ThemeColor,
+                UIDraw.DrawRCFrame(rcFrameSize.toDpSize(), color = Color.ThemeColor,
                     onTapped = {
                         textFieldFocus.clearFocus()
                         request(localContext, emailAddress, password1, password2, isChecked, statusText)

@@ -1,12 +1,12 @@
 import SwiftUI
 import shared
 
-struct Login: View {
+struct SignIn: View {
     private let appName = AppInfo.companion.appName
     private let version = AppInfo.companion.version
     private let build = AppInfo.companion.build
-    private let rcFrameSize = CGSize(width: UIConfig.Login.companion.rcFrameSize.width,
-                                     height: UIConfig.Login.companion.rcFrameSize.height)
+    private let rcFrameSize = CGSize(width: UIConfig.SignIn.companion.rcFrameSize.width,
+                                     height: UIConfig.SignIn.companion.rcFrameSize.height)
     @State private var emailAddress = ""
     @State private var password = ""
     @State private var hidePassword = true
@@ -25,14 +25,14 @@ struct Login: View {
             ZStack {
                 VStack(spacing: 10) {
                     UIDraw.image("textlogo", scale: 0.5, bigger: false)
-                    UIDraw.text("アカウントにログイン", color: .black)
+                    UIDraw.text("アカウントにサインイン", color: .black)
                     UIDraw.text(statusText, color: .red, emptyDraw: false)
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: rcFrameSize.width)
                     UIDraw.textField($emailAddress, rcFrameSize, $textFieldFocus, label: "メールアドレス")
                     UIDraw.secureField($password, $hidePassword, rcFrameSize, $textFieldFocus, label: "パスワード")
-                    UIDraw.rcFrame(rcFrameSize, color: .themeColor, onTapped: { login() }) {
-                        UIDraw.text("ログイン", color: .white)
+                    UIDraw.rcFrame(rcFrameSize, color: .themeColor, onTapped: { signIn() }) {
+                        UIDraw.text("サインイン", color: .white)
                     }
                     UIDraw.text("パスワード忘れた場合", color: .textButton) {
                         forgotPasswordView = true
@@ -52,7 +52,7 @@ struct Login: View {
         }, onTapped: { textFieldFocus = false })
     }
     
-    private func login() {
+    private func signIn() {
         let auth = FirebaseAuth()
         textFieldFocus = false
         statusText = "情報を確認しています..."
@@ -106,5 +106,5 @@ struct Login: View {
 }
 
 #Preview {
-    Login(ShareData())
+    SignIn(ShareData())
 }

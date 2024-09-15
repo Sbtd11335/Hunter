@@ -2,8 +2,8 @@ package com.cistus.hunter.android
 
 class SceneID {
     companion object {
-        val boot = "Boot"
-        val login = "Login"
-        val home = "Home"
+        const val boot = "Boot"
+        const val signIn = "SignIn"
+        const val home = "Home"
     }
 }

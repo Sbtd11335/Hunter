@@ -3,8 +3,8 @@ import shared
 
 struct ForgotPassword: View {
     private let forgotPasswordView: Binding<Bool>
-    private let rcFrameSize = CGSize(width: UIConfig.Login.companion.rcFrameSize.width,
-                                     height: UIConfig.Login.companion.rcFrameSize.height)
+    private let rcFrameSize = CGSize(width: UIConfig.SignIn.companion.rcFrameSize.width,
+                                     height: UIConfig.SignIn.companion.rcFrameSize.height)
     @State private var emailAddress = ""
     @State private var statusText = ""
     @FocusState private var textFieldFocus: Bool

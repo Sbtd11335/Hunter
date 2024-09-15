@@ -1,4 +1,4 @@
-package com.cistus.hunter.android.scenes.loginview
+package com.cistus.hunter.android.scenes.signinview
 
 import android.content.Context
 import androidx.compose.foundation.layout.widthIn
@@ -23,6 +23,7 @@ import com.cistus.hunter.android.firebase.FirebaseAuth
 import com.cistus.hunter.toDpSize
 
 class ForgotPassword {
+    private val rcFrameSize = UIConfig.SignIn.rcFrameSize
     @Composable
     fun Draw() {
         val emailAddress = rememberSaveable { mutableStateOf("") }
@@ -36,10 +37,10 @@ class ForgotPassword {
                 UIDraw.DrawImage(R.drawable.textlogo, .5f, bigger = false)
                 UIDraw.DrawText("パスワードを再設定", color = Color.Black)
                 UIDraw.DrawText(statusText.value, color = Color.Red, emptyDraw = false,
-                    textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = UIConfig.Login.rcFrameSize.width.dp))
-                UIDraw.DrawTextField(emailAddress, UIConfig.Login.rcFrameSize.toDpSize(),
+                    textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = rcFrameSize.width.dp))
+                UIDraw.DrawTextField(emailAddress, rcFrameSize.toDpSize(),
                     label = "メールアドレス", singleLine = true)
-                UIDraw.DrawRCFrame(UIConfig.Login.rcFrameSize.toDpSize(), color = Color.ThemeColor,
+                UIDraw.DrawRCFrame(rcFrameSize.toDpSize(), color = Color.ThemeColor,
                     onTapped = {
                         textFieldFocus.clearFocus()
                         request(localContext, emailAddress, statusText)

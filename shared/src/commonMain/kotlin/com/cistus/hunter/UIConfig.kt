@@ -5,7 +5,7 @@ class UIConfig {
         val textlogoHeight: Double = 50.0
         val textlogoPadding: Double = 20.0
     }
-    class Login {
+    class SignIn {
         companion object {
             val rcFrameSize = UISize(Screen.smallerSize * 0.9, 40.0)
             val checkBoxSize = UISize(30.0, 30.0)

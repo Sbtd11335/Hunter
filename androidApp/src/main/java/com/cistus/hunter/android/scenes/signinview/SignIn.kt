@@ -1,4 +1,4 @@
-package com.cistus.hunter.android.scenes.loginview
+package com.cistus.hunter.android.scenes.signinview
 
 import android.content.Context
 import androidx.compose.foundation.layout.widthIn
@@ -26,9 +26,10 @@ import com.cistus.hunter.android.firebase.FirebaseAuth
 import com.cistus.hunter.android.scenes.Scene
 import com.cistus.hunter.toDpSize
 
-class Login(private val navController: NavController,
-            private val shareData: MutableState<MainActivity.ShareData>): Scene {
-    override val route = SceneID.login
+class SignIn(private val navController: NavController,
+             private val shareData: MutableState<MainActivity.ShareData>): Scene {
+    private val rcFrameSize = UIConfig.SignIn.rcFrameSize
+    override val route = SceneID.signIn
     @Composable
     override fun Draw() {
         val emailAddress = rememberSaveable { mutableStateOf("") }
@@ -44,20 +45,20 @@ class Login(private val navController: NavController,
             UIDraw.DrawBackGround (onTapped = { textFieldFocus.clearFocus() }){
                 UIDraw.CenterColumn(spacing = 10.dp) {
                     UIDraw.DrawImage(R.drawable.textlogo, .5f)
-                    UIDraw.DrawText("アカウントにログイン", color = Color.Black)
+                    UIDraw.DrawText("アカウントにサインイン", color = Color.Black)
                     UIDraw.DrawText(statusText.value, color = Color.Red, emptyDraw = false,
-                        textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = UIConfig.Login.rcFrameSize.width.dp))
-                    UIDraw.DrawTextField(emailAddress, UIConfig.Login.rcFrameSize.toDpSize(),
+                        textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = rcFrameSize.width.dp))
+                    UIDraw.DrawTextField(emailAddress, rcFrameSize.toDpSize(),
                         label = "メールアドレス", singleLine = true)
-                    UIDraw.DrawSecureField(password, hidePassword, UIConfig.Login.rcFrameSize.toDpSize(),
+                    UIDraw.DrawSecureField(password, hidePassword, rcFrameSize.toDpSize(),
                         label = "パスワード", singleLine = true)
-                    UIDraw.DrawRCFrame(UIConfig.Login.rcFrameSize.toDpSize(), color = Color.ThemeColor,
+                    UIDraw.DrawRCFrame(rcFrameSize.toDpSize(), color = Color.ThemeColor,
                         onTapped = {
                             textFieldFocus.clearFocus()
-                            login(localContext, emailAddress, password, statusText)
+                            signIn(localContext, emailAddress, password, statusText)
                         }) {
                         UIDraw.CenterColumn {
-                            UIDraw.DrawText("ログイン", color = Color.White)
+                            UIDraw.DrawText("サインイン", color = Color.White)
                         }
                     }
                     UIDraw.DrawText("パスワードを忘れた場合", color = Color.TextButton) {
@@ -79,8 +80,7 @@ class Login(private val navController: NavController,
             }
         }
     }
-
-    private fun login(context: Context, emailAddress: MutableState<String>,
+    private fun signIn(context: Context, emailAddress: MutableState<String>,
                       password: MutableState<String>, statusText: MutableState<String>) {
         val auth = FirebaseAuth()
         statusText.value = "情報を確認しています..."

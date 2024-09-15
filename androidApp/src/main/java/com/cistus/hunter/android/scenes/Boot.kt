@@ -73,25 +73,25 @@ class Boot(private val navController: NavController,
                 delay(1)
             }
             textlogoDx.floatValue = 1f
-            login()
+            signIn()
             loadEtc(context)
         }
     }
-    private fun login() {
+    private fun signIn() {
         val auth = FirebaseAuth()
         if (auth.currentUser() == null)
-            navController.navigate(SceneID.login)
+            navController.navigate(SceneID.signIn)
         auth.reload { result ->
             if (result != null)
-                navController.navigate(SceneID.login)
+                navController.navigate(SceneID.signIn)
             else {
                 auth.isEmailVerified()?.also { isEmailVerified ->
                     if (!isEmailVerified)
-                        navController.navigate(SceneID.login)
+                        navController.navigate(SceneID.signIn)
                     else
                         navController.navigate(SceneID.home)
                 } ?: run {
-                    navController.navigate(SceneID.login)
+                    navController.navigate(SceneID.signIn)
                 }
             }
         }
