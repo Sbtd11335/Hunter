@@ -1,5 +1,6 @@
 package com.cistus.hunter.android.scenes.homeview.setting
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -49,8 +50,9 @@ class Setting(private val shareData: MutableState<MainActivity.ShareData>,
         val accountList = ArrayList<UIDraw.ListItem>()
         val appInfoList = ArrayList<UIDraw.ListItem>()
         val etcList = ArrayList<UIDraw.ListItem>()
-        val showSignOutDialog = rememberSaveable { mutableStateOf(false) }
         val context = LocalContext.current
+        val showSignOutDialog = rememberSaveable { mutableStateOf(false) }
+        val showDeleteCacheDialog = rememberSaveable { mutableStateOf(false) }
 
         if (accountList.isEmpty()) {
             // Account
@@ -63,6 +65,8 @@ class Setting(private val shareData: MutableState<MainActivity.ShareData>,
             appInfoList.add(UIDraw.ListItem("ビルド", content = AppInfo.build))
             appInfoList.add(UIDraw.ListItem("利用規約", navigateTo = { ToS(LocalContext.current).Draw(it) }))
             // Etc
+            etcList.add(UIDraw.ListItem("キャッシュ削除",
+                onTapped = { showDeleteCacheDialog.value = true }))
             etcList.add(UIDraw.ListItem("サインアウト", textColor = Color.Red,
                 onTapped = { showSignOutDialog.value = true }))
         }
@@ -96,6 +100,10 @@ class Setting(private val shareData: MutableState<MainActivity.ShareData>,
                 }
             }
         }
+        UIDraw.DrawAlertDialog(showDialog = showDeleteCacheDialog, title = "キャッシュを削除",
+            message = "キャッシュを削除しますか?", confirmText = "削除",
+            confirmTextColor = Color.Red, confirm = { deleteCache(context) },
+            dismissText = "キャンセル")
         UIDraw.DrawAlertDialog(showDialog = showSignOutDialog, title = "サインアウトしますか?",
             message = "一部のデータが失われる可能性があります。", confirmText = "サインアウト",
             confirmTextColor = Color.Red, confirm = { signOut() },
@@ -106,5 +114,14 @@ class Setting(private val shareData: MutableState<MainActivity.ShareData>,
         auth.signOut()
         navController.navigate(SceneID.boot)
     }
-
+    private fun deleteCache(context: Context) {
+        context.cacheDir.listFiles()?.let {
+            for (file in it) {
+                if (file.isDirectory)
+                    file.deleteRecursively()
+                else
+                    file.delete()
+            }
+        }
+    }
 }

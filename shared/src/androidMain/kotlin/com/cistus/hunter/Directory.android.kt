@@ -7,5 +7,5 @@ actual class Directory(private val path: String) {
     actual fun isExists() = file.exists()
     actual fun create() = file.mkdir()
     actual fun delete() = file.delete()
-    actual fun getPath() = path
+    actual fun getPath(): String? = path
 }

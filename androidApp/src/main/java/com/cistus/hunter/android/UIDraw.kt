@@ -70,6 +70,7 @@ import java.io.Serializable
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import kotlin.math.pow
 
 class UIDraw {
 
@@ -174,8 +175,8 @@ class UIDraw {
                                 }
                             }
                             CustomColumn(style = "BottomStart") {
-                                (listItems[i].etc as Map<String, Double>)["date"]?.let { date ->
-                                    val dateTime = Instant.ofEpochSecond(date.toLong())
+                                (listItems[i].etc as Map<String, String>)["date"]?.let { date ->
+                                    val dateTime = Instant.ofEpochSecond((date.toDouble() * 10.0.pow(-9)).toLong())
                                     DrawText(dateFormatter.format(dateTime), color = Color.Gray, fontSize = 12f)
                                 }
                             }

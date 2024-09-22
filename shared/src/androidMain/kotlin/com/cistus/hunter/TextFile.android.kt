@@ -20,5 +20,5 @@ actual class TextFile(private val path: String) {
         return true
     }
     actual fun delete(): Boolean = file.delete()
-    actual fun getPath() = path
+    actual fun getPath(): String? = path
 }

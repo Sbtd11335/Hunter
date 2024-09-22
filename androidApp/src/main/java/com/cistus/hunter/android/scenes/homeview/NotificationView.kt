@@ -11,14 +11,13 @@ import androidx.compose.ui.graphics.Color
 import com.cistus.hunter.UISize
 import com.cistus.hunter.android.MainActivity
 import com.cistus.hunter.android.UIDraw
-import com.cistus.hunter.android.firebase.data1.FirebaseDatabaseData1
 
 class NotificationView(private val context: Context,
                        private val shareData: MutableState<MainActivity.ShareData>,
                        private val screenSize: MutableState<UISize>) {
 
     init {
-        FirebaseDatabaseData1(context).getData1_1(shareData, true)
+        shareData.value = MainActivity.ShareData(shareData.value.notifications, false)
     }
 
     @Composable

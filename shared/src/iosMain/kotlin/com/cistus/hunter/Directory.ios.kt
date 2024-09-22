@@ -2,13 +2,40 @@ package com.cistus.hunter
 
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSFileManager
+import platform.Foundation.NSLibraryDirectory
+import platform.Foundation.NSURL
+import platform.Foundation.NSUserDomainMask
+import platform.Foundation.URLByAppendingPathComponent
 
-actual class Directory(private val path: String) {
+actual class Directory(path: String) {
     private val fileManager = NSFileManager.defaultManager
-    actual fun isExists() = fileManager.fileExistsAtPath(path)
+    private val url = NSFileManager.defaultManager.URLsForDirectory(NSLibraryDirectory, NSUserDomainMask).first() as NSURL
+    private val fileURL = url.URLByAppendingPathComponent(path)
+
+    actual fun isExists(): Boolean {
+        fileURL?.path?.let {
+            return fileManager.fileExistsAtPath(it)
+        }
+        return false
+    }
     @OptIn(ExperimentalForeignApi::class)
-    actual fun create() = fileManager.createDirectoryAtPath(path, true, null, null)
+    actual fun create(): Boolean {
+        fileURL?.let {
+            return fileManager.createDirectoryAtURL(it, true, null, null)
+        }
+        return false
+    }
     @OptIn(ExperimentalForeignApi::class)
-    actual fun delete() = fileManager.removeItemAtPath(path, null)
-    actual fun getPath() = path
+    actual fun delete(): Boolean {
+        fileURL?.let {
+            return fileManager.removeItemAtURL(it, null)
+        }
+        return false
+    }
+    actual fun getPath(): String? {
+        fileURL?.path?.let {
+            return it
+        }
+        return null
+    }
 }
