@@ -34,9 +34,6 @@ class MainActivity : ComponentActivity() {
         }
         fun insertNotifications(listItem: UIDraw.ListItem) = notifications.add(listItem)
         fun insertNotifications(index: Int, listItem: UIDraw.ListItem) = notifications.add(index, listItem)
-        fun unreadNotifications(flag: Boolean) {
-            unreadNotifications = flag
-        }
     }
 
     companion object {
