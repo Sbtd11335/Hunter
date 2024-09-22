@@ -150,8 +150,8 @@ extension UIDraw {
                             }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                        if let date = (listItems[i].etc as? [String: Double])?["date"] {
-                            let display = format.string(from: Date(timeIntervalSince1970: date))
+                        if let date = (listItems[i].etc as? [String: String])?["date"] {
+                            let display = format.string(from: Date(timeIntervalSince1970: Double(date)! * pow(10, -9)))
                             UIDraw.text(display, color: .gray, font: .system(size: 12))
                                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
                         }

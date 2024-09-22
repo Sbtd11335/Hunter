@@ -38,7 +38,7 @@ struct NotificationView: View {
                 }
             }
             .onChange(of: shareData.unreadNotifications, initial: true) {
-                FirebaseDatabase.Data1().getData1_1(shareData, true)
+                shareData.unreadNotifications = false
             }
         }
     }

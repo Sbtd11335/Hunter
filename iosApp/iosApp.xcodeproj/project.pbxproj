@@ -134,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				23DF7DA42C93FF5A00CF7437 /* Data1 */,
+				233686DF2C98EED200997F59 /* Data3 */,
 				23141A042C8BFFAA00AC9AFA /* FirebaseAuth.swift */,
 				2384A2D92C8FAE7A00334C62 /* FirebaseDatabase.swift */,
 				2384A2DE2C9073A800334C62 /* FirebaseStorage.swift */,
@@ -182,6 +183,13 @@
 				2323D1F72C8D755500B8AD4B /* Setting.swift */,
 			);
 			path = Setting;
+			sourceTree = "<group>";
+		};
+		233686DF2C98EED200997F59 /* Data3 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data3;
 			sourceTree = "<group>";
 		};
 		235BBA5A2C7F30EC002EA66D /* Scenes */ = {

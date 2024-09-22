@@ -3,35 +3,60 @@ package com.cistus.hunter
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSFileManager
+import platform.Foundation.NSLibraryDirectory
 import platform.Foundation.NSString
+import platform.Foundation.NSURL
 import platform.Foundation.NSUTF8StringEncoding
+import platform.Foundation.NSUserDomainMask
+import platform.Foundation.URLByAppendingPathComponent
 import platform.Foundation.create
-import platform.Foundation.writeToFile
+import platform.Foundation.writeToURL
 
-actual class TextFile(private val path: String) {
+actual class TextFile(path: String) {
     private val fileManager = NSFileManager.defaultManager
+    private val url = fileManager.URLsForDirectory(NSLibraryDirectory, NSUserDomainMask).first() as NSURL
+    private val fileURL = url.URLByAppendingPathComponent(path)
 
-    actual fun isExists() = fileManager.fileExistsAtPath(path)
+    actual fun isExists(): Boolean {
+        fileURL?.path?.let {
+            return fileManager.fileExistsAtPath(it)
+        }
+        return false
+    }
     @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
     actual fun read(): String? {
-        NSString.create(contentsOfFile = path, NSUTF8StringEncoding, null)?.let { contents ->
-            return contents.toString()
+        fileURL?.let {
+            NSString.create(it, NSUTF8StringEncoding, null)?.let { contents ->
+                return contents.toString()
+            }
         }
         return null
     }
     @OptIn(BetaInteropApi::class, ExperimentalForeignApi::class)
     actual fun write(contents: String): Boolean {
         val saveContent = NSString.create(string = contents)
-        return saveContent.writeToFile(path, true, NSUTF8StringEncoding, null)
-    }
-    actual fun append(contents: String): Boolean {
-        var saveContents = ""
-        read()?.let { readContents ->
-            saveContents = readContents
+        fileURL?.let {
+            return saveContent.writeToURL(it, true, NSUTF8StringEncoding, null)
         }
-        return write("${saveContents}${contents}")
+        return false
+    }
+    @OptIn(BetaInteropApi::class)
+    actual fun append(contents: String): Boolean {
+        val data = read() ?: ""
+        val saveContent = NSString.create(string = contents)
+        return write("$data$saveContent")
     }
     @OptIn(ExperimentalForeignApi::class)
-    actual fun delete(): Boolean = fileManager.removeItemAtPath(path, null)
-    actual fun getPath() = path
+    actual fun delete(): Boolean {
+        fileURL?.let {
+            return fileManager.removeItemAtURL(it, null)
+        }
+        return false
+    }
+    actual fun getPath(): String? {
+        fileURL?.path?.let {
+            return it
+        }
+        return null
+    }
 }

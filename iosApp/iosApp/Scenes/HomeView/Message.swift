@@ -6,7 +6,7 @@ struct Message: View {
     @State private var message = ""
     @State private var currentMessageBoxSize: CGSize = CGSizeZero
     @FocusState private var textFieldFocus: Bool
-
+    
     var body: some View {
         GeometryReader { screenSize in
             let messageFrameMaxWidth: CGFloat = screenSize.size.width * 0.8
@@ -16,14 +16,6 @@ struct Message: View {
                 ScrollViewReader { reader in
                     ScrollView {
                         VStack(spacing: 10) {
-                            ForEach(0..<100, id: \.self) { i in
-                                UIDraw.withId(i == 99 ? "Last" : nil) {
-                                    drawMessage("Message", messageFrameMaxWidth, true)
-                                }
-                            }
-                            .onAppear {
-                                reader.scrollTo("Last")
-                            }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }

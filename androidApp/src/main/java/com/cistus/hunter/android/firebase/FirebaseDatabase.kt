@@ -35,6 +35,74 @@ open class FirebaseDatabase {
             }
         })
     }
+    fun getLastData(child: String, toLast: Int = 1, callback: (Any?) -> Unit) {
+        reference.child(child).orderByKey().limitToLast(toLast)
+            .addListenerForSingleValueEvent(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (!snapshot.exists())
+                        callback(null)
+                    else
+                        callback(snapshot.getValue(true))
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    callback(null)
+                }
+            })
+    }
+    fun getLastData(child: String, atValue: String?, callback: (Any?) -> Unit) {
+        if (atValue == null) {
+            getData(child) {
+                callback(it)
+            }
+            return
+        }
+        reference.child(child).orderByKey().startAt(atValue)
+            .addListenerForSingleValueEvent(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (!snapshot.exists())
+                        callback(null)
+                    else
+                        callback(snapshot.getValue(true))
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    callback(null)
+                }
+            })
+    }
+    fun getLastDataRealtime(child: String, toLast: Int = 1, callback: (Any?) -> Unit) {
+        reference.child(child).orderByKey().limitToLast(toLast)
+            .addValueEventListener(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (!snapshot.exists())
+                        callback(null)
+                    else
+                        callback(snapshot.getValue(true))
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    callback(null)
+                }
+            })
+    }
+    fun getLastDataRealtime(child: String, atValue: String?, callback: (Any?) -> Unit) {
+        if (atValue == null) {
+            getDataRealtime(child) {
+                callback(it)
+            }
+            return
+        }
+        reference.child(child).orderByKey().startAt(atValue)
+            .addValueEventListener(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (!snapshot.exists())
+                        callback(null)
+                    else
+                        callback(snapshot.getValue(true))
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    callback(null)
+                }
+            })
+    }
     fun setData(child: String, data: Map<String, Any>, callback: (String?) -> Unit) {
         reference.child(child).updateChildren(data)
             .addOnSuccessListener { callback(null) }

@@ -26,9 +26,18 @@ import kotlinx.coroutines.delay
 class MainActivity : ComponentActivity() {
     private val hideSystemBars = true
 
-    data class ShareData(
-        var notifications: ArrayList<UIDraw.ListItem> = ArrayList(),
-        var unreadNotifications: Boolean = false)
+    class ShareData(var notifications: ArrayList<UIDraw.ListItem> = ArrayList(),
+                    var unreadNotifications: Boolean = false) {
+        fun clearNotifications() = notifications.clear()
+        fun notifications(notifications: ArrayList<UIDraw.ListItem>) {
+            this.notifications = notifications
+        }
+        fun insertNotifications(listItem: UIDraw.ListItem) = notifications.add(listItem)
+        fun insertNotifications(index: Int, listItem: UIDraw.ListItem) = notifications.add(index, listItem)
+        fun unreadNotifications(flag: Boolean) {
+            unreadNotifications = flag
+        }
+    }
 
     companion object {
         val shareDataSaver = mapSaver(save = {
@@ -51,7 +60,7 @@ class MainActivity : ComponentActivity() {
         }
         else
             isTablet = true
-        
+
         setContent {
             AndroidScreen.Initialize(windowManager)
             MyApplicationTheme {
@@ -76,7 +85,6 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
-
             if (hideSystemBars)
                 LaunchedEffect(Unit) {
                     while(true) {

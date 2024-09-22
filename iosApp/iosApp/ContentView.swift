@@ -5,6 +5,8 @@ final class ShareData: ObservableObject {
     @Published var sceneID: SceneID = .Boot
     @Published var notifications = [UIDraw.ListItem]()
     @Published var unreadNotifications = false
+    @Published var messages = [UIDraw.ListItem]()
+    @Published var unreadMessages = false
 }
 
 struct ContentView: View {

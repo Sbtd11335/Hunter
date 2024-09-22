@@ -7,6 +7,7 @@ struct Setting: View {
     private var appInfoList = [UIDraw.ListItem]()
     @State private var etcList = [UIDraw.ListItem]()
     @State private var showSignOutConfirm = false
+    @State private var showDeleteCacheConfirm = false
     @ObservedObject private var shareData: ShareData
     
     init(_ shareData: ShareData) {
@@ -43,6 +44,9 @@ struct Setting: View {
         .onAppear {
             guard etcList.isEmpty else { return }
             //Etc
+            etcList.append(UIDraw.ListItem("キャッシュ削除", onTapped: {
+                showDeleteCacheConfirm = true
+            }))
             etcList.append(UIDraw.ListItem("サインアウト", textColor: .red, onTapped: {
                 showSignOutConfirm = true
             }))
@@ -52,13 +56,24 @@ struct Setting: View {
         }, message: {
             Text("一部のデータが失われる可能性があります。")
         })
+        .confirmationDialog("キャッシュを削除", isPresented: $showDeleteCacheConfirm, titleVisibility: .visible,
+                            actions: { Button("削除", role: .destructive) { deleteCache() }
+        }, message: {
+            Text("キャッシュを削除しますか?")
+        })
     }
     
     private func signOut() {
         auth.signOut()
         shareData.sceneID = .Boot
     }
-    
+    private func deleteCache() {
+        do {
+            try FileManager.default.removeItem(atPath: "\(NSHomeDirectory())/Library/Caches")
+        }
+        catch{}
+    }
+
 }
 
 #Preview {

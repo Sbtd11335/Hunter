@@ -6,5 +6,5 @@ expect class TextFile {
     fun write(contents: String): Boolean
     fun append(contents: String): Boolean
     fun delete(): Boolean
-    fun getPath(): String
+    fun getPath(): String?
 }
