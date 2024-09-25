@@ -5,8 +5,15 @@ final class ShareData: ObservableObject {
     @Published var sceneID: SceneID = .Boot
     @Published var notifications = [UIDraw.ListItem]()
     @Published var unreadNotifications = false
-    @Published var messages = [UIDraw.ListItem]()
-    @Published var unreadMessages = false
+    @Published var messages = [MessageData]()
+    @Published var unreadMessages = 0
+    
+    func clear() {
+        notifications.removeAll()
+        unreadNotifications = false
+        messages.removeAll()
+        unreadMessages = 0
+    }
 }
 
 struct ContentView: View {

@@ -3,13 +3,7 @@ import FirebaseDatabase
 final class FirebaseDatabase {
     private static let database = Database.database()
     private static let reference = database.reference()
-
-    func goOffline() {
-        FirebaseDatabase.database.goOffline()
-    }
-    func goOnline() {
-        FirebaseDatabase.database.goOnline()
-    }
+    
     func getData(_ child: String, callback: @escaping (Any?) -> Void) {
         FirebaseDatabase.reference.child(child).getData { error, result in
             if error != nil {
