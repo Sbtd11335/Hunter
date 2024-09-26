@@ -1,3 +1,6 @@
 package com.cistus.hunter
 
-data class MessageData(val message: String, val fromUser: Boolean, val date: String)
+expect class MessageData {
+    fun toUnixTime(): Double
+    fun toFormattedTime(format: String): String
+}

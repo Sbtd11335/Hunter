@@ -64,14 +64,22 @@ struct Setting: View {
     }
     
     private func signOut() {
+        deleteCache()
+        shareData.clear()
         auth.signOut()
         shareData.sceneID = .Boot
     }
     private func deleteCache() {
-        do {
-            try FileManager.default.removeItem(atPath: "\(NSHomeDirectory())/Library/Caches")
+        let fileManager = FileManager.default
+        let url = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first
+        if let url = url {
+            do {
+                try fileManager.removeItem(at: url)
+            }
+            catch {
+                print("Error")
+            }
         }
-        catch{}
     }
 
 }
