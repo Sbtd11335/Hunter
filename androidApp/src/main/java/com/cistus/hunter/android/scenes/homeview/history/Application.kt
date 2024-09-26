@@ -20,6 +20,7 @@ import com.cistus.hunter.android.UIDraw
 class Application(private val screenSize: MutableState<UISize>, private val isTablet: Boolean): TabItem {
     override val label = "応募履歴"
     override val icon: Int? = null
+    override val badge: Any? = null
 
     @Composable
     override fun Draw() {

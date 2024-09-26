@@ -17,6 +17,7 @@ import com.cistus.hunter.android.UIDraw
 class Browsing(private val screenSize: MutableState<UISize>, private val isTablet: Boolean): TabItem {
     override val label = "閲覧履歴"
     override val icon: Int? = null
+    override val badge: Any? = null
 
     @Composable
     override fun Draw() {

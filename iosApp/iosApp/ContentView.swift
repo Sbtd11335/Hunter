@@ -7,12 +7,21 @@ final class ShareData: ObservableObject {
     @Published var unreadNotifications = false
     @Published var messages = [MessageData]()
     @Published var unreadMessages = 0
+    @Published var data3 = ShareDatabase.Data3()
+    
+    class ShareDatabase {
+        class Data3 {
+            var data1_new = 0
+            var data1_count = 0
+        }
+    }
     
     func clear() {
         notifications.removeAll()
         unreadNotifications = false
         messages.removeAll()
         unreadMessages = 0
+        data3 = ShareDatabase.Data3()
     }
 }
 

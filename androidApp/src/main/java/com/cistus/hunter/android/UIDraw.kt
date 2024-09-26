@@ -81,7 +81,7 @@ class UIDraw {
         override fun rippleAlpha(): RippleAlpha = RippleAlpha(0f, 0f, 0f, 0f)
     }
     data class ListItem(val text: String, val content: String? = null, val textColor: Color = Color.Black, val etc: Any? = null,
-                        val navigateTo: @Composable ((Float) -> Unit)? = null, val onTapped: (() -> Unit)? = null) : Serializable
+                        val navigateTo: @Composable ((Float) -> Unit)? = null, val onTapped: (() -> Unit)? = null): Serializable
 
     class DrawList(private val screenSize: MutableState<UISize>, private val listItems: List<ListItem>,
                    private val header: String? = null) {
@@ -156,7 +156,7 @@ class UIDraw {
             }
         }
     }
-    class DrawNotificationBoard(private val screenSize: MutableState<UISize>, private val listItems: List<ListItem>) {
+    class DrawNotificationBoard(private val screenSize: MutableState<UISize>, private val shareData: MutableState<MainActivity.ShareData>) {
         private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("YYYY/MM/dd HH:mm").withZone(ZoneId.systemDefault())
 
         @Composable
@@ -165,23 +165,23 @@ class UIDraw {
                 CenterColumn(fillStyle = FILLSTYLE_NONE,
                     modifier = Modifier.width((screenSize.value.width * 0.9).dp)
                         .background(color = Color.White, shape = RoundedCornerShape(15.dp))) {
-                    for (i in listItems.indices) {
+                    for (i in shareData.value.notifications.indices) {
                         Box(modifier = Modifier.fillMaxWidth()
                             .padding(10.dp).height(Screen.smallerSize.dp / 3)) {
                             CustomColumn(style = "TopStart", spacing = 10.dp) {
-                                DrawText(listItems[i].text, color = Color.Black, style = "Bold", maxLines = 1)
-                                listItems[i].content?.let { content ->
+                                DrawText(shareData.value.notifications[i].text, color = Color.Black, style = "Bold", maxLines = 1)
+                                shareData.value.notifications[i].content?.let { content ->
                                     DrawText(content, color = Color.Black, maxLines = 3)
                                 }
                             }
                             CustomColumn(style = "BottomStart") {
-                                (listItems[i].etc as Map<String, String>)["date"]?.let { date ->
+                                (shareData.value.notifications[i].etc as Map<String, String>)["date"]?.let { date ->
                                     val dateTime = Instant.ofEpochSecond((date.toDouble() * 10.0.pow(-9)).toLong())
                                     DrawText(dateFormatter.format(dateTime), color = Color.Gray, fontSize = 12f)
                                 }
                             }
                         }
-                        if (i != listItems.size - 1)
+                        if (i != shareData.value.notifications.size - 1)
                             Divider(modifier = Modifier.width((screenSize.value.width * 0.85).dp),
                                 color = Color.Gray)
                     }

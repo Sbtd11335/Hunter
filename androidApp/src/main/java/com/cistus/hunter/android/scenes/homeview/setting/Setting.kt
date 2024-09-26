@@ -39,10 +39,12 @@ import com.cistus.hunter.android.scenes.homeview.setting.account.UpdatePassword
 
 class Setting(private val shareData: MutableState<MainActivity.ShareData>,
               private val navController: NavController,
-              private val showNotification: MutableState<Boolean>,
-              private val screenSize: MutableState<UISize>): TabItem {
+              private val screenSize: MutableState<UISize>,
+              private val tabItems: MutableList<TabItem>,
+              private val showNotification: MutableState<Boolean>): TabItem {
     override val label: String = "設定"
     override val icon: Int = R.drawable.gearshape_fill
+    override val badge: Any? = null
     private val auth = FirebaseAuth()
 
     @Composable
@@ -106,12 +108,15 @@ class Setting(private val shareData: MutableState<MainActivity.ShareData>,
             dismissText = "キャンセル")
         UIDraw.DrawAlertDialog(showDialog = showSignOutDialog, title = "サインアウトしますか?",
             message = "一部のデータが失われる可能性があります。", confirmText = "サインアウト",
-            confirmTextColor = Color.Red, confirm = { signOut() },
+            confirmTextColor = Color.Red, confirm = { signOut(context) },
             dismissText = "キャンセル")
     }
 
-    private fun signOut() {
+    private fun signOut(context: Context) {
         auth.signOut()
+        deleteCache(context)
+        shareData.value.clear()
+        tabItems.clear()
         navController.navigate(SceneID.boot)
     }
     private fun deleteCache(context: Context) {

@@ -1,6 +1,6 @@
 package com.cistus.hunter
 
-class UISize(var width: Double, var height: Double) {
+open class UISize(var width: Double, var height: Double) {
     fun getSmallerSize(): Double {
         if (width < height)
             return width
