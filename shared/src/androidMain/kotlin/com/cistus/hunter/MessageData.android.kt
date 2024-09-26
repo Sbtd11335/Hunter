@@ -6,7 +6,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.math.pow
 
-actual class MessageData(val date: String, val message: String, val fromUser: Boolean): Serializable {
+actual class MessageData(val date: String, val message: String, val fromUser: Boolean) {
     actual fun toUnixTime(): Double = date.toDouble() * 10.0.pow(-9)
     actual fun toFormattedTime(format: String): String {
         val formatter = DateTimeFormatter.ofPattern(format).withZone(ZoneId.systemDefault())
