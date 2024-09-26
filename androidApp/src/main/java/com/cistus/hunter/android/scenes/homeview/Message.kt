@@ -1,11 +1,12 @@
 package com.cistus.hunter.android.scenes.homeview
 
-import android.util.Log
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import com.cistus.hunter.MessageData
 import com.cistus.hunter.UIConfig
 import com.cistus.hunter.UISize
 import com.cistus.hunter.android.MainActivity
@@ -49,12 +51,17 @@ import com.cistus.hunter.android.R
 import com.cistus.hunter.android.TabItem
 import com.cistus.hunter.android.ThemeColor
 import com.cistus.hunter.android.UIDraw
+import com.cistus.hunter.android.firebase.data3.FirebaseDatabaseData3
+import java.time.Instant
+import kotlin.math.pow
 
 class Message(private val shareData: MutableState<MainActivity.ShareData>,
               private val screenSize: MutableState<UISize>,
+              private val selectedTabIndex: MutableState<Int>,
               private val showNotification: MutableState<Boolean>): TabItem {
     override val label: String = "メッセージ"
     override val icon: Int = R.drawable.message_fill
+    override val badge: Any = shareData
 
     @Composable
     override fun Draw() {
@@ -67,8 +74,8 @@ class Message(private val shareData: MutableState<MainActivity.ShareData>,
         val context = LocalContext.current
 
         CompositionLocalProvider(LocalRippleTheme provides UIDraw.NoRipple()) {
-            UIDraw.DrawBackGround(listOf(Color.Transparent, Color.Transparent), onTapped = { textFieldFocus.clearFocus() }) {
-                UIDraw.CustomColumn(style = "Top", fillStyle = UIDraw.FILLSTYLE_MAXWIDTH) {
+            UIDraw.DrawBackGround(listOf(Color.Transparent, Color.Transparent)) {
+                UIDraw.CustomColumn(style = "Top", fillStyle = UIDraw.FILLSTYLE_MAXWIDTH, onTapped = { textFieldFocus.clearFocus() }) {
                     Box(modifier = Modifier.height((UIConfig.textlogoHeight + UIConfig.textlogoPadding).dp)) {
                         UIDraw.CustomRow(style = "CenterStart", modifier = Modifier.padding(start = 10.dp)) {
                             Image(painterResource(R.drawable.textlogo), "",
@@ -88,9 +95,11 @@ class Message(private val shareData: MutableState<MainActivity.ShareData>,
                     Box(modifier = Modifier.padding(bottom = UIDraw.toDp(currentMessageBoxSize.height) + 10.dp)) {
                         UIDraw.CustomColumn(style = "Top", spacing = 10.dp, fillStyle = UIDraw.FILLSTYLE_NONE,
                             modifier = Modifier.verticalScroll(scrollState)) {
-                            for (i in 0..<100) {
-                                DrawMessage("Message", messageFrameMaxWidth)
-                            }
+                            if (shareData.value.messages.isEmpty())
+                                UIDraw.DrawText("メッセージはありません。", color = Color.Black)
+                            else
+                                for (messageData in shareData.value.messages)
+                                    DrawMessage(messageData, messageFrameMaxWidth)
                         }
                     }
                 }
@@ -109,18 +118,38 @@ class Message(private val shareData: MutableState<MainActivity.ShareData>,
                 scrollState.scrollBy(((currentMessageBoxSize.height).toDp() + 10.dp).toPx())
             }
         }
+        LaunchedEffect(shareData.value.unreadMessages) {
+            if (selectedTabIndex.value == 2) {
+                val data3 = FirebaseDatabaseData3(context)
+                shareData.value.unreadMessages = 0
+                data3.data1_edit(shareData)
+            }
+        }
     }
     @Composable
-    private fun DrawMessage(message: String, size: Double, fromUser: Boolean = false) {
-        val backColor = if (!fromUser) Color.White else Color.ThemeColor
-        val foreColor = if (!fromUser) Color.Black else Color.White
-        val style = if (!fromUser) "CenterStart" else "CenterEnd"
-        val modifier = if (!fromUser) Modifier.padding(start = 16.dp) else Modifier.padding(end = 16.dp)
-        UIDraw.CustomColumn(style = style, modifier = modifier, fillStyle = UIDraw.FILLSTYLE_MAXWIDTH){
+    private fun DrawMessage(messageData: MessageData, size: Double) {
+        val backColor = if (!messageData.fromUser) Color.White else Color.ThemeColor
+        val foreColor = if (!messageData.fromUser) Color.Black else Color.White
+        val style = if (!messageData.fromUser) "BottomStart" else "BottomEnd"
+        val modifier = if (!messageData.fromUser) Modifier.padding(start = 16.dp) else Modifier.padding(end = 16.dp)
+        val dateModifier = if (!messageData.fromUser) Modifier.padding(start = 5.dp) else Modifier.padding(end = 5.dp)
+        val draw = @Composable {
+            val md = messageData.toFormattedTime("MM/dd")
+            val hm = messageData.toFormattedTime("HH:mm")
+            Column(modifier = dateModifier) {
+                UIDraw.DrawText(md, color = Color.Black, fontSize = 12f)
+                UIDraw.DrawText(hm, color = Color.Black, fontSize = 12f)
+            }
+        }
+        UIDraw.CustomRow(style = style, modifier = modifier, fillStyle = UIDraw.FILLSTYLE_MAXWIDTH) {
+            if (messageData.fromUser)
+                draw()
             Box(modifier = Modifier.background(color = backColor, shape = RoundedCornerShape(15.dp))) {
-                UIDraw.DrawText(message, color = foreColor,
+                UIDraw.DrawText(messageData.message, color = foreColor,
                     modifier = Modifier.padding(10.dp).widthIn(max = size.dp))
             }
+            if (!messageData.fromUser)
+                draw()
         }
     }
     @Composable
@@ -128,6 +157,8 @@ class Message(private val shareData: MutableState<MainActivity.ShareData>,
                                callback: (IntSize) -> Unit) {
         val message = rememberSaveable { mutableStateOf("") }
         val textFieldFocus = LocalFocusManager.current
+        val context = LocalContext.current
+
         UIDraw.CustomRow(style = "Bottom", fillStyle = UIDraw.FILLSTYLE_MAXWIDTH, spacing = 10.dp,
             modifier = Modifier.onGloballyPositioned {
                 callback(it.size)
@@ -152,15 +183,18 @@ class Message(private val shareData: MutableState<MainActivity.ShareData>,
                     colorFilter = ColorFilter.tint(Color.Black),
                     modifier = Modifier.align(Alignment.Center).clickable {
                         textFieldFocus.clearFocus()
-                        sendMessage(message)
+                        sendMessage(context, message)
                     })
             }
         }
     }
-    private fun sendMessage(message: MutableState<String>) {
+    private fun sendMessage(context: Context, message: MutableState<String>) {
         if (message.value.isEmpty() || message.value.isBlank())
             return
-        Log.d("AppDebug", message.value)
+        val now = Instant.now().toEpochMilli() * 10.0.pow(6)
+        val messageData = MessageData("%.0f".format(now), message.value, true)
+        val data3 = FirebaseDatabaseData3(context)
+        data3.setData1(messageData) {}
         message.value = ""
     }
 }

@@ -17,10 +17,10 @@ import com.cistus.hunter.android.R
 import com.cistus.hunter.android.TabItem
 import com.cistus.hunter.android.UIDraw
 
-class Popularity(private val screenSize: MutableState<UISize>, private val isTablet: Boolean):
-    TabItem {
+class Popularity(private val screenSize: MutableState<UISize>, private val isTablet: Boolean): TabItem {
     override val label: String = "人気"
     override val icon: Int? = null
+    override val badge: Any? = null
 
     @Composable
     override fun Draw() {

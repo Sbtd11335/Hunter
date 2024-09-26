@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.cistus.hunter.UIConfig
@@ -36,12 +35,14 @@ import com.cistus.hunter.android.ThemeColor
 import com.cistus.hunter.android.UIDraw
 import com.cistus.hunter.toDpSize
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
 class Home(private val shareData: MutableState<MainActivity.ShareData>,
            private val screenSize: MutableState<UISize>,
            private val showNotification: MutableState<Boolean>, isTablet: Boolean): TabItem {
     override val label: String = "ホーム"
     override val icon: Int = R.drawable.house_fill
+    override val badge: Any? = null
     private val tabItems = ArrayList<TabItem>()
 
     init {
@@ -56,7 +57,6 @@ class Home(private val shareData: MutableState<MainActivity.ShareData>,
         val pagerState = rememberPagerState { tabItems.size }
         val coroutineScope = rememberCoroutineScope()
         val tabItemSize = UISize(screenSize.value.width / tabItems.size, 60.0)
-        val context = LocalContext.current
 
         UIDraw.CustomColumn(style = "Top") {
             Box(modifier = Modifier.height((UIConfig.textlogoHeight + UIConfig.textlogoPadding).dp)) {

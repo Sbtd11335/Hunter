@@ -38,9 +38,10 @@ import kotlinx.coroutines.launch
 
 class History(private val shareData: MutableState<MainActivity.ShareData>,
               private val screenSize: MutableState<UISize>,
-              private val showNotification: MutableState<Boolean>,isTablet: Boolean): TabItem {
+              private val showNotification: MutableState<Boolean>, isTablet: Boolean): TabItem {
     override val label: String = "履歴"
     override val icon: Int = R.drawable.book_fill
+    override val badge: Any? = null
     private val tabItems = ArrayList<TabItem>()
 
     init {

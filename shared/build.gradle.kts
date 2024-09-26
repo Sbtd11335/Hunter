@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    // alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -72,5 +72,6 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)
+    debugImplementation(libs.compose.ui.tooling)
     debugImplementation(libs.compose.ui.tooling)
 }
