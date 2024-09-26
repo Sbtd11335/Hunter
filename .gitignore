@@ -16,7 +16,6 @@ GiftContents
 Data1
 Data2
 Data3
-Data4
 DatabaseConfig.kt
 DatabaseConfig.ios.kt
 DatabaseConfig.Android.kt

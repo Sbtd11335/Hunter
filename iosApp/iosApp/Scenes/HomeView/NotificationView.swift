@@ -38,9 +38,7 @@ struct NotificationView: View {
                 }
             }
             .onChange(of: shareData.unreadNotifications, initial: true) {
-                let data1 = FirebaseDatabase.Data1()
                 shareData.unreadNotifications = false
-                data1.data1_edit(shareData)
             }
         }
     }
