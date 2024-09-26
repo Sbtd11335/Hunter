@@ -35,7 +35,6 @@ import com.cistus.hunter.android.ThemeColor
 import com.cistus.hunter.android.UIDraw
 import com.cistus.hunter.toDpSize
 import kotlinx.coroutines.launch
-import java.io.Serializable
 
 class Home(private val shareData: MutableState<MainActivity.ShareData>,
            private val screenSize: MutableState<UISize>,
